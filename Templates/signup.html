@@ -1,0 +1,47 @@
+{%extends 'base.html' %}
+
+{%block style %}
+<link rel="stylesheet" href="{{url_for('static',filename='css/signup.css')}}">
+{%endblock%}
+
+{% block content %}
+{%include 'landing_page_navbar.html' %}
+<body>
+    <div class="page-1">
+        <div class="main-canvas">
+            <div class="main-canvas-left">
+                
+            </div>
+            <div class="main-canvas-right">
+                <div class="login-form">
+                    <div class="login-form-header">
+                        <h2>Login</h2>
+                    </div>
+                    <div class="login-form-content">
+                        <form action="">
+                            <div class="login-form-group">
+                                <label for="username"><h3>Username</h3></label>
+                                <input type="text" id="username" name="username" placeholder="chaman">
+                            </div>
+                            <div class="login-form-group">
+                                <label for="login-Email"><h3>Email</h3></label>
+                                <input type="email" id="login-Email" name="email" placeholder="123@gmail.com">
+                            </div>
+                            <div class="login-form-group">
+                                <label for="login-password"><h3>Password</h3></label>
+                                <input type="password" id="login-password" name="password">
+                            </div>
+                            <div class="login-form-group">
+                                <button type="submit">Login</button>
+                            </div>
+                            <div class="login-form-links">
+                                <a href="{{url_for('auth.login')}}">Already a user</a>
+                            </div>
+                        </form>
+                    </div>
+            </div>
+        </div>
+    </div>
+</body>
+{% endblock %}
+

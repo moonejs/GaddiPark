@@ -1,0 +1,72 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+html,body{
+    width: 100%;
+    height: 100%;
+    background-color: #FFFFFF;
+}
+.page-1{
+    height: 100%;
+    width: 100%;
+}
+
+
+/* main-canvas */
+.main-canvas{
+    height: 88%;
+    width: 100%;
+    display: flex;
+}
+.main-canvas-left{
+    background-color: pink;
+    height: 100%;
+    width: 60%;
+}
+
+.main-canvas-right{
+    background-color: green;
+    height: 100%;
+    width: 40%;
+
+}
+
+.login-form{
+    height: 76%;
+    width: 63%;
+    background-color: orange;
+    margin-left: 9vw;
+}
+.login-form-header{
+    height: 20%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.login-form-content form{
+    padding: 25px;
+    display: flex;
+    flex-direction: column;
+    background-color: rgb(175, 175, 255);
+    gap: 25px;
+    
+
+}
+.login-form-group{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+}
+.login-form-group button{
+    padding: 8px;
+    width: 100%;
+}
+.login-form-group input{
+    padding: 8px;
+    border: none;
+    border-bottom: 1px solid black;
+    outline: none;
+}

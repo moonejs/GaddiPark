@@ -1,0 +1,31 @@
+nav{
+    display: grid;
+    justify-items: start;
+    align-items: center;
+    height: 12%;
+    grid-template-columns: 0.1fr 0.2fr 2fr 0.5fr;
+}
+
+nav .nav_center{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 35px;
+}
+
+.nav-right{
+    display: flex;
+    /* background-color: aqua; */
+    padding: 2vh;
+    gap: 2vw;
+}
+
+.login,.signup{
+    width: 6vw;
+    height: 5vh;
+    background-color: rgb(235, 135, 147);
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
