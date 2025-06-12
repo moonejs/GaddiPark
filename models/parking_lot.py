@@ -1,6 +1,7 @@
 from config import db
 
 class ParkingLot(db.Model):
+    __tablename__ = 'parking_lots'
     id = db.Column(db.Integer, primary_key=True)
     name= db.Column(db.String(80), unique=True, nullable=False)
     address = db.Column(db.String(200), nullable=False)

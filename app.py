@@ -1,6 +1,5 @@
 from flask import Flask,render_template
 from config import Config,db
-from models import User
 from routes import all_blueprints
 
 app = Flask(__name__)
