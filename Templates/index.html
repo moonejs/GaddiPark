@@ -4,114 +4,118 @@
 {%endblock%}
 {% block content %}
 {%include "landing_page_navbar.html" %}
-<body>
-    <div class="page-1">
-            <div class="page-1-main">
-                <div class="page-1-left">
-                    <div class="page-1-left-part-1">
-                        <h2>EASY PARKING SOLUTION</h2>
+{% if error %}
+    <div class="error-message" id="error-message">
+        <h3>{{ error }}</h3>
+    </div>
+{% endif %}
+<div class="page-1">
+        <div class="page-1-main">
+            <div class="page-1-left">
+                <div class="page-1-left-part-1">
+                    <h2>EASY PARKING SOLUTION</h2>
+                </div>
+                <div class="page-1-left-part-2">
+                    <div class="page-1-left-part-2-line-1">
+                        <h1>Best For You</h1>
                     </div>
-                    <div class="page-1-left-part-2">
-                        <div class="page-1-left-part-2-line-1">
-                            <h1>Best For You</h1>
-                        </div>
-                        <div class="page-1-left-part-2-line-2">
-                            <h1>Park Smart & Save Time.</h1>
-                        </div>
+                    <div class="page-1-left-part-2-line-2">
+                        <h1>Park Smart & Save Time.</h1>
                     </div>
-                    <div class="page-1-left-part-3">
-                        <h3>Find and reserve parking spots with ease. Our application helps you locate available parking spots in your preferred location, saving your time and reducing hassle.</h3>
-                    </div>
-                    <div class="page-1-left-part-4">
-                        <h2>Register Now</h2>
-                    </div>
+                </div>
+                <div class="page-1-left-part-3">
+                    <h3>Find and reserve parking spots with ease. Our application helps you locate available parking spots in your preferred location, saving your time and reducing hassle.</h3>
+                </div>
+                <div class="page-1-left-part-4">
+                    <h2>Register Now</h2>
+                </div>
 
-                </div>
-                <div class="page-1-right">
-                    <div class="login-form">
-                        <div class="login-form-header">
-                            <h2>Login</h2>
-                        </div>
-                        <div class="login-form-content">
-                            <form action="/login" method="post">
-                                <div class="login-form-group">
-                                    <label for="username"><h3>Username</h3></label>
-                                    <input type="email" id="username" name="username" autocomplete="off" autofocus placeholder="123@gmail.com" required>
-                                </div>
-                                <div class="login-form-group">
-                                    <label for="login-password"><h3>Password</h3></label>
-                                    <input type="password" id="login-password" name="password" required>
-                                </div>
-                                <div class="login-form-group">
-                                    <button type="submit">Login</button>
-                                </div>
-                                <div class="login-form-links">
-                                    <a href="{{ url_for('auth.signup')}}">Create Account</a>
-                                </div>
-                            </form>
-                        </div>
+            </div>
+            <div class="page-1-right">
+                <div class="login-form">
+                    <div class="login-form-header">
+                        <h2>Login</h2>
                     </div>
-                    <div class="page-1-right-side-small-div">
+                    <div class="login-form-content">
+                        <form action="/login" method="post">
+                            <div class="login-form-group">
+                                <label for="username"><h3>Username</h3></label>
+                                <input type="email" id="username" name="username" autocomplete="off" autofocus placeholder="123@gmail.com" required>
+                            </div>
+                            <div class="login-form-group">
+                                <label for="login-password"><h3>Password</h3></label>
+                                <input type="password" id="login-password" name="password" required>
+                            </div>
+                            <div class="login-form-group">
+                                <button type="submit">Login</button>
+                            </div>
+                            <div class="login-form-links">
+                                <a href="{{ url_for('auth.signup')}}">Create Account</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="page-1-right-side-small-div">
 
-                    </div>
-                </div>
-                <div class="page-1-bottom">
-                    <div class="yellow-road-line">
-                    </div>
-                    <div class="yellow-road-line">
-                    </div>
-                    <div class="yellow-road-line">
-                    </div>
-                    <div class="yellow-road-line">
-                    </div>
-                    <div class="yellow-road-line">
-                    </div>
-                    <div class="yellow-road-line">
-                    </div>
-                    <div class="yellow-road-line">
-                    </div>
-                    <div class="yellow-road-line">
-                    </div>
-                    <div class="yellow-road-line">
-                    </div>
-                    <div class="yellow-road-line">
-                    </div>
-                    <div class="yellow-road-line">
-                    </div>
-                    <div class="yellow-road-line">
-                    </div>
-                    <div class="yellow-road-line">
-                    </div>
-                    <div class="yellow-road-line">
-                    </div>
-                    <div class="yellow-road-line">
-                    </div>
-                    <div class="yellow-road-line">
-                    </div>
-                    <div class="yellow-road-line">
-                    </div>
-                    <div class="yellow-road-line">
-                    </div>
-                    <div class="yellow-road-line">
-                    </div>
-                    <div class="yellow-road-line">
-                    </div>
-                    <div class="yellow-road-line">
-                    </div>
-                </div>
-                <div class="car-vector">
-                    <img src="car-image-2-removebg-preview.png" alt="">
                 </div>
             </div>
-    </div>
-    <div class="page_2">
+            <div class="page-1-bottom">
+                <div class="yellow-road-line">
+                </div>
+                <div class="yellow-road-line">
+                </div>
+                <div class="yellow-road-line">
+                </div>
+                <div class="yellow-road-line">
+                </div>
+                <div class="yellow-road-line">
+                </div>
+                <div class="yellow-road-line">
+                </div>
+                <div class="yellow-road-line">
+                </div>
+                <div class="yellow-road-line">
+                </div>
+                <div class="yellow-road-line">
+                </div>
+                <div class="yellow-road-line">
+                </div>
+                <div class="yellow-road-line">
+                </div>
+                <div class="yellow-road-line">
+                </div>
+                <div class="yellow-road-line">
+                </div>
+                <div class="yellow-road-line">
+                </div>
+                <div class="yellow-road-line">
+                </div>
+                <div class="yellow-road-line">
+                </div>
+                <div class="yellow-road-line">
+                </div>
+                <div class="yellow-road-line">
+                </div>
+                <div class="yellow-road-line">
+                </div>
+                <div class="yellow-road-line">
+                </div>
+                <div class="yellow-road-line">
+                </div>
+            </div>
+            <div class="car-vector">
+                <img src="car-image-2-removebg-preview.png" alt="">
+            </div>
+        </div>
+</div>
+<div class="page_2">
 
-    </div>
-    <div class="page_3">
+</div>
+<div class="page_3">
 
-    </div>
-    <footer>
+</div>
+<footer>
 
-    </footer>
-</body>
+</footer>
+
 {%endblock %}

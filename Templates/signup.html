@@ -6,46 +6,50 @@
 
 {% block content %}
 {%include 'landing_page_navbar.html' %}
-<body>
-    <div class="page-1">
-        <div class="main-canvas">
-            <div class="main-canvas-left">
-                
-            </div>
-            <div class="main-canvas-right">
-                <div class="login-form">
-                    <div class="login-form-header">
-                        <h2>Login</h2>
-                    </div>
-                    <div class="login-form-content">
-                        <form action="/signup" method="post">
-                            <div class="login-form-group">
-                                <label for="fullname"><h3>FullName</h3></label>
-                                <input type="text" id="fullname" name="fullname" placeholder="chaman" required>
-                            </div>
-                            <div class="login-form-group">
-                                <label for="username"><h3>Username</h3></label>
-                                <input type="email" id="username" name="username" placeholder="123@gmail.com" required>
-                            </div>
-                            <div class="login-form-group">
-                                <label for="login-password"><h3>Password</h3></label>
-                                <input type="password" id="login-password" name="password" required>
-                            </div>
-                            <div class="login-form-group">
-                                <label for="login-password"><h3>Confirm Password</h3></label>
-                                <input type="password" id="login-password" name="confirm_password" required>
-                            </div>
-                            <div class="login-form-group">
-                                <button type="submit">sign up</button>
-                            </div>
-                            <div class="login-form-links">
-                                <a href="{{url_for('auth.login')}}">Already a user</a>
-                            </div>
-                        </form>
-                    </div>
-            </div>
+{% if error %}
+    <div class="error-message" id="error-message">
+        <h3>{{ error }}</h3>
+    </div>
+{% endif %}
+<div class="page-1">
+    <div class="main-canvas">
+        <div class="main-canvas-left">
+            
+        </div>
+        <div class="main-canvas-right">
+            <div class="login-form">
+                <div class="login-form-header">
+                    <h2>Login</h2>
+                </div>
+                <div class="login-form-content">
+                    <form action="/signup" method="post">
+                        <div class="login-form-group">
+                            <label for="fullname"><h3>FullName</h3></label>
+                            <input type="text" id="fullname" name="fullname" placeholder="chaman" required>
+                        </div>
+                        <div class="login-form-group">
+                            <label for="username"><h3>Username</h3></label>
+                            <input type="email" id="username" name="username" placeholder="123@gmail.com" required>
+                        </div>
+                        <div class="login-form-group">
+                            <label for="login-password"><h3>Password</h3></label>
+                            <input type="password" id="login-password" name="password" required>
+                        </div>
+                        <div class="login-form-group">
+                            <label for="login-password"><h3>Confirm Password</h3></label>
+                            <input type="password" id="login-password" name="confirm_password" required>
+                        </div>
+                        <div class="login-form-group">
+                            <button type="submit">sign up</button>
+                        </div>
+                        <div class="login-form-links">
+                            <a href="{{url_for('auth.login')}}">Already a user</a>
+                        </div>
+                    </form>
+                </div>
         </div>
     </div>
-</body>
+</div>
+
 {% endblock %}
 
