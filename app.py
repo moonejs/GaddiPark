@@ -1,7 +1,7 @@
 from flask import Flask,render_template
 from config import Config,db
 from routes import all_blueprints
-
+from models import User, ParkingLot, ParkingSpot, Vehicle, Booking, Payment, Rating, FavLocation, ActivityLog, EvChargingSession
 app = Flask(__name__)
 app.config.from_object(Config)
 db.init_app(app)

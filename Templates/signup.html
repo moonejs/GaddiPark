@@ -18,21 +18,25 @@
                         <h2>Login</h2>
                     </div>
                     <div class="login-form-content">
-                        <form action="">
+                        <form action="/signup" method="post">
                             <div class="login-form-group">
-                                <label for="username"><h3>Username</h3></label>
-                                <input type="text" id="username" name="username" placeholder="chaman">
+                                <label for="fullname"><h3>FullName</h3></label>
+                                <input type="text" id="fullname" name="fullname" placeholder="chaman" required>
                             </div>
                             <div class="login-form-group">
-                                <label for="login-Email"><h3>Email</h3></label>
-                                <input type="email" id="login-Email" name="email" placeholder="123@gmail.com">
+                                <label for="username"><h3>Username</h3></label>
+                                <input type="email" id="username" name="username" placeholder="123@gmail.com" required>
                             </div>
                             <div class="login-form-group">
                                 <label for="login-password"><h3>Password</h3></label>
-                                <input type="password" id="login-password" name="password">
+                                <input type="password" id="login-password" name="password" required>
                             </div>
                             <div class="login-form-group">
-                                <button type="submit">Login</button>
+                                <label for="login-password"><h3>Confirm Password</h3></label>
+                                <input type="password" id="login-password" name="confirm_password" required>
+                            </div>
+                            <div class="login-form-group">
+                                <button type="submit">sign up</button>
                             </div>
                             <div class="login-form-links">
                                 <a href="{{url_for('auth.login')}}">Already a user</a>

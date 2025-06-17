@@ -1,6 +1,6 @@
 from config import db
 from datetime import datetime
-class evChargingSession(db.Model):
+class EvChargingSession(db.Model):
     __tablename__ = 'ev_charging_sessions'
     id = db.Column(db.Integer, primary_key=True)
     booking_id = db.Column(db.Integer, db.ForeignKey('bookings.id'), nullable=False)

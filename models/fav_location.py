@@ -1,5 +1,5 @@
 from config import db
-class favLocation(db.Model):
+class FavLocation(db.Model):
     __tablename__ = 'fav_locations'
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
