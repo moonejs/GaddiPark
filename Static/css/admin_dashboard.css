@@ -1,0 +1,141 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+    background-color: #FFFFFF;
+}
+
+.page-1 {
+    display: flex;
+    height: 100%;
+}
+
+/*side-bar*/
+.side-bar {
+    position: fixed;
+    width: 17%;
+    height: 100%;
+    background-color: #706d6d;
+    display: flex;
+    flex-direction: column;
+}
+
+.side-bar-upper {
+    width: 100%;
+    height: 17%;
+    background-color: #def9c5;
+}
+
+.side-bar-lower {
+    width: 100%;
+    height: 32%;
+    background-color: #71fa64;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    padding-top: 25px;
+}
+
+.side-bar-lower-item a {
+    text-decoration: none;
+    color: black;
+    font-size: 29px;
+    margin: 10px;
+    padding: 10px;
+}
+
+.logout {
+    margin-left: 18px;
+}
+
+/*Right Side */
+.right-side {
+    margin-left: 17%;
+    width: 83%;
+    height: 100%;
+    background-color: #f98383;
+}
+
+/* div-1 */
+.div-1 {
+    height: 10%;
+    background-color: #f6e03d;
+}
+
+
+/* div-2 */
+
+.div-2 {
+    width: 100%;
+    height: 17%;
+    background-color: #1e7b07;
+    display: flex;
+    gap: 10px;
+}
+.div-2-item {
+    width: 100%;
+    height: 100%;
+    background-color: #ff7a7a;
+}
+
+
+
+/* div-3 */
+
+.div-3 {
+    width: 100%;
+    height: 8%;
+    background-color: #da73e8;
+    display: flex;
+    justify-content: space-between;
+    padding-top: 35px;
+}
+.div-3-item-2 {
+    width: 40%;
+    height: 100%;
+    background-color: #0d4b15;
+}
+
+
+
+/* div-4 */
+
+.div-4 {
+    width: 100%;
+    /* height: 62%; */
+    background-color: #029aec;
+    display: flex;
+    flex-direction: column;
+}
+.div-4-parking-lots-cards{
+    width: 100%;
+    /* background-color: #f6e03d; */
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+.div-4-card{
+    width: 30%;
+    height: 50vh;
+    background-color: #e204ff;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+
+
+
+.div-5 {
+    width: 100%;
+    height: 62%;
+    background-color: #83f7e2;
+    display: flex;
+    flex-direction: column;
+}

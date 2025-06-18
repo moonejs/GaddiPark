@@ -1,4 +1,4 @@
-from flask import Blueprint,render_template,request,redirect,url_for
+from flask import Blueprint,render_template,request,redirect,url_for,session
 from models import User
 from werkzeug.security import generate_password_hash, check_password_hash
 from config import db
@@ -14,9 +14,15 @@ def login():
         
         if not username or not password:
             return render_template('index.html', error='Username and password are required')
+        
         user = User.query.filter_by(username=username).first()
         if user and check_password_hash(user.password_hash,password):
-            return "Login successful"
+            session['user_id']=user.id
+            if user.is_admin:
+                return redirect(url_for('admin.admin_dashboard'))
+            else:
+                return "Login successful"
+            
         
         return render_template('index.html', error='Invalid username or password')
     else:

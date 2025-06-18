@@ -1,0 +1,111 @@
+{%extends "base.html" %}
+
+{%block style%}
+<link rel="stylesheet" href="{{url_for('static',filename='css/admin_dashboard.css')}}">
+{%endblock%}
+
+{%block content %}
+<div class="page-1">
+    <div class="side-bar">
+        <div class="side-bar-upper">
+
+        </div>
+        <div class="side-bar-lower">
+            <div class="side-bar-lower-item">
+                <a href="admin_dashboard.html">Dashboard</a>
+            </div>
+            <div class="side-bar-lower-item">
+                <a href="admin_users.html">Users</a>
+            </div>
+            <div class="side-bar-lower-item">
+                <a href="admin_products.html">Summery</a>
+            </div>
+        </div>
+        <div class="logout side-bar-lower-item">
+            <a href="">
+                <span>Logout</span>
+            </a>
+        </div>
+    </div>
+    <div class="right-side">
+        <div class="div-1">
+            <h1>Welcome Admin</h1>
+        </div>
+        <div class="div-2">
+            <div class="div-2-item">
+                
+            </div>
+            <div class="div-2-item">
+
+            </div>
+            <div class="div-2-item">
+
+            </div>
+            <div class="div-2-item">
+
+            </div>
+        </div>
+        <div class="div-3">
+            <div class="div-3-item-1">
+                <button>Add parking Lot</button>
+            </div>
+            <div class="div-3-item-2">
+                <input type="search" name="search" id="" placeholder="Search">
+                <button>Search</button>
+                <select>
+                    <option>Search by Location</option>
+                    <option>Search by user ID</option>
+                </select>
+            </div>
+        </div>
+        <div class="div-4">
+            <div class="div-4-heading">
+                <h2>parking lots</h2>
+            </div>
+            <div class="div-4-parking-lots-cards">
+                <div class="div-4-card">
+                    
+                </div>
+                <div class="div-4-card">
+
+                </div>
+                <div class="div-4-card">
+                    
+                </div>
+                <div class="div-4-card">
+
+                </div>
+                <div class="div-4-card">
+                    
+                </div>
+                <div class="div-4-card">
+
+                </div>
+                <div class="div-4-card">
+                    
+                </div>
+                <div class="div-4-card">
+
+                </div>
+                <div class="div-4-card">
+                    
+                </div>
+                <div class="div-4-card">
+
+                </div>
+                <div class="div-4-card">
+                    
+                </div>
+                <div class="div-4-card">
+
+                </div>
+                
+
+            </div>
+        </div>
+        <div class="div-5"></div>
+    
+    </div>
+</div>
+
+{%endblock%}
