@@ -52,6 +52,10 @@ html, body {
 .logout {
     margin-left: 18px;
 }
+.profile {
+    margin-left: 18px;
+    background-color: #f6e03d;
+}
 
 /*Right Side */
 .right-side {

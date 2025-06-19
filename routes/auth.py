@@ -1,19 +1,23 @@
-from flask import Blueprint,render_template,request,redirect,url_for,session
+from flask import Blueprint,render_template,request,redirect,url_for,session,flash
 from models import User
 from werkzeug.security import generate_password_hash, check_password_hash
+
+
 from config import db
 
 
 auth_bp=Blueprint('auth',__name__)
 
 @auth_bp.route('/login' , methods=['GET', 'POST'])
+
 def login():
     if request.method == 'POST':
         username =request.form.get('username')
         password =request.form.get('password')
         
         if not username or not password:
-            return render_template('index.html', error='Username and password are required')
+            flash('Username and password are required')
+            return render_template('index.html')
         
         user = User.query.filter_by(username=username).first()
         if user and check_password_hash(user.password_hash,password):
@@ -21,10 +25,10 @@ def login():
             if user.is_admin:
                 return redirect(url_for('admin.admin_dashboard'))
             else:
-                return "Login successful"
+                return redirect(url_for('user.user_dashboard'))
             
-        
-        return render_template('index.html', error='Invalid username or password')
+        flash('Invalid username or password')
+        return redirect(url_for('auth.login'))
     else:
         return render_template('index.html')
 
@@ -38,15 +42,18 @@ def signup():
         
         #checks
         if not username or not password or not confirm_password or not fullname:
-            return render_template('signup.html', error='All fields are required')
+            flash('All fields are required')
+            return redirect(url_for('auth.signup'))
         
         if password != confirm_password:
-            return render_template('signup.html', error='Passwords do not match')
+            flash('Passwords do not match')
+            return redirect(url_for('auth.signup'))
         
         user=User.query.filter_by(username=username).first()
         
         if user:
-            return render_template('signup.html', error='Username already exists')
+            flash('Username already exists')
+            return redirect(url_for('auth.signup'))
         
         password_hash = generate_password_hash(password)
         

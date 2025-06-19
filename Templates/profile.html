@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/profile.css') }}">
+</head>
+<body>
+    <h1>{{name}}</h1>
+    <h1>{{username}}</h1>
+    {% if not is_admin %}
+    <h1>{{wallet_balance}}</h1>
+    {% endif %}
+</body>
+</html>
