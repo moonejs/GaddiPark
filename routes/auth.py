@@ -1,6 +1,7 @@
 from flask import Blueprint,render_template,request,redirect,url_for,session,flash
 from models import User
 from werkzeug.security import generate_password_hash, check_password_hash
+from routes.decorators import login_required
 
 
 from config import db
@@ -66,3 +67,10 @@ def signup():
     else:
         return render_template('signup.html')
     
+
+@auth_bp.route('/logout')
+@login_required
+def logout():
+    session.pop('user_id')
+    flash('You have been logged out')
+    return redirect(url_for('auth.login'))

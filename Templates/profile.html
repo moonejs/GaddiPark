@@ -1,16 +1,51 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/profile.css') }}">
-</head>
+{%extends "base.html" %}
+{%block style%}
+<link rel="stylesheet" href="{{url_for('static',filename='css/profile.css')}}">
+{%endblock%}
+{% block content %}
 <body>
+
+    <form action="{{ url_for('profile.update_profile')}}" method="post">
+        <div>
+            <label for="name">Name</label>
+            <input type="text" id="name" name="name" value="{{ name }}" disabled>
+
+        </div>
+        <div>
+            <label for="username">Username</label>
+            <input type="email" id="username" name="username" value="{{ username }}" disabled>
+
+        </div>
+        <div class="password" style="display: none;">
+            <label for="current_password">Current Password</label>
+            <input type="password" id="current_password" name="current_password" disabled>
+
+        </div>
+        <div class="password" style="display: none;">
+            <label for="new_password">New Password</label>
+            <input type="password" id="new_password" name="new_password"  disabled>
+
+        </div>
+        <div class="password" style="display: none;">
+            <label for="confirm_new_password">Confirm New Password</label>
+            <input type="password" id="confirm_new_password" name="confirm_new_password" disabled>
+
+        </div>
+        
+        <button type="button" id="edit_btn">Edit</button>
+        <button type="submit" id="update_btn" style="display: none;">Update</button>
+
+
+    </form>
     <h1>{{name}}</h1>
     <h1>{{username}}</h1>
     {% if not is_admin %}
     <h1>{{wallet_balance}}</h1>
     {% endif %}
+
+    <a href="{{url_for('auth.logout')}}"><Button>Logout</Button></a>
+    
+    <script src="{{ url_for('static', filename='js/profile.js') }}"></script>
 </body>
-</html>
+
+{%endblock %}
