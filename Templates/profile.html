@@ -4,7 +4,11 @@
 {%endblock%}
 {% block content %}
 <body>
-
+    <!-- <div>
+        <img
+  src="https://api.dicebear.com/9.x/open-peeps/svg?seed={{ username }}&backgroundColor=transparent&radius=50"
+  alt="avatar"/>
+    </div> -->
     <form action="{{ url_for('profile.update_profile')}}" method="post">
         <div>
             <label for="name">Name</label>
