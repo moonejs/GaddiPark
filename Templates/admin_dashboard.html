@@ -51,7 +51,7 @@
         </div>
         <div class="div-3">
             <div class="div-3-item-1">
-                <button>Add parking Lot</button>
+                <button id="add_parking_lot">Add parking Lot</button>
             </div>
             <div class="div-3-item-2">
                 <input type="search" name="search" id="" placeholder="Search">
@@ -112,4 +112,63 @@
     </div>
 </div>
 
+
+<div class="add-parking-lot-model" style="display: none;" >
+    <div class="add-parking-lot-model-content">
+        <h2>Add Parking Lot</h2>
+        <button class="close-add-parking-lot-model"><h4>close</h4></button>
+        <form action="" method="post">
+            <div class="form-group">
+                <label for="pl_name">Parking Lot Name</label>
+                <input type="text" id="pl_name" name="pl_name" required>
+            </div>
+            <div class="form-group">
+                <label for="address">Address</label>
+                <input type="text" id="address" name="address" required>
+            </div>
+            <div class="form-group">
+                <label for="pincode">Pincode</label>
+                <input type="text" id="pincode" name="pincode" required>
+            </div>
+            <div class="form-group">
+                <label for="hourly_rate">Price per hour</label>
+                <input type="number" step="any" id="hourly_rate" name="hourly_rate" required>
+            </div>
+            <div class="form-group">
+                <label for="total_spots">Total parking spots</label>
+                <input type="number" id="total_spots" name="total_spots" required>
+            </div>
+            <div class="form-group">
+                <label for="ev_spots">Ev Charging spots</label>
+                <input type="number" id="ev_spots" name="ev_spots" required>
+            </div>
+            <div class="form-group">
+                <label for="ev_charging_rate">Ev Charging Rate </label>
+                <input type="number" step="any" id="ev_charging_rate" name="ev_charging_rate" required>
+            </div>
+                <div class="form-group">
+                <label>24 Hours:</label><br>
+                
+                <input type="radio" id="yes24" name="is_24_hours" value="1" required>
+                <label for="yes24">Yes</label>
+                
+                <input type="radio" id="no24" name="is_24_hours" value="0">
+                <label for="no24">No</label>
+            </div>
+            <div class="form-group" id="time-field" style="display: none;">
+                <label for="opening_time">Opening Time</label>
+                <input type="time" step="any" id="opening_time" name="opening_time" required>
+            </div>
+            <div class="form-group" id="time-field" style="display: none;">
+                <label for="closing_time">Closing Time</label>
+                <input type="time" step="any" id="closing_time" name="closing_time" required>
+            </div>
+
+            <button>Add Parking lot</button>
+            
+        </form>
+    </div>
+</div>
+
+<script src="{{url_for('static',filename='js/admin_dashboard.js')}}"></script>
 {%endblock%}
