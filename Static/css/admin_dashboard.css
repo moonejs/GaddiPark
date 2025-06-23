@@ -151,7 +151,7 @@ html, body {
 
 /* add-parking-lot-model */
 
-.add-parking-lot-model {
+.add-parking-lot-model,.edit-parking-lot {
     position: fixed;
     top: 50%;
     left: 50%;

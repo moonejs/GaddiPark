@@ -67,42 +67,25 @@
                 <h2>parking lots</h2>
             </div>
             <div class="div-4-parking-lots-cards">
+                {%for plot in plots %}
                 <div class="div-4-card">
-                    
-                </div>
-                <div class="div-4-card">
+                    <a href="{{ url_for('admin.admin_dashboard', plot_id=plot.id) }}">
+                        <button class="edit-lot">EDIT</button>
+                    </a>
+                    <a href="">DELETE</a>
+                    <h2>{{ plot.name }}</h2>
+                    <p>{{ plot.address }}</p>
+                    <h5>pincode {{ plot.pincode }}</h5>
+                    <h3>Price/hour {{ plot.hourly_rate}}</h3>
+                    <h3>Total spot {{plot.total_spots}}</h3>
+                    <h3>Available spot {{plot.total_spots-plot.occupied_spots}}</h3>
+                    <button>View details</button>
 
                 </div>
-                <div class="div-4-card">
-                    
-                </div>
-                <div class="div-4-card">
+                 
+                {%endfor%}
 
-                </div>
-                <div class="div-4-card">
-                    
-                </div>
-                <div class="div-4-card">
-
-                </div>
-                <div class="div-4-card">
-                    
-                </div>
-                <div class="div-4-card">
-
-                </div>
-                <div class="div-4-card">
-                    
-                </div>
-                <div class="div-4-card">
-
-                </div>
-                <div class="div-4-card">
-                    
-                </div>
-                <div class="div-4-card">
-
-                </div>
+                
                 
 
             </div>
@@ -173,6 +156,27 @@
         </form>
     </div>
 </div>
+
+<div class="edit-parking-lot" style="display: none;">
+    <h1>hello</h1>
+    <a href="{{url_for('admin.admin_dashboard')}}"><button class="close-edit-lot-model">Close</button></a>
+    <h1>{{plot.name}}</h1>
+</div>
+
+{% if plot %}
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const editModal = document.querySelector('.edit-parking-lot');
+        const page = document.querySelector('.page-1');
+
+        if (editModal && page) {
+            editModal.style.display = 'block';
+            page.classList.add('blur');
+        }
+    });
+</script>
+{% endif %}
+
 
 <script src="{{url_for('static',filename='js/admin_dashboard.js')}}"></script>
 {%endblock%}

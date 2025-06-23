@@ -46,10 +46,10 @@ def parking_dashboard():
         )
         db.session.add(new_parking_lot)
         db.session.commit()
-        print('hello')
+        
         flash('Parking lot added successfully!')
         
     return redirect(url_for('admin.admin_dashboard'))
     
     
-
+    
