@@ -11,9 +11,9 @@ class ParkingLot(db.Model):
     occupied_spots = db.Column(db.Integer, default=0)
     ev_spots = db.Column(db.Integer, default=0)
     ev_charging_rate = db.Column(db.Float, nullable=True)
-    opening_time = db.Column(db.String(10), nullable=False)
-    closing_time = db.Column(db.String(10), nullable=False)
+    opening_time = db.Column(db.String(10), nullable=True)
+    closing_time = db.Column(db.String(10), nullable=True)
     is_24_hours = db.Column(db.Boolean, default=False)
-    discription = db.Column(db.String(200), nullable=True)
+    description = db.Column(db.String(200), nullable=True)
     def __repr__(self):
         return f'<ParkingLot {self.name}>'

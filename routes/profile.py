@@ -18,7 +18,6 @@ def profile():
 @login_required
 def update_profile():
     
-    
     new_full_name=request.form.get('name')
     new_username =request.form.get('username')
     current_password = request.form.get('current_password')

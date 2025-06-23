@@ -22,12 +22,12 @@ def index():
 if __name__=='__main__':
     with app.app_context():
         db.create_all()
-        # admin=User.query.filter_by(is_admin=True).first()
-        # if not admin:
-        #     password_hash =generate_password_hash('admin')
-        #     admin=User(username='admin@gmail.com',password_hash=password_hash,full_name='Admin',is_admin=True)
-        #     db.session.add(admin)
-        #     db.session.commit()
+        admin=User.query.filter_by(is_admin=True).first()
+        if not admin:
+            password_hash =generate_password_hash('admin')
+            admin=User(username='admin@gmail.com',password_hash=password_hash,full_name='Admin',is_admin=True)
+            db.session.add(admin)
+            db.session.commit()
         
     app.run(debug=True)
     

@@ -117,7 +117,7 @@
     <div class="add-parking-lot-model-content">
         <h2>Add Parking Lot</h2>
         <button class="close-add-parking-lot-model"><h4>close</h4></button>
-        <form action="" method="post">
+        <form action="{{ url_for('parking.parking_dashboard')}}" method="POST">
             <div class="form-group">
                 <label for="pl_name">Parking Lot Name</label>
                 <input type="text" id="pl_name" name="pl_name" required>
@@ -157,11 +157,15 @@
             </div>
             <div class="form-group" id="time-field" style="display: none;">
                 <label for="opening_time">Opening Time</label>
-                <input type="time" step="any" id="opening_time" name="opening_time" required>
+                <input type="time"  id="opening_time" name="opening_time" >
             </div>
             <div class="form-group" id="time-field" style="display: none;">
                 <label for="closing_time">Closing Time</label>
-                <input type="time" step="any" id="closing_time" name="closing_time" required>
+                <input type="time" id="closing_time" name="closing_time" >
+            </div>
+            <div class="form-group">
+                <label for="description">Description</label>
+                <textarea id="description" name="description" rows="3" required></textarea>
             </div>
 
             <button>Add Parking lot</button>
