@@ -8,12 +8,12 @@ admin_bp=Blueprint('admin',__name__)
 @login_required
 @admin_required
 def admin_dashboard():
-    plots=ParkingLot.query.all()
-    plot_id=request.args.get('plot_id')
-    plot = None
-    if plot_id:
-        plot=ParkingLot.query.filter_by(id=plot_id).first()
+    lots=ParkingLot.query.all()
+    lot_id=request.args.get('lot_id')
+    lot = None
+    if lot_id:
+        lot=ParkingLot.query.filter_by(id=lot_id).first()
     
-    return render_template('admin_dashboard.html',plots=plots,plot=plot)
+    return render_template('admin_dashboard.html',lots=lots,lot=lot)
 
 

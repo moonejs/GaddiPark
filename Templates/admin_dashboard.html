@@ -1,182 +1,219 @@
-{%extends "base.html" %}
+    {%extends "base.html" %}
 
-{%block style%}
-<link rel="stylesheet" href="{{url_for('static',filename='css/admin_dashboard.css')}}">
-{%endblock%}
+    {%block style%}
+    <link rel="stylesheet" href="{{url_for('static',filename='css/admin_dashboard.css')}}">
+    {%endblock%}
 
-{%block content %}
-<div class="page-1">
-    <div class="side-bar">
-        <div class="side-bar-upper">
-
-        </div>
-        <div class="side-bar-lower">
-            <div class="side-bar-lower-item">
-                <a href="admin_dashboard.html">Dashboard</a>
-            </div>
-            <div class="side-bar-lower-item">
-                <a href="admin_users.html">Users</a>
-            </div>
-            <div class="side-bar-lower-item">
-                <a href="admin_products.html">Summery</a>
-            </div>
-        </div>
-        <div class="logout side-bar-lower-item">
-            <a href="">
-                <span>Logout</span>
-            </a>
-        </div>
-            <div class="profile ">
-                <img src="" alt="">
-                <span>Admin</span>
-            </div>
-    </div>
-    <div class="right-side">
-        <div class="div-1">
-            <h1>Welcome Admin</h1>
-        </div>
-        <div class="div-2">
-            <div class="div-2-item">
-                
-            </div>
-            <div class="div-2-item">
+    {%block content %}
+    <div class="page-1">
+        <div class="side-bar">
+            <div class="side-bar-upper">
 
             </div>
-            <div class="div-2-item">
-
+            <div class="side-bar-lower">
+                <div class="side-bar-lower-item">
+                    <a href="admin_dashboard.html">Dashboard</a>
+                </div>
+                <div class="side-bar-lower-item">
+                    <a href="admin_users.html">Users</a>
+                </div>
+                <div class="side-bar-lower-item">
+                    <a href="admin_products.html">Summery</a>
+                </div>
             </div>
-            <div class="div-2-item">
-
+            <div class="logout side-bar-lower-item">
+                <a href="">
+                    <span>Logout</span>
+                </a>
             </div>
+                <div class="profile ">
+                    <img src="" alt="">
+                    <span>Admin</span>
+                </div>
         </div>
-        <div class="div-3">
-            <div class="div-3-item-1">
-                <button id="add_parking_lot">Add parking Lot</button>
+        <div class="right-side">
+            <div class="div-1">
+                <h1>Welcome Admin</h1>
             </div>
-            <div class="div-3-item-2">
-                <input type="search" name="search" id="" placeholder="Search">
-                <button>Search</button>
-                <select>
-                    <option>Search by Location</option>
-                    <option>Search by user ID</option>
-                </select>
-            </div>
-        </div>
-        <div class="div-4">
-            <div class="div-4-heading">
-                <h2>parking lots</h2>
-            </div>
-            <div class="div-4-parking-lots-cards">
-                {%for plot in plots %}
-                <div class="div-4-card">
-                    <a href="{{ url_for('admin.admin_dashboard', plot_id=plot.id) }}">
-                        <button class="edit-lot">EDIT</button>
-                    </a>
-                    <a href="">DELETE</a>
-                    <h2>{{ plot.name }}</h2>
-                    <p>{{ plot.address }}</p>
-                    <h5>pincode {{ plot.pincode }}</h5>
-                    <h3>Price/hour {{ plot.hourly_rate}}</h3>
-                    <h3>Total spot {{plot.total_spots}}</h3>
-                    <h3>Available spot {{plot.total_spots-plot.occupied_spots}}</h3>
-                    <button>View details</button>
+            <div class="div-2">
+                <div class="div-2-item">
+                    
+                </div>
+                <div class="div-2-item">
 
                 </div>
-                 
-                {%endfor%}
+                <div class="div-2-item">
 
-                
-                
+                </div>
+                <div class="div-2-item">
 
+                </div>
             </div>
+            <div class="div-3">
+                <div class="div-3-item-1">
+                    <button id="add_parking_lot">Add parking Lot</button>
+                </div>
+                <div class="div-3-item-2">
+                    <input type="search" name="search" id="" placeholder="Search">
+                    <button>Search</button>
+                    <select>
+                        <option>Search by Location</option>
+                        <option>Search by user ID</option>
+                    </select>
+                </div>
+            </div>
+            <div class="div-4">
+                <div class="div-4-heading">
+                    <h2>parking lots</h2>
+                </div>
+                <div class="div-4-parking-lots-cards">
+                    {% if not lots %}
+                    <h2>No Parking Lots </h2>
+                    {% endif %}
+                    {%for lot in lots %}
+                    <div class="div-4-card">
+                        <a href="{{ url_for('admin.admin_dashboard', lot_id=lot.id) }}">
+                            <button class="edit-lot">EDIT</button>
+                        </a>
+                        <a href="{{ url_for('parking.delete_lot', lot_id=lot.id) }}">
+                            <button class="edit-lot">DELETE</button>
+                        </a>
+                        <h2>{{ lot.name }}</h2>
+                        <p>{{ lot.address }}</p>
+                        <h5>pincode {{ lot.pincode }}</h5>
+                        <h3>Price/hour {{ lot.hourly_rate}}</h3>
+                        <h3>Total spot {{lot.total_spots}}</h3>
+                        <h3>Available spot {{lot.total_spots-lot.occupied_spots}}</h3>
+                        <a href="{{url_for('parking.view_details',lot_id=lot.id)}}"><button>View details</button></a>
+                    </div>
+                    
+                    {%endfor%}
+
+                    
+                    
+
+                </div>
+            </div>
+            <div class="div-5"></div>
+        
         </div>
-        <div class="div-5"></div>
-    
     </div>
-</div>
 
 
-<div class="add-parking-lot-model" style="display: none;" >
-    <div class="add-parking-lot-model-content">
-        <h2>Add Parking Lot</h2>
-        <button class="close-add-parking-lot-model"><h4>close</h4></button>
-        <form action="{{ url_for('parking.parking_dashboard')}}" method="POST">
+    <div class="add-parking-lot-model" style="display: none;" >
+        <div class="add-parking-lot-model-content">
+            <h2>Add Parking Lot</h2>
+            <button class="close-add-parking-lot-model"><h4>close</h4></button>
+            <form action="{{ url_for('parking.parking_dashboard')}}" method="POST">
+                <div class="form-group">
+                    <label for="pl_name">Parking Lot Name</label>
+                    <input type="text" id="pl_name" name="pl_name" required>
+                </div>
+                <div class="form-group">
+                    <label for="address">Address</label>
+                    <input type="text" id="address" name="address" required>
+                </div>
+                <div class="form-group">
+                    <label for="pincode">Pincode</label>
+                    <input type="text" id="pincode" name="pincode" required>
+                </div>
+                <div class="form-group">
+                    <label for="hourly_rate">Price per hour</label>
+                    <input type="number" step="any" id="hourly_rate" name="hourly_rate" required>
+                </div>
+                <div class="form-group">
+                    <label for="total_spots">Total parking spots</label>
+                    <input type="number" id="total_spots" name="total_spots" required>
+                </div>
+                <div class="form-group">
+                    <label for="ev_spots">Ev Charging spots</label>
+                    <input type="number" id="ev_spots" name="ev_spots" required>
+                </div>
+                <div class="form-group">
+                    <label for="ev_charging_rate">Ev Charging Rate </label>
+                    <input type="number" step="any" id="ev_charging_rate" name="ev_charging_rate" required>
+                </div>
+                    <div class="form-group">
+                    <label>24 Hours:</label><br>
+                    
+                    <input type="radio" id="yes24" name="is_24_hours" value="1" required>
+                    <label for="yes24">Yes</label>
+                    
+                    <input type="radio" id="no24" name="is_24_hours" value="0">
+                    <label for="no24">No</label>
+                </div>
+                <div class="form-group" id="time-field" style="display: none;">
+                    <label for="opening_time">Opening Time</label>
+                    <input type="time"  id="opening_time" name="opening_time" >
+                </div>
+                <div class="form-group" id="time-field" style="display: none;">
+                    <label for="closing_time">Closing Time</label>
+                    <input type="time" id="closing_time" name="closing_time" >
+                </div>
+                <div class="form-group">
+                    <label for="description">Description</label>
+                    <textarea id="description" name="description" rows="3" required></textarea>
+                </div>
+
+                <button>Add Parking lot</button>
+                
+            </form>
+        </div>
+    </div>
+{% if lot %}
+    <div class="edit-parking-lot" style="display: none;">
+        <a href="{{url_for('admin.admin_dashboard')}}"><button class="close-edit-lot-model">Close</button></a>
+        <form action="{{url_for('parking.update_lot',lot_id=lot.id)}}" method="POST">
             <div class="form-group">
                 <label for="pl_name">Parking Lot Name</label>
-                <input type="text" id="pl_name" name="pl_name" required>
+                <input type="text" id="pl_name" name="pl_name" value="{{lot.name}}" required>
             </div>
             <div class="form-group">
                 <label for="address">Address</label>
-                <input type="text" id="address" name="address" required>
+                <input type="text" id="address" name="address" value="{{lot.address}}" required>
             </div>
             <div class="form-group">
                 <label for="pincode">Pincode</label>
-                <input type="text" id="pincode" name="pincode" required>
+                <input type="text" id="pincode" name="pincode" value="{{lot.pincode}}" required>
             </div>
             <div class="form-group">
                 <label for="hourly_rate">Price per hour</label>
-                <input type="number" step="any" id="hourly_rate" name="hourly_rate" required>
+                <input type="number" step="any" id="hourly_rate" name="hourly_rate" value="{{lot.hourly_rate}}" required>
             </div>
             <div class="form-group">
                 <label for="total_spots">Total parking spots</label>
-                <input type="number" id="total_spots" name="total_spots" required>
+                <input type="number" id="total_spots" name="total_spots" value="{{lot.total_spots}}" disabled required>
             </div>
             <div class="form-group">
                 <label for="ev_spots">Ev Charging spots</label>
-                <input type="number" id="ev_spots" name="ev_spots" required>
+                <input type="number" id="ev_spots" name="ev_spots" value="{{lot.ev_spots}}" disabled required>
             </div>
             <div class="form-group">
                 <label for="ev_charging_rate">Ev Charging Rate </label>
-                <input type="number" step="any" id="ev_charging_rate" name="ev_charging_rate" required>
-            </div>
-                <div class="form-group">
-                <label>24 Hours:</label><br>
-                
-                <input type="radio" id="yes24" name="is_24_hours" value="1" required>
-                <label for="yes24">Yes</label>
-                
-                <input type="radio" id="no24" name="is_24_hours" value="0">
-                <label for="no24">No</label>
-            </div>
-            <div class="form-group" id="time-field" style="display: none;">
-                <label for="opening_time">Opening Time</label>
-                <input type="time"  id="opening_time" name="opening_time" >
-            </div>
-            <div class="form-group" id="time-field" style="display: none;">
-                <label for="closing_time">Closing Time</label>
-                <input type="time" id="closing_time" name="closing_time" >
-            </div>
+                <input type="number" step="any" id="ev_charging_rate" name="ev_charging_rate" value="{{lot.ev_charging_rate}}" required>
+            </div>  
             <div class="form-group">
                 <label for="description">Description</label>
-                <textarea id="description" name="description" rows="3" required></textarea>
-            </div>
-
-            <button>Add Parking lot</button>
-            
+                <textarea id="description" name="description" rows="3" value="{{lot.description}}" required></textarea>
+            </div>   
+            <button>Update</button>
         </form>
     </div>
-</div>
-
-<div class="edit-parking-lot" style="display: none;">
-    <h1>hello</h1>
-    <a href="{{url_for('admin.admin_dashboard')}}"><button class="close-edit-lot-model">Close</button></a>
-    <h1>{{plot.name}}</h1>
-</div>
-
-{% if plot %}
-<script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const editModal = document.querySelector('.edit-parking-lot');
-        const page = document.querySelector('.page-1');
-
-        if (editModal && page) {
-            editModal.style.display = 'block';
-            page.classList.add('blur');
-        }
-    });
-</script>
 {% endif %}
+    {% if lot %}
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const editModal = document.querySelector('.edit-parking-lot');
+            const page = document.querySelector('.page-1');
+
+            if (editModal && page) {
+                editModal.style.display = 'block';
+                page.classList.add('blur');
+            }
+        });
+    </script>
+    {% endif %}
 
 
-<script src="{{url_for('static',filename='js/admin_dashboard.js')}}"></script>
-{%endblock%}
+    <script src="{{url_for('static',filename='js/admin_dashboard.js')}}"></script>
+    {%endblock%}

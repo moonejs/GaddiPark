@@ -1,10 +1,13 @@
 from flask import Blueprint,render_template,request,redirect,url_for,session,flash
+from routes.decorators import login_required,admin_required
 
 from models import ParkingLot
 from config import db
 parking_bp = Blueprint('parking', __name__)
 
 @parking_bp.route('/parking_dashboard', methods=['GET', 'POST'])
+@login_required
+@admin_required
 def parking_dashboard():
     if request.method == 'POST':
         pl_name=request.form.get('pl_name')
@@ -30,6 +33,12 @@ def parking_dashboard():
             if not opening_time or not closing_time:
                 flash('Please fill in all required fields')
                 return redirect(url_for('parking.parking_dashboard'))
+            
+        parking=ParkingLot.query.filter_by(name=pl_name).first()
+        if parking:
+            flash('Parking Lot name already Exist,please enter unique Lot name')
+            return redirect(url_for('parking.parking_dashboard'))
+        
         
         new_parking_lot = ParkingLot(
             name=pl_name,
@@ -52,4 +61,59 @@ def parking_dashboard():
     return redirect(url_for('admin.admin_dashboard'))
     
     
+@parking_bp.route('/update_lot<int:lot_id>',methods=['POST','GET'])
+@login_required
+@admin_required
+def update_lot(lot_id):
+    if request.method=='POST':
+        lot=ParkingLot.query.get(lot_id)
+        new_pl_name=request.form.get('pl_name')
+        new_address=request.form.get('address')
+        new_pincode=request.form.get('pincode')
+        new_hourly_rate = float(request.form.get('hourly_rate'))
+        new_ev_charging_rate = float(request.form.get('ev_charging_rate'))
+        new_description = request.form.get('description')
+        if not new_pl_name or not new_address or not new_pincode or not new_hourly_rate  or not new_ev_charging_rate or not new_description:
+            flash('Please fill in all required fields')
+            return redirect(url_for('parking.parking_dashboard'))
+        parking=ParkingLot.query.filter_by(name=new_pl_name).first()
+        if parking:
+            flash('Parking Lot name already Exist,please enter unique Lot name')
+            return redirect(url_for('parking.parking_dashboard'))
+        
+        lot.name=new_pl_name
+        lot.address=new_address
+        lot.pincode=new_pincode
+        lot.hourly_rate=new_hourly_rate
+        lot.ev_charging_rate=new_ev_charging_rate
+        lot.description=new_description
+        db.session.commit()
+        
+        flash('Parking Lot Successfully updated')
+        return redirect(url_for('admin.admin_dashboard'))
+    else:
+        return redirect(url_for('admin.admin_dashboard'))
+        
+
+
+@parking_bp.route('/delete-lot<int:lot_id>')
+@login_required
+@admin_required
+def delete_lot(lot_id):
+    lot=ParkingLot.query.get(lot_id)
+    if not lot.occupied_spots:
+        db.session.delete(lot)
+        db.session.commit()
+        flash('Parking Lot deleted successfully!')
+        return redirect(url_for('admin.admin_dashboard'))
+    else:
+        flash('Cannot delete parking lot: there are still occupied spots.')
+        return redirect(url_for('admin.admin_dashboard'))
     
+
+@parking_bp.route('/view_details<int:lot_id>')
+@login_required
+@admin_required
+def view_details(lot_id):
+    lot=ParkingLot.query.get(lot_id)
+    return render_template('parking_lot_details.html',lot=lot)

@@ -19,6 +19,12 @@ for bp in all_blueprints:
 def index():
     return render_template('index.html')
 
+def chr_filter(value):
+    return chr(value)
+
+app.jinja_env.filters['chr'] = chr_filter
+
+
 if __name__=='__main__':
     with app.app_context():
         db.create_all()

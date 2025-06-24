@@ -1,0 +1,15 @@
+*{
+    background-color: rgba(0, 0, 0, 0.559);
+    color: aliceblue;
+}
+
+.content{
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+.box{
+    height: 70px;
+    width: 70px;
+    background-color: greenyellow;
+}
