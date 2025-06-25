@@ -1,0 +1,56 @@
+{%extends "base.html" %}
+
+{%block style%}
+<link rel="stylesheet" href="{{url_for('static',filename='css/vehicle.css')}}">
+{%endblock%}
+
+{%block content %}
+<h1>add vehicle details </h1>
+<div class="main">
+
+    <form action="{{url_for('user.vehicle')}}" method="POST">
+        <label for="type">Vehicle Type</label>
+        <select name="type" id="type" required>
+            <option value="">-- Select Type --</option>
+            <option value="car">Car</option>
+            <option value="truck">Truck</option>
+            <option value="motorcycle">Motorcycle</option>
+            <option value="suv">SUV</option>
+            <option value="van">Van</option>
+            
+        </select>
+        <div>
+            <label for="model">Model</label>
+            <input type="text" id="model" name="model" placeholder="Creata" required>
+        </div>
+        <div>
+            <label for="registration_number">Registation Number</label>
+            <input type="text" id="registration_number" name="registration_number" placeholder="MH 12 AB 1234" required>
+        </div>
+        
+        <div>
+            <label for="is_ev">Ev Vehicle</label>
+            <input type="radio" id="yes_ev" name="is_ev" value="1" required>
+            <label for="yes_ev">Yes</label>
+            <input type="radio" id="no_ev" name="is_ev" value="0">
+            <label for="no_ev">No</label>
+        </div>
+        
+        <button>Add Vehicle Details</button>
+        
+        
+    </form>
+    <h2>Added Vehicles</h2>
+
+    {%for vehicle in vehicles %}
+    <div class="cards">
+        <h3> Vehicle Type {{ vehicle.type}}</h3>
+        <h3> Vehicle Model {{ vehicle.model}}</h3>
+        <h3> Vehicle Number {{ vehicle.registration_number}}</h3>
+
+    </div>
+    {%endfor%}
+</div>
+
+
+{%endblock%}

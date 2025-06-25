@@ -1,6 +1,7 @@
-from flask import Blueprint,render_template,request,redirect,url_for,session
-from models import User
+from flask import Blueprint,render_template,request,redirect,url_for,session,flash
+from models import User ,ParkingLot,Vehicle
 from routes.decorators import login_required,user_required
+from config import db
 
 user_bp=Blueprint('user',__name__)
 
@@ -13,3 +14,40 @@ def user_dashboard():
     user=User.query.get(session.get('user_id'))
     return render_template('user_dashboard.html',user=user.full_name)
         
+@user_bp.route('/find_parking',methods=['POST','GET'])
+@login_required
+@user_required
+def find_parking():
+    lots=ParkingLot.query.all()
+    return render_template('find_parking.html',lots=lots)
+
+
+@user_bp.route('/vehicle',methods=['POST','GET'])
+@login_required
+@user_required
+def vehicle():
+    if request.method =='POST':
+        user=User.query.get(session.get('user_id'))
+        type=request.form.get('type')
+        model=request.form.get('model')
+        registration_number=request.form.get('registration_number')
+        is_ev=request.form.get('is_ev') =='1'
+        
+        if not type or not model or not registration_number or is_ev is None:
+            flash('All fields are required.')
+            return redirect(url_for('user.vehicle'))
+        reg_num=Vehicle.query.filter_by(registration_number=registration_number).first()
+        
+        if reg_num:
+            flash('Vehicle with this registration number already exists.')
+            return redirect(url_for('user.vehicle'))
+        
+        new_vehicle=Vehicle(user_id=user.id,type=type,model=model,registration_number=registration_number,is_ev=is_ev)
+        db.session.add(new_vehicle)
+        db.session.commit()
+        flash('Vehicle added successfully.')
+        return redirect(url_for('user.vehicle'))
+    
+    else:
+        vehicles=Vehicle.query.all()
+        return render_template('vehicle.html',vehicles=vehicles)

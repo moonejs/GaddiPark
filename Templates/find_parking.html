@@ -1,0 +1,28 @@
+{%extends "base.html" %}
+
+{%block style%}
+<link rel="stylesheet" href="{{url_for('static',filename='css/find_parking.css')}}">
+{%endblock%}
+
+{%block content %}
+
+<div>
+    <form action="">
+        <input type="search" placeholder="Search for a location,landmark or address">
+
+        <button>Search</button>
+    </form>
+</div>
+
+<h2>Park Lots Near You </h2>
+<div class="main">
+    {% for lot in lots %}
+    <div class="card">
+        {{lot.name}}
+        <a href=""><button>Book spot</button></a>
+        
+    </div>
+    {%endfor%}
+</div>
+
+{%endblock%}
