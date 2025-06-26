@@ -26,8 +26,8 @@ def find_parking():
 @login_required
 @user_required
 def vehicle():
+    user=User.query.get(session.get('user_id')) 
     if request.method =='POST':
-        user=User.query.get(session.get('user_id'))
         type=request.form.get('type')
         model=request.form.get('model')
         registration_number=request.form.get('registration_number')
@@ -49,5 +49,5 @@ def vehicle():
         return redirect(url_for('user.vehicle'))
     
     else:
-        vehicles=Vehicle.query.all()
+        vehicles=Vehicle.query.filter_by(user_id=user.id)
         return render_template('vehicle.html',vehicles=vehicles)
