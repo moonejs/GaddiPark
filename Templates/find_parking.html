@@ -38,9 +38,9 @@
     <form action="" method="">
         <div>
             <label for="vehicle">Vehicle</label>
-            <select name="vehicle" id="Vehicle" onchange="handleVehicleChagne()">
-                {%for vehicle in vehicles %}
+            <select name="vehicle" id="vehicle" onchange="handleVehicleChange()">
                 <option value="">Select a vehicle</option>
+                {%for vehicle in vehicles %}
                 <option value="{{vehicle.id}}"
                 data-is-ev="{{vehicle.is_ev}}" 
                 data-model="{{vehicle.model}}"
@@ -56,18 +56,34 @@
             <h4>Date:{{current_booking_date}}</h4>
             <h4>Time:{{current_booking_time}}</h4>
         </div>
+        <div>
+            <label for="duration" >Duration</label>
+            <select name="duration" id="duration"onchange="updateRates()">
+                <option value="1">1 Hour</option>
+                <option value="2">2 Hour</option>
+                <option value="3">3 Hour</option>
+                <option value="4">4 Hour</option>
+            </select>
+        </div>
         <div id="parking-options" style="display: none;">
             <h4>Parking Types : </h4>
-            <input type="radio" id="regular" name="regular">
-            <label for="regular">Regular Parking Only</label>
-            <input type="radio" id="ev_charging" name="ev_charging">
-            <label for="ev_charging">Parking + EV Charging</label>
-            <div id="rate-display">
-                <p>Parking Rate/Hour  ₹{{lot.hourly_rate}}</p>
-                <p id="charging_rate" style="display: none;">
-                    EV Charging: ₹{{lot.ev_charging_rate}}/kWh
-                </p>
+            <div>
+                <input type="radio" id="regular" name="parking_type" value="regular" checked onchange="updateRates()">
+                <label for="regular">Regular Parking Only</label>
             </div>
+            <div>
+                <input type="radio" id="ev-charging" name="parking_type" value="ev_charging" onchange="updateRates()">
+                <label for="ev-charging">Parking + EV Charging</label>
+            </div>
+        </div>
+        <div id="rate-display">
+            <p data-rate="{{lot.hourly_rate}}" id="regular-rate">Parking Rate/Hour : ₹{{lot.hourly_rate}}</p>
+            <p id="ev-charging-rate" style="display: none;" data-ev-rate="{{lot.ev_charging_rate}}">
+                EV Charging:₹{{lot.ev_charging_rate}}/Kwh
+            </p>
+        </div>
+        <div>
+            <h3 id="estimate_cost"></h3>
         </div>
     </form>
 </div>
