@@ -5,24 +5,91 @@
 {%endblock%}
 
 {%block content %}
-
-<div>
-    <form action="">
-        <input type="search" placeholder="Search for a location,landmark or address">
-
-        <button>Search</button>
-    </form>
+<div class="page-1">
+    <div>
+        <form action="">
+            <input type="search" placeholder="Search for a location,landmark or address">
+            
+            <button>Search</button>
+        </form>
+    </div>
+    
+    <h2>Park Lots Near You </h2>
+    <div class="content">
+        {% for lot in lots %}
+        <div class="card">
+            {{lot.name}}
+            <a href="{{url_for('booking.booking',lot_id=lot.id)}}"><button class="book-spot-btn">Book spot</button></a>
+        </div>
+    {%endfor%}
+    </div>
 </div>
 
-<h2>Park Lots Near You </h2>
-<div class="main">
-    {% for lot in lots %}
-    <div class="card">
-        {{lot.name}}
-        <a href=""><button>Book spot</button></a>
+<div class="book-spot-model" style="display: none;">
+    <div>
+        <h2>Confirm Booking </h2>
+        <a href="{{url_for('user.find_parking')}}"><button class="close-book-spot-model">Close</button></a>
         
     </div>
-    {%endfor%}
+    <div>
+        <h2>{{lot.name}}</h2>
+        <h2>{{lot.address}}</h2>
+    </div>
+    <form action="" method="">
+        <div>
+            <label for="vehicle">Vehicle</label>
+            <select name="vehicle" id="Vehicle" onchange="handleVehicleChagne()">
+                {%for vehicle in vehicles %}
+                <option value="">Select a vehicle</option>
+                <option value="{{vehicle.id}}"
+                data-is-ev="{{vehicle.is_ev}}" 
+                data-model="{{vehicle.model}}"
+                data-reg="{{vehicle.registration_number}}">
+                {%if vehicle.is_ev %}
+                Ev- 
+                {%endif%}
+                {{vehicle.model}} ({{vehicle.registration_number}})</option>
+                {%endfor%}
+            </select>
+        </div>
+        <div>
+            <h4>Date:{{current_booking_date}}</h4>
+            <h4>Time:{{current_booking_time}}</h4>
+        </div>
+        <div id="parking-options" style="display: none;">
+            <h4>Parking Types : </h4>
+            <input type="radio" id="regular" name="regular">
+            <label for="regular">Regular Parking Only</label>
+            <input type="radio" id="ev_charging" name="ev_charging">
+            <label for="ev_charging">Parking + EV Charging</label>
+            <div id="rate-display">
+                <p>Parking Rate/Hour  ₹{{lot.hourly_rate}}</p>
+                <p id="charging_rate" style="display: none;">
+                    EV Charging: ₹{{lot.ev_charging_rate}}/kWh
+                </p>
+            </div>
+        </div>
+    </form>
 </div>
+    
+
+
+    {% if lot %}
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const book_modal = document.querySelector('.book-spot-model');
+            const page = document.querySelector('.page-1');
+
+            if (book_modal && page) {
+                book_modal.style.display = 'block';
+                page.classList.add('blur');
+            }
+        });
+    </script>
+{% endif %}
+
+
+<script src="{{url_for('static',filename='js/find_parking.js')}}"></script>
+    
 
 {%endblock%}

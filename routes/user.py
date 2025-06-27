@@ -13,13 +13,26 @@ user_bp=Blueprint('user',__name__)
 def user_dashboard():
     user=User.query.get(session.get('user_id'))
     return render_template('user_dashboard.html',user=user.full_name)
+
+
         
 @user_bp.route('/find_parking',methods=['POST','GET'])
 @login_required
 @user_required
 def find_parking():
+    user=User.query.get(session.get('user_id'))
+    vehicles=Vehicle.query.filter_by(user_id=user.id)
     lots=ParkingLot.query.all()
-    return render_template('find_parking.html',lots=lots)
+    lot_id=request.args.get('lot_id')
+    current_booking_time= request.args.get('current_booking_time')
+    current_booking_date= request.args.get('current_booking_date')
+    lot = None
+    if lot_id:
+        lot=ParkingLot.query.filter_by(id=lot_id).first()
+    
+    return render_template('find_parking.html',lots=lots,lot=lot,vehicles=vehicles,current_booking_time=current_booking_time,current_booking_date=current_booking_date)
+
+
 
 
 @user_bp.route('/vehicle',methods=['POST','GET'])

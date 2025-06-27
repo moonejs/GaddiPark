@@ -11,9 +11,30 @@ html, body {
     color: aliceblue;
 }
 
-.main{
+.content{
     display: flex;
     flex-wrap: nowrap;
     padding: 40px;
     gap: 12px;
+}
+
+.blur {
+  filter: blur(5px);
+  pointer-events: none; 
+}
+
+.book-spot-model{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 40%;
+    height: 60%;
+    background-color: #fffad1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    color: black;
 }
