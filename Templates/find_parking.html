@@ -15,6 +15,9 @@
     </div>
     
     <h2>Park Lots Near You </h2>
+    {%if not lots%}
+    <h4>No plots near you </h4>
+    {%endif%}
     <div class="content">
         {% for lot in lots %}
         <div class="card">
@@ -83,7 +86,16 @@
             </p>
         </div>
         <div>
-            <h3 id="estimate_cost"></h3>
+            <label for="estimate_cost">Estimate Cost</label>
+            <input type="text" id="estimate_cost" disabled name="estimate_cost">
+            
+        </div>
+        <div>
+            <label for="payment_method">Payment Method:</label>
+            <select name="payment_method" id="payment_method">
+                <option value="{{wallet_balance}}">Wallet (₹{{wallet_balance if wallet_balance is not none else 0}})</option>
+                <option value=""></option>
+            </select>
         </div>
     </form>
 </div>

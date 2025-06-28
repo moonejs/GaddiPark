@@ -52,12 +52,12 @@ function updateRates(){
     if (selected_parking_type && selected_parking_type.value ==='ev_charging'){
         ev_charging_rate.style.display='block'
         console.log(time*ev_rate + time*regular_rate);
-        estimate_cost.innerText=`Estimate Cost ₹ ${time*ev_rate + time*regular_rate}`
+        estimate_cost.value=`Estimate Cost ₹ ${time*ev_rate + time*regular_rate}`
         
     }else{
         ev_charging_rate.style.display='none'
         console.log(time*regular_rate);
-        estimate_cost.innerText=`Estimate Cost ₹ ${time*regular_rate}`
+        estimate_cost.value=`Estimate Cost ₹ ${time*regular_rate}`
         
     }
         

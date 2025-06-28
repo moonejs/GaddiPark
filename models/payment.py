@@ -8,7 +8,6 @@ class Payment(db.Model):
     amount = db.Column(db.Float, nullable=False)
     payment_method = db.Column(db.String(50), nullable=False)
     transaction_id = db.Column(db.String(100), unique=True, nullable=False) 
-    status = db.Column(db.String(50), default='pending')  
     payment_time = db.Column(db.DateTime, nullable=True)
     
     def __repr__(self):
