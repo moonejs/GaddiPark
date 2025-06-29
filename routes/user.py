@@ -28,8 +28,9 @@ def find_parking():
     current_booking_date= request.args.get('current_booking_date')
     wallet_balance=request.args.get('wallet_balance')
     lot = None
-    if lot_id:
-        lot=ParkingLot.query.filter_by(id=lot_id).first()
+    if request.method == 'GET' and lot_id:
+        lot = ParkingLot.query.filter_by(id=lot_id).first()
+
     
     return render_template('find_parking.html',lots=lots,lot=lot,vehicles=vehicles,current_booking_time=current_booking_time,current_booking_date=current_booking_date,wallet_balance=wallet_balance)
 

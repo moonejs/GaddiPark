@@ -48,16 +48,18 @@ function updateRates(){
     selected_parking_type=document.querySelector('input[name="parking_type"]:checked')
 
     estimate_cost=document.querySelector('#estimate_cost')
+    hidden_estimate_cost = document.querySelector('#hidden_estimate_cost');
 
     if (selected_parking_type && selected_parking_type.value ==='ev_charging'){
         ev_charging_rate.style.display='block'
-        console.log(time*ev_rate + time*regular_rate);
         estimate_cost.value=`Estimate Cost ₹ ${time*ev_rate + time*regular_rate}`
+        hidden_estimate_cost.value = time * ev_rate + time * regular_rate;
         
     }else{
         ev_charging_rate.style.display='none'
         console.log(time*regular_rate);
         estimate_cost.value=`Estimate Cost ₹ ${time*regular_rate}`
+        hidden_estimate_cost.value = time * regular_rate;
         
     }
         

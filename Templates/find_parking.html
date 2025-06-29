@@ -38,10 +38,10 @@
         <h2>{{lot.name}}</h2>
         <h2>{{lot.address}}</h2>
     </div>
-    <form action="" method="">
+    <form action="{% if lot %}{{ url_for('booking.booking', lot_id=lot.id) }}{% else %}#{% endif %}" method="POST">
         <div>
             <label for="vehicle">Vehicle</label>
-            <select name="vehicle" id="vehicle" onchange="handleVehicleChange()">
+            <select name="vehicle" id="vehicle" onchange="handleVehicleChange()" required>
                 <option value="">Select a vehicle</option>
                 {%for vehicle in vehicles %}
                 <option value="{{vehicle.id}}"
@@ -61,7 +61,7 @@
         </div>
         <div>
             <label for="duration" >Duration</label>
-            <select name="duration" id="duration"onchange="updateRates()">
+            <select name="duration" id="duration"onchange="updateRates()" required>
                 <option value="1">1 Hour</option>
                 <option value="2">2 Hour</option>
                 <option value="3">3 Hour</option>
@@ -87,7 +87,8 @@
         </div>
         <div>
             <label for="estimate_cost">Estimate Cost</label>
-            <input type="text" id="estimate_cost" disabled name="estimate_cost">
+            <input type="text" id="estimate_cost" disabled name="estimate_cost" required>
+            <input type="hidden" id="hidden_estimate_cost" name="estimate_cost" required>
             
         </div>
         <div>
@@ -97,6 +98,8 @@
                 <option value=""></option>
             </select>
         </div>
+        <button type="submit" class="confirm-booking-btn">Confirm Booking</button>
+
     </form>
 </div>
     
