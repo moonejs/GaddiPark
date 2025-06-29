@@ -41,7 +41,7 @@ def signup():
         confirm_password = request.form.get('confirm_password')
         fullname=request.form.get('fullname')
         
-        #checks
+        
         if not username or not password or not confirm_password or not fullname:
             flash('All fields are required')
             return redirect(url_for('auth.signup'))

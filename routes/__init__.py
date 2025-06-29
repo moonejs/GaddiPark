@@ -4,4 +4,5 @@ from .user import user_bp
 from .profile import profile_bp
 from .parking import parking_bp
 from .booking import booking_bp
-all_blueprints = [auth_bp, admin_bp,user_bp,profile_bp,parking_bp,booking_bp]
+from .spot import spot_bp
+all_blueprints = [auth_bp, admin_bp,user_bp,profile_bp,parking_bp,booking_bp,spot_bp]

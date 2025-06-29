@@ -21,13 +21,9 @@
     {% set ns = namespace(n=0) %}
 
     <div class="content">
-    {% for i in range(1, lot.total_spots + 1) %}
+    {% for spot in spots %}
         <div class="box">
-        <h4>{{ (65 + ns.n) | chr }} {{ 10 if i % 10 == 0 else i % 10 }}</h4>
-        
-        {% if i % 10 == 0 %}
-            {% set ns.n = ns.n + 1 %}
-        {% endif %}
+        <h4>{{ spot.spot_number }}</h4>
         </div>
     {% endfor %}
     </div>

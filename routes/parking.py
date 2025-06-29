@@ -1,7 +1,7 @@
 from flask import Blueprint,render_template,request,redirect,url_for,session,flash
 from routes.decorators import login_required,admin_required
 
-from models import ParkingLot
+from models import ParkingLot,ParkingSpot
 from config import db
 parking_bp = Blueprint('parking', __name__)
 
@@ -55,6 +55,21 @@ def parking_dashboard():
         )
         db.session.add(new_parking_lot)
         db.session.commit()
+        
+        lot=ParkingLot.query.filter_by(name=pl_name).first()
+        def add_spot(spots,type,is_e):
+            n=0
+            for s in range(1,spots+1):
+                spot_number=f'{chr(65+n)}{type}{10 if s % 10 == 0 else s % 10}'
+                new_parking_spot=ParkingSpot(lot_id=lot.id,spot_number=spot_number,is_ev_spot=is_e)
+                db.session.add(new_parking_spot)
+                db.session.commit()
+                if s % 10 ==0:
+                    n+=1
+        add_spot(ev_spots,'E',1)
+        add_spot(total_spots,'R',0)
+        
+        
         
         flash('Parking lot added successfully!')
         
@@ -116,4 +131,5 @@ def delete_lot(lot_id):
 @admin_required
 def view_details(lot_id):
     lot=ParkingLot.query.get(lot_id)
-    return render_template('parking_lot_details.html',lot=lot)
+    spots=ParkingSpot.query.filter_by(lot_id=lot_id)
+    return render_template('parking_lot_details.html',lot=lot,spots=spots)

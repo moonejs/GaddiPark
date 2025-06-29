@@ -1,5 +1,5 @@
 from flask import Blueprint,render_template,request,redirect,url_for,session,flash
-from models import User ,ParkingLot,Vehicle
+from models import User ,ParkingLot,Vehicle,Booking
 from routes.decorators import login_required,user_required
 from config import db
 from datetime import datetime
@@ -35,6 +35,8 @@ def booking(lot_id):
         payment_method=request.form.get('payment_method')
         start_time=datetime(current_booking_time)
         date=date(current_booking_date)
+        
+        new_booking=Booking(user_id=user.id,vehicle_id=vehicle_id,lot_id=lot.id,)
         
         
     return redirect(url_for('user.find_parking', lot_id=lot_id, current_booking_time=current_booking_time,current_booking_date=current_booking_date,wallet_balance=wallet_balance))
