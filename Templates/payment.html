@@ -1,0 +1,19 @@
+{%extends "base.html" %}
+
+{%block style%}
+<link rel="stylesheet" href="{{url_for('static',filename='css/payment.css')}}">
+{%endblock%}
+
+{%block content %}
+<div>{{heading}}</div>
+{%if method == 'wallet'%}
+<div>
+    <form action="">
+        <label for="updated_wallet_balance">Enter Amount to Add</label>
+        <input type="number" name="updated_wallet_balance" id="updated_wallet_balance">
+    </form>
+</div>
+
+{%endif%}
+
+{%endblock%}

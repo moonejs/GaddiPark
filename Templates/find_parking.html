@@ -93,9 +93,10 @@
         </div>
         <div>
             <label for="payment_method">Payment Method:</label>
-            <select name="payment_method" id="payment_method">
-                <option value="{{wallet_balance}}">Wallet (₹{{wallet_balance if wallet_balance is not none else 0}})</option>
-                <option value=""></option>
+            <select name="payment_method" id="payment_method" required>
+                <option value="">Payment options</option>
+                <option value="wallet">Wallet (₹{{wallet_balance if wallet_balance is not none else 0}})</option>
+                <option value="bank">Bank/Upi/Card</option>
             </select>
         </div>
         <button type="submit" class="confirm-booking-btn">Confirm Booking</button>

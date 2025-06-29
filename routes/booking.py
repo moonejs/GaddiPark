@@ -27,8 +27,11 @@ def booking(lot_id):
     now = datetime.now(ist)
     current_booking_date = now.strftime("%d-%m-%Y") 
     current_booking_time = now.strftime("%I:%M %p")
+    
     payment_method='None'
+    
     if request.method=='POST':
+        
         vehicle_id=request.form.get('vehicle')
         duration=request.form.get('duration')
         amount=float(request.form.get('estimate_cost'))
@@ -38,6 +41,7 @@ def booking(lot_id):
             flash("Please fill in all booking details before confirming.")
             return redirect(url_for('user.find_parking', lot_id=lot_id, current_booking_time=current_booking_time, current_booking_date=current_booking_date, wallet_balance=wallet_balance))
         
+        
         datetime_string = f"{current_booking_date} {current_booking_time}"
         start_time = datetime.strptime(datetime_string, "%d-%m-%Y %I:%M %p")
 
@@ -46,6 +50,7 @@ def booking(lot_id):
         vehicle=Vehicle.query.get(vehicle_id)
         is_ev=vehicle.is_ev
         spot_id=None
+        
         def findSpotId(lot_id,is_ev):
             spot=ParkingSpot.query.filter_by(lot_id=lot_id,is_ev_spot=is_ev,status='available').first()
             return spot.id
@@ -54,12 +59,25 @@ def booking(lot_id):
         if not spot_id:
             flash("No available spot for your vehicle type")
             return redirect(url_for('user.find_parking', lot_id=lot_id, current_booking_time=current_booking_time,current_booking_date=current_booking_date,wallet_balance=wallet_balance))
-           
         
         new_booking=Booking(user_id=user.id,vehicle_id=vehicle_id,lot_id=lot.id,spot_id=spot_id,duration=duration,date=booking_date,start_time=start_time,amount=amount)
+        
+        spot=ParkingSpot.query.get(spot_id)
+        
+        if payment_method=='wallet':
+            if wallet_balance < amount:
+                flash("Insufficient wallet balance. Please recharge  funds to your wallet to proceed with the booking.")
+                return redirect(url_for('payment.payment',heading='Recharge your Wallet',method='wallet'))
+            else:
+                user.wallet_balance=wallet_balance-amount
+
+        spot.status='occupied'
         db.session.add(new_booking)
         db.session.commit()
         
+        if payment_method=='bank':
+            return redirect(url_for('payment.payment',heading='Pay to Book the Parking Spot',amount=amount,method='bank'))
+
         flash("Booking successful!")
         return render_template('booking_confirmed.html')
         
