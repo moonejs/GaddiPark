@@ -1,5 +1,5 @@
 from flask import Blueprint,render_template,request,redirect,url_for,session,flash
-from models import User ,ParkingLot,Vehicle
+from models import User ,ParkingLot,Vehicle,Booking,ParkingSpot
 from routes.decorators import login_required,user_required
 from config import db
 
@@ -26,13 +26,16 @@ def find_parking():
     lot_id=request.args.get('lot_id')
     current_booking_time= request.args.get('current_booking_time')
     current_booking_date= request.args.get('current_booking_date')
-    wallet_balance=request.args.get('wallet_balance')
+    
+   
+
     lot = None
+
     if request.method == 'GET' and lot_id:
         lot = ParkingLot.query.filter_by(id=lot_id).first()
 
     
-    return render_template('find_parking.html',lots=lots,lot=lot,vehicles=vehicles,current_booking_time=current_booking_time,current_booking_date=current_booking_date,wallet_balance=wallet_balance)
+    return render_template('find_parking.html',lots=lots,lot=lot,vehicles=vehicles,current_booking_time=current_booking_time,current_booking_date=current_booking_date,)
 
 
 

@@ -22,24 +22,22 @@ def booking(lot_id):
     
     lot=ParkingLot.query.get(lot_id)
     user=User.query.get(session.get('user_id'))
-    wallet_balance=user.wallet_balance
     ist = pytz.timezone("Asia/Kolkata")
     now = datetime.now(ist)
     current_booking_date = now.strftime("%d-%m-%Y") 
     current_booking_time = now.strftime("%I:%M %p")
     
-    payment_method='None'
+    
     
     if request.method=='POST':
         
         vehicle_id=request.form.get('vehicle')
         duration=request.form.get('duration')
         amount=float(request.form.get('estimate_cost'))
-        payment_method=request.form.get('payment_method')
         
-        if not vehicle_id or not duration or not amount or not payment_method:
+        if not vehicle_id or not duration or not amount :
             flash("Please fill in all booking details before confirming.")
-            return redirect(url_for('user.find_parking', lot_id=lot_id, current_booking_time=current_booking_time, current_booking_date=current_booking_date, wallet_balance=wallet_balance))
+            return redirect(url_for('user.find_parking', lot_id=lot_id, current_booking_time=current_booking_time, current_booking_date=current_booking_date))
         
         
         datetime_string = f"{current_booking_date} {current_booking_time}"
@@ -58,27 +56,21 @@ def booking(lot_id):
         spot_id=findSpotId(lot.id,is_ev)
         if not spot_id:
             flash("No available spot for your vehicle type")
-            return redirect(url_for('user.find_parking', lot_id=lot_id, current_booking_time=current_booking_time,current_booking_date=current_booking_date,wallet_balance=wallet_balance))
-        
-        new_booking=Booking(user_id=user.id,vehicle_id=vehicle_id,lot_id=lot.id,spot_id=spot_id,duration=duration,date=booking_date,start_time=start_time,amount=amount)
+            return redirect(url_for('user.find_parking', lot_id=lot_id, current_booking_time=current_booking_time,current_booking_date=current_booking_date))
         
         spot=ParkingSpot.query.get(spot_id)
         
-        if payment_method=='wallet':
-            if wallet_balance < amount:
-                flash("Insufficient wallet balance. Please recharge  funds to your wallet to proceed with the booking.")
-                return redirect(url_for('payment.payment',heading='Recharge your Wallet',method='wallet'))
-            else:
-                user.wallet_balance=wallet_balance-amount
-
+        booking_id=f'{spot.spot_number}{spot_id}{lot.id}{vehicle_id}{user.id}'
+        
+        new_booking=Booking(user_id=user.id,vehicle_id=vehicle_id,lot_id=lot.id,spot_id=spot_id,duration=duration,date=booking_date,start_time=start_time,amount=amount,booking_id=booking_id)
+        
+        
         spot.status='occupied'
         db.session.add(new_booking)
         db.session.commit()
         
-        if payment_method=='bank':
-            return redirect(url_for('payment.payment',heading='Pay to Book the Parking Spot',amount=amount,method='bank'))
 
         flash("Booking successful!")
-        return render_template('booking_confirmed.html')
+        return redirect(url_for('user_activity.confirm_booking',booking_id=booking_id))
         
-    return redirect(url_for('user.find_parking', lot_id=lot_id, current_booking_time=current_booking_time,current_booking_date=current_booking_date,wallet_balance=wallet_balance))
+    return redirect(url_for('user.find_parking', lot_id=lot_id, current_booking_time=current_booking_time,current_booking_date=current_booking_date))

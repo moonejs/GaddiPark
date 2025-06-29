@@ -5,4 +5,5 @@ from .profile import profile_bp
 from .parking import parking_bp
 from .booking import booking_bp
 from .payment import payment_bp
-all_blueprints = [auth_bp, admin_bp,user_bp,profile_bp,parking_bp,booking_bp,payment_bp]
+from .user_activity import user_activity_bp
+all_blueprints = [auth_bp, admin_bp,user_bp,profile_bp,parking_bp,booking_bp,payment_bp,user_activity_bp]

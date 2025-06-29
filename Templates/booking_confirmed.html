@@ -1,11 +1,26 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <h1>confirm</h1>
-</body>
-</html>
+{%extends "base.html" %}
+{%block style%}
+<link rel="stylesheet" href="{{url_for('static',filename='css/booking_confirmed.css')}}">
+{%endblock%}
+{% block content %}
+<div>
+    <div>
+        <div>
+            <h2>Booking Confirmed</h2>
+        </div>
+        <h4>Your parking spot has been reserved</h4>
+        <p>Spot {{spot.spot_number}} has been assigned to you at {{lot.name}}</p>
+        <div>
+            <h5>Location : {{lot.address}}</h5>
+            <h5>Spot : {{spot.spot_number}}</h5>
+            <h5>Vehicle : {{vehicle.model}}</h5>
+            <h5>Date & Time : {{booking.start_time}}</h5>
+            <h5>Duration : {{booking.duration}}</h5>
+            <h5>Estimated Cost : {{booking.amount}}</h5>
+            <h5>Booking Id : {{booking.booking_id}}</h5>
+        </div>
+        <a href=""><button>View Booking</button></a>
+        
+    </div>
+</div>
+{%endblock%}

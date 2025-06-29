@@ -14,3 +14,4 @@ class Booking(db.Model):
     start_time = db.Column(db.DateTime , nullable=False)
     end_time = db.Column(db.DateTime , nullable=True)
     amount = db.Column(db.Float , default=0.0)
+    booking_id = db.Column(db.String(50), unique=True, nullable=False)

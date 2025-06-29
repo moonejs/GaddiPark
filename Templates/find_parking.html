@@ -91,22 +91,15 @@
             <input type="hidden" id="hidden_estimate_cost" name="estimate_cost" required>
             
         </div>
-        <div>
-            <label for="payment_method">Payment Method:</label>
-            <select name="payment_method" id="payment_method" required>
-                <option value="">Payment options</option>
-                <option value="wallet">Wallet (₹{{wallet_balance if wallet_balance is not none else 0}})</option>
-                <option value="bank">Bank/Upi/Card</option>
-            </select>
-        </div>
-        <button type="submit" class="confirm-booking-btn">Confirm Booking</button>
+        
+        <button type="submit" 
+        class="confirm-booking-btn">Confirm Booking</button>
 
     </form>
 </div>
-    
+  
 
-
-    {% if lot %}
+{% if lot %}
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const book_modal = document.querySelector('.book-spot-model');

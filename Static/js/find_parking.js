@@ -65,11 +65,8 @@ function updateRates(){
         
 }
 
-function Duration(){
-
-    
-}
 
 document.addEventListener('DOMContentLoaded',()=>{
     toggleBookSpot()
+    toggleConfirmBookingModel()
 })
