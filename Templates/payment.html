@@ -10,8 +10,34 @@
 <div>
     <form action="">
         <label for="updated_wallet_balance">Enter Amount to Add</label>
-        <input type="number" name="updated_wallet_balance" id="updated_wallet_balance">
     </form>
+</div>
+{%else%}
+<div >
+
+    <div>
+        <h4>Location : {{lot.address}}</h4>
+        <h4>Spot : {{spot.spot_number}}</h4>
+        <h4>Entry Time : {{ booking.start_time.strftime("%d %B %Y, %I:%M %p") }}</h4>
+        <h4>Exit Time : {{current_leaving_time}}</h4>
+        <h4>Total Duration : {{total_duration}}</h4>
+        <h4>Total Amount : {{total_amount}}</h4>
+    </div>
+
+    <div>
+        <form action="{{url_for('payment.payment')}}" method="POST">
+            <input type="hidden" name="total_amount_paid" value={{total_amount}}>
+            <input type="hidden" name="payment_time" value={{current_leaving_time}}>
+            
+            <input type="radio" id="card" name="payment-method" required>
+            <label for="">Saved Cards</label>
+            <input type="radio" id="upi" name="payment-method" required>
+            <label for="upi">UPI</label>
+            <input type="radio" id="wallet" name="payment-method" required>
+            <label for="wallet">Wallet:{{wallet_balance}}</label>
+            <button>Pay and release</button>
+        </form>
+    </div>
 </div>
 
 {%endif%}

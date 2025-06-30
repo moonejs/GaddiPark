@@ -69,7 +69,7 @@ def booking(lot_id):
         db.session.add(new_booking)
         db.session.commit()
         
-
+        
         flash("Booking successful!")
         return redirect(url_for('user_activity.confirm_booking',booking_id=booking_id))
         

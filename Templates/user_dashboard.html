@@ -1,13 +1,40 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/user_dashboard.css') }}">
-</head>
-<body>
-    <h1>Hello,{{user}}</h1>
+{%extends "base.html" %}
+{%block style%}
+<link rel="stylesheet" href="{{url_for('static',filename='css/user_dashboard.css')}}">
+{%endblock%}
+{% block content %}
+<div>
+    <h1>Hello,{{user.fullname}}</h1>
+    
+    {%if booking %}
+    <div>
+        <h2>Currently Parked</h2>
+        <div id="timer">
+            
+        </div>
+        <h4>Location : {{lot.address}}</h4>
+        <h4>Spot : {{spot.spot_number}}</h4>
+        <h4>Vehicle : {{vehicle.registration_number}}({{vehicle.model}})</h4>
+        <h4>Entry Time : {{ booking.start_time.strftime("%d %B %Y, %I:%M %p") }}</h4>
+        <h4>Current Charges : {{booking.amount}}</h4>
+        
+    </div>
+    <div>
+        <form id="release-form" action="{{ url_for('user_activity.release_spot') }}" method="POST">
+            <input type="hidden" name="booking_id" value="{{ booking.booking_id }}">
+            <input type="hidden" id="elapsed_minutes" name="elapsed_minutes" value="0">
+            <button type="submit">Release Spot</button>
+        </form>
+    </div>
+    {%else%}
     <a href="{{url_for('user.find_parking')}}"><button>Find Parking</button></a>
-</body>
-</html>
+    {%endif%}
+    
+</div>
+
+
+
+
+
+<script src="{{url_for('static',filename='js/user_dashboard.js')}}"></script>
+{%endblock%}

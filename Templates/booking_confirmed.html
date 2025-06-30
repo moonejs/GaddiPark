@@ -19,7 +19,7 @@
             <h5>Estimated Cost : {{booking.amount}}</h5>
             <h5>Booking Id : {{booking.booking_id}}</h5>
         </div>
-        <a href=""><button>View Booking</button></a>
+        <a href="{{url_for('user_activity.current_booking',booking_id=booking.booking_id)}}"><button>View Booking</button></a>
         
     </div>
 </div>
