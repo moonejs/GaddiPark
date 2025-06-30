@@ -13,9 +13,13 @@ user_bp=Blueprint('user',__name__)
 def user_dashboard():
     user=User.query.get(session.get('user_id'))
     booking=Booking.query.filter_by(user_id=user.id).first()
-    spot=ParkingSpot.query.get(booking.spot_id)
-    vehicle=Vehicle.query.get(booking.vehicle_id)
-    lot=ParkingLot.query.get(booking.lot_id)
+    spot=None
+    vehicle=None
+    lot=None
+    if booking:
+        spot=ParkingSpot.query.get(booking.spot_id)
+        vehicle=Vehicle.query.get(booking.vehicle_id)
+        lot=ParkingLot.query.get(booking.lot_id)
     
     return render_template('user_dashboard.html',user=user,booking=booking,spot=spot,vehicle=vehicle,lot=lot)
 

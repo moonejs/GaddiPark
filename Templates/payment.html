@@ -29,11 +29,11 @@
             <input type="hidden" name="total_amount_paid" value={{total_amount}}>
             <input type="hidden" name="payment_time" value={{current_leaving_time}}>
             
-            <input type="radio" id="card" name="payment-method" required>
+            <input type="radio" id="card" name="payment-method" required value="card">
             <label for="">Saved Cards</label>
-            <input type="radio" id="upi" name="payment-method" required>
+            <input type="radio" id="upi" name="payment-method" required value="UPI">
             <label for="upi">UPI</label>
-            <input type="radio" id="wallet" name="payment-method" required>
+            <input type="radio" id="wallet" name="payment-method" required value="wallet">
             <label for="wallet">Wallet:{{wallet_balance}}</label>
             <button>Pay and release</button>
         </form>

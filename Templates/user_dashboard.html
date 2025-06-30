@@ -4,7 +4,7 @@
 {%endblock%}
 {% block content %}
 <div>
-    <h1>Hello,{{user.fullname}}</h1>
+    <h1>Hello,{{user.full_name}}</h1>
     
     {%if booking %}
     <div>
@@ -23,7 +23,7 @@
         <form id="release-form" action="{{ url_for('user_activity.release_spot') }}" method="POST">
             <input type="hidden" name="booking_id" value="{{ booking.booking_id }}">
             <input type="hidden" id="elapsed_minutes" name="elapsed_minutes" value="0">
-            <button type="submit">Release Spot</button>
+            <button type="submit" id="release-form">Release Spot</button>
         </form>
     </div>
     {%else%}
