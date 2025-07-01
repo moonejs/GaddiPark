@@ -1,7 +1,9 @@
 from flask import Blueprint,render_template,request,redirect,url_for,session,flash
 from routes.decorators import login_required,admin_required
 
-from models import ParkingLot,ParkingSpot
+from datetime import timedelta
+
+from models import ParkingLot,ParkingSpot,User,Vehicle,Booking
 from config import db
 parking_bp = Blueprint('parking', __name__)
 
@@ -126,13 +128,30 @@ def delete_lot(lot_id):
         return redirect(url_for('admin.admin_dashboard'))
     
 
-@parking_bp.route('/view_details<int:lot_id>')
+@parking_bp.route('/view_details',methods=['POST','GET'])
 @login_required
 @admin_required
-def view_details(lot_id):
+def view_details():
+    lot_id=request.args.get('lot_id')
+    spot_id=request.args.get('spot_id')
+    spot=ParkingSpot.query.get(spot_id)
+    
+    booking=Booking.query.filter_by(spot_id=spot_id).first()
+    end_time=None
+    user=None
+    vehicle=None
+    if booking:
+        user=User.query.get(booking.user_id)
+        vehicle=Vehicle.query.get(booking.vehicle_id)
+        end_time=booking.start_time + timedelta(hours=booking.duration)
+ 
+    if request.method=='POST':
+        lot_id=request.form.get('lot_id')
+        
     lot=ParkingLot.query.get(lot_id)
     spots=ParkingSpot.query.filter_by(lot_id=lot_id)
-    return render_template('parking_lot_details.html',lot=lot,spots=spots)
+    
+    return render_template('parking_lot_details.html',lot=lot,spots=spots,spot=spot,user=user,vehicle=vehicle,end_time=end_time,booking=booking)
 
 
 @parking_bp.route('/view_details/spot_details',methods=['POST'])
@@ -140,5 +159,22 @@ def view_details(lot_id):
 @admin_required
 def spot_details():
     spot_id=request.form.get('spot_id')
+    lot_id=request.form.get('lot_id')
+        
+    return redirect(url_for('parking.view_details',spot_id=spot_id,lot_id=lot_id))
+
+
+
+
+@parking_bp.route('/view_details/spot_details/delete_spot',methods=['POST'])
+@login_required
+@admin_required
+def delete_spot():
+    spot_id=request.form.get('spot_id')
     spot=ParkingSpot.query.get(spot_id)
-    return redirect(url_for('parking.view_details',spot=spot))
+    lot=ParkingLot.query.get(spot.lot_id)
+    db.session.delete(spot)
+    db.session.commit()
+    
+    flash('Parking spot deleted successfully!')
+    return redirect(url_for('parking.view_details', lot_id=lot.id))

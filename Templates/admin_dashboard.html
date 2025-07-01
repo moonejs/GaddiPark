@@ -84,7 +84,10 @@
                         <h3>Price/hour {{ lot.hourly_rate}}</h3>
                         <h3>Total Rgular spots {{lot.total_spots}}</h3>
                         <h3>Available spot {{lot.total_spots-lot.occupied_regular_spots}}</h3>
-                        <a href="{{url_for('parking.view_details',lot_id=lot.id)}}"><button>View details</button></a>
+                        <form action="{{url_for('parking.view_details')}}" method="post">
+                            <input type="hidden" value={{lot.id}} name="lot_id">
+                            <button>View details</button> 
+                        </form>
                     </div>
                     
                     {%endfor%}

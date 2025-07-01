@@ -4,7 +4,7 @@
 {%endblock%}
 {% block content %}
 
-<div class="page1">
+<div class="page-1" data-has-spot="{{ 'true' if spot else 'false'}}" data-is-booked="{{'true' if booking else 'false'}}">
     <h3>Parking lot name : {{lot.name}}</h3>
     <h5>Address:{{lot.address}}</h5>
     <h3>Total spots : {{lot.total_spots + lot.ev_spots}}</h3>
@@ -25,12 +25,54 @@
 
     <div class="content">
     {% for spot in spots %}
-        <form action="{{url_for('parking.spot_details')}}" method="post">
+        <form action="{{url_for('parking.spot_details')}}" method="POST">
             <input type="hidden" name="spot_id" value={{spot.id}}>
+            <input type="hidden" name="lot_id" value={{lot.id}}>
             <button class="box">{{ spot.spot_number }}</button>
         </form>
     {% endfor %}
     </div>
 
 </div>
+
+{% if spot %}
+    {% if booking %}
+    <div class="booked-spot-model" style="display: none;" >
+        <button class="booked-spot-model-close">close</button>
+
+        <h3>Parking spot {{ spot.spot_number }} Details</h3>
+        <h2>Occupied</h2>
+
+        <p>Booking ID : {{ booking.booking_id }}</p>
+        <p>Name : {{ user.fullname }}</p>
+        <p>Vehicle Number : {{ vehicle.registration_number }}</p>
+        <hr>
+        <p>Entry Time : {{ booking.start_time.strftime("%I:%M %p") }}</p>
+        <p>Expected Exit : {{ end_time.strftime("%I:%M %p") }}</p>
+        <p>Duration : {{ booking.duration }}</p>
+        <p>Amount : ₹{{ booking.amount }}</p>
+    </div>
+    {% else %}
+    <div class="vacant-spot-model" style="display: none;" >
+        <button class="vacant-spot-model-close">close</button>
+
+
+        <h3>Parking spot {{ spot.spot_number }} Details</h3>
+        <h2>Available</h2>
+
+        <div>
+            <h4>Spot Information</h4>
+            <p>Spot Id : {{ spot.id }}</p>
+            <p>Type : {% if spot.is_ev_spot %} EV {% else %} Regular {% endif %}</p>
+        </div>
+
+        <form action="{{ url_for('parking.delete_spot') }}" method="POST">
+            <input type="hidden" name="spot_id" value="{{ spot.id }}">
+            <button class="delete-vacant-spot">Delete</button>
+        </form>
+    </div>
+    {% endif %}
+{% endif %}
+
+<script src="{{ url_for('static', filename='js/parking_lot_details.js') }}"></script>
 {%endblock %}

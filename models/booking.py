@@ -12,6 +12,5 @@ class Booking(db.Model):
     duration = db.Column(db.Integer , default=1)
     date = db.Column(db.Date, default=datetime.utcnow().date)
     start_time = db.Column(db.DateTime , nullable=False)
-    end_time = db.Column(db.DateTime , nullable=True)
     amount = db.Column(db.Float , default=0.0)
     booking_id = db.Column(db.String(50), unique=True, nullable=False)
