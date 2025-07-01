@@ -1,0 +1,31 @@
+{%extends "base.html" %}
+{%block style%}
+<link rel="stylesheet" href="{{url_for('static',filename='css/login.css')}}">
+{%endblock%}
+{% block content %}
+
+<div class="login-form">
+                    <div class="login-form-header">
+                        <h2>Login</h2>
+                    </div>
+                    <div class="login-form-content">
+                            <form action="{{url_for('auth.login')}}" method="post">
+                            <div class="login-form-group">
+                                <label for="username"><h3>Username</h3></label>
+                                <input type="email" id="username" name="username" autocomplete="off" autofocus placeholder="123@gmail.com" required>
+                            </div>
+                            <div class="login-form-group">
+                                <label for="login-password"><h3>Password</h3></label>
+                                <input type="password" id="login-password" name="password" required>
+                            </div>
+                            <div class="login-form-group">
+                                <button type="submit">Login</button>
+                            </div>
+                            <div class="login-form-links">
+                                <a href="{{ url_for('auth.signup')}}">Create Account</a>
+                            </div>
+                        </form>
+                    </div>
+
+
+{%endblock%}

@@ -13,11 +13,16 @@
     </div>
 
     <div class="nav-right">
-        <div class="signup">
-            signup
-        </div>
-        <div class="login">
-            Log in 
-        </div>
+
+        <a href="{{url_for('auth.signup')}}">
+            <button class="signup">
+                signup
+            </button>
+        </a>
+        <a href="{{url_for('auth.login')}}">
+            <button class="login">
+                Log in 
+            </button>
+        </a>
     </div>
 </nav>

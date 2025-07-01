@@ -18,7 +18,7 @@ def login():
         
         if not username or not password:
             flash('Username and password are required')
-            return render_template('index.html')
+            return render_template('login.html')
         
         user = User.query.filter_by(username=username).first()
         if user and check_password_hash(user.password_hash,password):
@@ -31,7 +31,7 @@ def login():
         flash('Invalid username or password')
         return redirect(url_for('auth.login'))
     else:
-        return render_template('index.html')
+        return render_template('login.html')
 
 @auth_bp.route('/signup', methods=['GET', 'POST'])
 def signup():

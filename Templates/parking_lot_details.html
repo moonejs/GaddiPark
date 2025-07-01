@@ -7,11 +7,14 @@
 <div class="page1">
     <h3>Parking lot name : {{lot.name}}</h3>
     <h5>Address:{{lot.address}}</h5>
-    <h3>Total spots : {{lot.total_spots}}</h3>
-    <h3>Available spots : {{lot.total_spots - lot.occupied_spots}}</h3>
+    <h3>Total spots : {{lot.total_spots + lot.ev_spots}}</h3>
+    <h3>Total Regular spots : {{lot.total_spots}}</h3>
+    <h3>Total EV spots : {{lot.ev_spots}}</h3>
+
+    <h3>Available Regular spots : {{lot.total_spots - lot.occupied_regular_spots}}</h3>
+    <h3>Available EV spots : {{lot.ev_spots - lot.occupied_ev_spots}}</h3>
     <h3>Hourly Rate : {{lot.hourly_rate}}</h3>
-    <h3>EV spots : {{lot.ev_spots}}</h3>
-    <h3>EV spots : {{lot.ev_spots}}</h3>
+    
     {% if lot.is_24_hours %}
     <h3> Open 24/7 </h3>
     {% else %}
@@ -22,9 +25,10 @@
 
     <div class="content">
     {% for spot in spots %}
-        <div class="box">
-        <h4>{{ spot.spot_number }}</h4>
-        </div>
+        <form action="{{url_for('parking.spot_details')}}" method="post">
+            <input type="hidden" name="spot_id" value={{spot.id}}>
+            <button class="box">{{ spot.spot_number }}</button>
+        </form>
     {% endfor %}
     </div>
 

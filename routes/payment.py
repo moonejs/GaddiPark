@@ -26,6 +26,7 @@ def payment():
     
     user=User.query.get(session.get('user_id'))
     booking=Booking.query.filter_by(user_id=user.id).first()
+    lot=ParkingLot.query.get(booking.lot_id)
     transaction_id=generate_transaction_id()
     
     if not payment_method or not total_amount_paid or not booking:
@@ -39,6 +40,14 @@ def payment():
     spot.status='available'
     db.session.add(new_payment)
     db.session.delete(booking)
+    db.session.commit()
+    
+    regular_occupied_spots=ParkingSpot.query.filter_by(lot_id=lot.id,is_ev_spot=0,status='occupied').count()
+    ev_occupied_spots=ParkingSpot.query.filter_by(lot_id=lot.id,is_ev_spot=1,status='occupied').count()
+
+    lot.occupied_regular_spots=regular_occupied_spots
+    lot.occupied_ev_spots=ev_occupied_spots
+        
     db.session.commit()
     
     flash('Payment successful! Thank you for your payment.')

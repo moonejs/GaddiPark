@@ -133,3 +133,12 @@ def view_details(lot_id):
     lot=ParkingLot.query.get(lot_id)
     spots=ParkingSpot.query.filter_by(lot_id=lot_id)
     return render_template('parking_lot_details.html',lot=lot,spots=spots)
+
+
+@parking_bp.route('/view_details/spot_details',methods=['POST'])
+@login_required
+@admin_required
+def spot_details():
+    spot_id=request.form.get('spot_id')
+    spot=ParkingSpot.query.get(spot_id)
+    return redirect(url_for('parking.view_details',spot=spot))

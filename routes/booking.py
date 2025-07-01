@@ -60,16 +60,24 @@ def booking(lot_id):
         
         spot=ParkingSpot.query.get(spot_id)
         
+        
+        
         booking_id=f'{spot.spot_number}{spot_id}{lot.id}{vehicle_id}{user.id}'
         
         new_booking=Booking(user_id=user.id,vehicle_id=vehicle_id,lot_id=lot.id,spot_id=spot_id,duration=duration,date=booking_date,start_time=start_time,amount=amount,booking_id=booking_id)
         
-        
+
         spot.status='occupied'
         db.session.add(new_booking)
         db.session.commit()
         
+        regular_occupied_spots=ParkingSpot.query.filter_by(lot_id=lot.id,is_ev_spot=0,status='occupied').count()
+        ev_occupied_spots=ParkingSpot.query.filter_by(lot_id=lot.id,is_ev_spot=1,status='occupied').count()
         
+        lot.occupied_regular_spots=regular_occupied_spots
+        lot.occupied_ev_spots=ev_occupied_spots
+        
+        db.session.commit()
         flash("Booking successful!")
         return redirect(url_for('user_activity.confirm_booking',booking_id=booking_id))
         
