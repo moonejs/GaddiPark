@@ -1,8 +1,10 @@
 from flask import Blueprint,render_template,request,redirect,url_for,session,flash
-from models import User ,ParkingLot,Vehicle,Booking,ParkingSpot,Payment
+from models import User ,ParkingLot,Vehicle,Booking,ParkingSpot,Payment,History
 from routes.decorators import login_required,user_required
 from config import db
 from datetime import datetime
+
+
 
 from datetime import datetime
 import pytz
@@ -28,6 +30,12 @@ def payment():
     booking=Booking.query.filter_by(user_id=user.id).first()
     lot=ParkingLot.query.get(booking.lot_id)
     transaction_id=generate_transaction_id()
+    spot=ParkingSpot.query.get(booking.spot_id)
+    
+    start_time=booking.start_time
+    if start_time.tzinfo is None:
+        start_time = ist.localize(start_time)
+    duration_minutes = int((payment_time - start_time).total_seconds() // 60)
     
     if not payment_method or not total_amount_paid or not booking:
         flash('Missing payment details or booking information.', 'error')
@@ -35,10 +43,14 @@ def payment():
     
     new_payment=Payment(booking_id=booking.booking_id,user_id=user.id,amount=total_amount_paid,payment_method=payment_method,transaction_id=transaction_id,payment_time=payment_time)
     
+    new_history = History(user_id=user.id,lot_id=lot.id,spot_id=booking.spot_id,vehicle_id=booking.vehicle_id,booking_id=booking.booking_id,entry_time=start_time,exit_time=payment_time,total_amount_paid=total_amount_paid,
+    payment_method=payment_method,transaction_id=transaction_id,duration=duration_minutes,is_ev_spot=spot.is_ev_spot
+    )
     
     spot=ParkingSpot.query.get(booking.spot_id)
     spot.status='available'
     db.session.add(new_payment)
+    db.session.add(new_history)
     db.session.delete(booking)
     db.session.commit()
     
@@ -51,4 +63,19 @@ def payment():
     db.session.commit()
     
     flash('Payment successful! Thank you for your payment.')
-    return redirect(url_for('user.user_dashboard'))
+    return redirect(url_for('payment.receipt'))
+
+
+
+
+
+@payment_bp.route('/receipt',methods=['POST','GET'])
+@login_required
+@user_required
+def receipt():
+    user=User.query.get(session.get('user_id'))
+    history=History.query.filter_by(user_id=user.id).first()
+    lot=ParkingLot.query.get(history.lot_id)
+    spot=ParkingSpot.query.get(history.spot_id)
+    vehicle=Vehicle.query.get(history.vehicle_id)
+    return render_template('receipt.html',history=history,lot=lot,spot=spot,vehicle=vehicle)

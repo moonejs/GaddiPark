@@ -1,0 +1,25 @@
+{%extends "base.html" %}
+
+{%block style%}
+<link rel="stylesheet" href="{{url_for('static',filename='css/payment.css')}}">
+{%endblock%}
+
+{%block content %}
+<div>
+    <h2>thankyou</h2>
+    <hr>
+    <h4>Receipt</h4>
+    <hr>
+    <p>Parking Name : {{lot.name}}</p>
+    <p>Location : {{lot.address}}</p>
+    <p>Vehcile : {{vehicle.registration_number}} ({{vehicle.model}})</p>
+    <p>Entry Time : {{ history.entry_time.strftime('%I:%M %p') }}</p>
+    <p>Exit Time : {{ history.exit_time.strftime('%I:%M %p') }}</p>
+    <p>Duration : {{ history.duration // 60 }} hour(s) {{ history.duration % 60 }} minute(s)</p>
+    <hr>
+    <a href="{{url_for('user.user_dashboard')}}">Home</a>
+
+</div>
+
+{%endblock%}
+

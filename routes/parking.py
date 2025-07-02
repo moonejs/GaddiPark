@@ -42,18 +42,7 @@ def parking_dashboard():
             return redirect(url_for('parking.parking_dashboard'))
         
         
-        new_parking_lot = ParkingLot(
-            name=pl_name,
-            address=address,
-            pincode=pincode,
-            hourly_rate=hourly_rate,
-            total_spots=total_spots,
-            ev_spots=ev_spots,
-            ev_charging_rate=ev_charging_rate,
-            is_24_hours=is_24_hours,
-            opening_time=opening_time if not is_24_hours else None,
-            closing_time=closing_time if not is_24_hours else None,
-            description=description
+        new_parking_lot = ParkingLot(name=pl_name,address=address,pincode=pincode,hourly_rate=hourly_rate,total_spots=total_spots,ev_spots=ev_spots,ev_charging_rate=ev_charging_rate,is_24_hours=is_24_hours,opening_time=opening_time if not is_24_hours else None,closing_time=closing_time if not is_24_hours else None,description=description
         )
         db.session.add(new_parking_lot)
         db.session.commit()
@@ -118,7 +107,7 @@ def update_lot(lot_id):
 @admin_required
 def delete_lot(lot_id):
     lot=ParkingLot.query.get(lot_id)
-    if not lot.occupied_spots:
+    if not (lot.occupied_regular_spots) and not (lot.occupied_ev_spots):
         db.session.delete(lot)
         db.session.commit()
         flash('Parking Lot deleted successfully!')

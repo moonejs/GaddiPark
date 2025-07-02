@@ -8,3 +8,4 @@ from .ratings import Rating
 from .activity_log import ActivityLog
 from .ev_charging_sessions import EvChargingSession
 from .payment import Payment
+from .history import History
