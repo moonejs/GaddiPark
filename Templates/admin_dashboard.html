@@ -2,51 +2,13 @@
 
 {%block style%}
 <link rel="stylesheet" href="{{url_for('static',filename='css/admin_dashboard.css')}}">
+<link rel="stylesheet" href="{{url_for('static',filename='css/admin_base.css')}}">
+
 {%endblock%}
 
 {%block content %}
     <div class="dashboard-container">
-        <div class="sidebar">
-            <div class="sidebar-header">
-                <div class="logo">
-                    <h2>ParkSwift</h2>
-                    <span>Admin Panel</span>
-                </div>
-            </div>
-
-            <nav class="sidebar-nav">
-                <a href="{{url_for('admin.admin_dashboard')}}" class="nav-item active">
-                    <i class="fas fa-tachometer-alt"></i>
-                    <span>Dashboard</span>
-                </a>
-                <a href="#" class="nav-item">
-                    <i class="fas fa-users"></i>
-                    <span>Users</span>
-                </a>
-                <a href="#" class="nav-item">
-                    <i class="fas fa-chart-line"></i>
-                    <span>Analytics</span>
-                </a>
-            </nav>
-
-            <div class="sidebar-footer">
-                <div class="admin-profile">
-                    <div class="profile-avatar">
-                        <i class="fas fa-user-shield"></i>
-                    </div>
-                    <div class="profile-info">
-                        <span class="profile-name">{{user.full_name}}(Admin)</span>
-                        <span class="profile-role">Administrator</span>
-                    </div>
-                </div>
-                <a href="{{url_for('auth.logout')}}" class="logout-btn">
-                    <i class="fas fa-sign-out-alt"></i>
-                    <span>Logout</span>
-                </a>
-            </div>
-
-        </div>
-
+        {% include 'admin_sidebar.html' %}
         <div class="main-content">
 
             <div class="content-header">
@@ -55,94 +17,93 @@
                     <p>Welcome back! Here's what's happening with your parking system today.</p>
                 </div>
                 <div class="header-right">
-                    <div class="header-actions">
-                        <button class="add-lot-btn" id="add_parking_lot">
-                            <i class="fas fa-plus"></i>
-                            Add Parking Lot
+                        <button class="refresh-btn" onclick="location.reload()">
+                            <i class="fas fa-sync-alt"></i>
+                            Refresh
                         </button>
-                    </div>
+
                 </div>
             </div>
 
-            <div class="stats-grid">
-                <div class="stat-card primary">
-                    <div class="stat-icon">
+            <div class="grid-section">
+                <div class="grid-card primary">
+                    <div class="grid-icon">
                         <i class="fas fa-building"></i>
                     </div>
-                    <div class="stat-content">
+                    <div class="grid-content">
                         <h3>{{lots|length}}</h3>
                         <p>Total Parking Lots</p>
-                        <span class="stat-change positive">
+                        <span class="grid-change positive">
                             <i class="fas fa-arrow-up"></i>
                             +2 this month
                         </span>
                     </div>
                 </div>
                 
-                <div class="stat-card success">
-                    <div class="stat-icon">
+                <div class="grid-card success">
+                    <div class="grid-icon">
                         <i class="fas fa-car"></i>
                     </div>
-                    <div class="stat-content">
+                    <div class="grid-content">
                         <h3>{{total_regular_spots}}</h3>
                         <p>Total Regular Parking Spots</p>
-                        <span class="stat-change positive">
+                        <span class="grid-change positive">
                             <i class="fas fa-check-circle"></i>
                             {{total_regular_available_spots}} available
                         </span>
                     </div>
                 </div>
                 
-                <div class="stat-card info">
-                    <div class="stat-icon">
+                <div class="grid-card info">
+                    <div class="grid-icon">
                         <i class="fas fa-users"></i>
                     </div>
-                    <div class="stat-content">
+                    <div class="grid-content">
                         <h3>{{total_users}}</h3>
                         <p>Registered Users</p>
-                        <span class="stat-change positive">
+                        <span class="grid-change positive">
                             <i class="fas fa-arrow-up"></i>
                             +15 this week
                         </span>
                     </div>
                 </div>
                 
-                <div class="stat-card warning">
-                    <div class="stat-icon">
+                <div class="grid-card warning">
+                    <div class="grid-icon">
                         <i class="fas fa-calendar-check"></i>
                     </div>
-                    <div class="stat-content">
+                    <div class="grid-content">
                         <h3>{{active_bookings}}</h3>
                         <p>Active Bookings</p>
-                        <span class="stat-change neutral">
+                        <span class="grid-change neutral">
                             <i class="fas fa-clock"></i>
                             78 today
                         </span>
                     </div>
                 </div>
                 
-                <div class="stat-card electric">
-                    <div class="stat-icon">
+                <div class="grid-card electric">
+                    <div class="grid-icon">
                         <i class="fas fa-bolt"></i>
                     </div>
-                    <div class="stat-content">
+                    <div class="grid-content">
                         <h3>{{total_ev_spots}}</h3>
                         <p>EV Charging Spots</p>
-                        <span class="stat-change positive">
+                        <span class="grid-change positive">
                             <i class="fas fa-battery-full"></i>
                             {{total_ev_available_spots }} available
                         </span>
                     </div>
                 </div>
                 
-                <div class="stat-card revenue">
-                    <div class="stat-icon">
+                <div class="grid-card revenue">
+                    <div class="grid-icon">
                         <i class="fas fa-rupee-sign"></i>
                     </div>
-                    <div class="stat-content">
+                    <div class="grid-content">
                         <h3>₹10</h3>
                         <p>Today's Revenue</p>
-                        <span class="stat-change positive">
+                        <span class="grid-change positive">
                             <i class="fas fa-trending-up"></i>
                             +12% vs yesterday
                         </span>
@@ -150,16 +111,19 @@
                 </div>
             </div>
 
-            <div class="actions-section">
+            <div class="search-section">
+                <button class="add-lot-btn" id="add_parking_lot">
+                    <i class="fas fa-plus"></i>
+                        Add First Parking Lot
+                </button>
                 <div class="search-container">
                     <div class="search-box">
                         <i class="fas fa-search"></i>
                         <input type="search" placeholder="Search parking lots, users, bookings...">
                     </div>
                     <select class="filter-select">
-                        <option>All Locations</option>
-                        <option>By Location</option>
                         <option>By User ID</option>
+                        <option>By Location</option>
                         <option>By Status</option>
                     </select>
                 </div>
@@ -168,12 +132,6 @@
             <div class="parking-lots-section">
                 <div class="section-header">
                     <h2>Parking Lots Management</h2>
-                    <div class="section-actions">
-                        <button class="filter-btn active">All</button>
-                        <button class="filter-btn">Active</button>
-                        <button class="filter-btn">Full</button>
-                        <button class="filter-btn">EV Available</button>
-                    </div>
                 </div>
                 
                 <div class="parking-lots-grid">
@@ -184,10 +142,7 @@
                         </div>
                         <h3>No Parking Lots Yet</h3>
                         <p>Start by adding your first parking lot to the system.</p>
-                        <button class="add-lot-btn primary" id="add_parking_lot_empty">
-                            <i class="fas fa-plus"></i>
-                            Add First Parking Lot
-                        </button>
+                        
                     </div>
                     {% endif %}
                     
@@ -259,7 +214,7 @@
                         
                         <div class="card-footer">
                             <div class="occupancy-bar">
-                                <div class="occupancy-fill" style="width: {{ ((lot.occupied_regular_spots + lot.occupied_ev_spots) / (lot.total_spots + lot.ev_spots) * 100) if (lot.total_spots + lot.ev_spots) > 0 else 0 }}%;">
+                                <div class="occupancy-fill" style="width: {{ ((lot.occupied_regular_spots + lot.occupied_ev_spots) / (lot.total_spots + lot.ev_spots) * 100) if (lot.total_spots + lot.ev_spots) > 0 else 0 }}%">
                                 </div>
                             </div>
                             <span class="occupancy-text">
@@ -273,11 +228,11 @@
         </div>
     </div>
 
-    <div class="modal-overlay add-parking-lot-modal" style="display: none;">
+    <div class="add-parking-lot-modal background-effect" style="display: block;">
         <div class="modal-content">
             <div class="modal-header">
                 <h2>Add New Parking Lot</h2>
-                <button class="close-modal" id="close-add-parking-lot-modal">
+                <button class="close-modal close-add-parking-lot-modal">
                     <i class="fas fa-times"></i>
                 </button>
             </div>
@@ -395,7 +350,7 @@
                 </div>
                 
                 <div class="form-actions">
-                    <button type="button" class="btn-secondary" id="cancel-add-lot">Cancel</button>
+                    <button type="button" class="btn-secondary close-add-parking-lot-modal">Cancel</button>
                     <button type="submit" class="btn-primary">
                         <i class="fas fa-plus"></i>
                         Add Parking Lot

@@ -1,0 +1,48 @@
+{%extends "base.html" %}
+
+{%block style%}
+<link rel="stylesheet" href="{{url_for('static',filename='css/admin_sidebar.css')}}">
+{%endblock%}
+
+{%block content %}
+<div class="sidebar">
+    <div class="sidebar-header">
+        <div class="logo">
+            <h2>GadiPark</h2>
+            <span>Admin Panel</span>
+        </div>
+    </div>
+
+    <nav class="sidebar-nav">
+        <a href="{{url_for('admin.admin_dashboard')}}" class="nav-item active">
+            <i class="fas fa-tachometer-alt"></i>
+            <span>Dashboard</span>
+        </a>
+        <a href="#" class="nav-item">
+            <i class="fas fa-users"></i>
+            <span>Users</span>
+        </a>
+        <a href="#" class="nav-item">
+            <i class="fas fa-chart-line"></i>
+            <span>Analytics</span>
+        </a>
+    </nav>
+
+    <div class="sidebar-footer">
+        <div class="admin-profile">
+            <div class="profile-pic">
+                <i class="fas fa-user-shield"></i>
+            </div>
+            <div class="profile-info">
+                <span class="profile-name">{{user.full_name}}(Admin)</span>
+                <span class="profile-role">Administrator</span>
+            </div>
+        </div>
+        <a href="{{url_for('auth.logout')}}" class="logout-btn">
+            <i class="fas fa-sign-out-alt"></i>
+            <span>Logout</span>
+        </a>
+    </div>
+
+</div>
+{%endblock%}
