@@ -8,7 +8,7 @@ def login_required(f):
         if 'user_id'  in session:
             return f(*args, **kwargs)
         else:
-            flash('Please login to continue')
+            flash('Please login to continue', 'error')
             return redirect(url_for('auth.login'))
     return inner
 
@@ -19,7 +19,7 @@ def admin_required(f):
         if user and user.is_admin:
             return f(*args, **kwargs)
         else:
-            flash('You do not have permission to access this page')
+            flash('You do not have permission to access this page', 'error')
             return redirect(url_for('user.user_dashboard'))
     return inner 
 def user_required(f):
@@ -29,6 +29,6 @@ def user_required(f):
         if user and not user.is_admin:
             return f(*args, **kwargs)
         else:
-            flash('You do not have permission to access this page')
+            flash('You do not have permission to access this page', 'error')
             return redirect(url_for('admin.admin_dashboard'))
     return inner

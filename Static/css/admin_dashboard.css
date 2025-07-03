@@ -287,16 +287,18 @@
 
 
 /* Parking Lots Grid */
-.parking-lots-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+.parking-lots-card-container {
+    display: flex;
+    flex-wrap: wrap;
     gap: 1.5rem;
     margin-top: 1.5rem;
 }
 
 .empty-state {
-    grid-column: 1 / -1;
-    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     padding: 4rem 2rem;
     background: rgba(255, 255, 255, 0.6);
     border-radius: var(--radius-xl);
@@ -342,7 +344,7 @@
 
 .parking-lot-card:hover {
     transform: translateY(-4px);
-    box-shadow: var(--shadow-xl);
+    box-shadow: var(--shadow-2xl);
 }
 
 .card-header {
@@ -353,9 +355,6 @@
 }
 
 .lot-status {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
     padding: 0.25rem 0.75rem;
     border-radius: var(--radius-md);
     font-size: 0.75rem;
@@ -364,19 +363,13 @@
     letter-spacing: 0.05em;
 }
 
-.lot-status.active {
-    background: rgba(16, 185, 129, 0.1);
+.active {
+    background: rgba(17, 255, 176, 0.1);
     color: #10b981;
 }
-
-.lot-status.full {
+.full {
     background: rgba(239, 68, 68, 0.1);
     color: #ef4444;
-}
-
-.lot-status.maintenance {
-    background: rgba(245, 158, 11, 0.1);
-    color: #f59e0b;
 }
 
 .card-actions {
@@ -398,12 +391,12 @@
     text-decoration: none;
 }
 
-.action-btn.edit {
+.action-btn.edit-lot {
     background: rgba(59, 130, 246, 0.1);
     color: #3b82f6;
 }
 
-.action-btn.edit:hover {
+.action-btn.edit-lot:hover {
     background: #3b82f6;
     color: white;
 }
@@ -442,6 +435,7 @@
     color: var(--gray-600);
     margin-bottom: 0.25rem;
     font-size: 0.875rem;
+    
 }
 
 .lot-pincode {
@@ -451,9 +445,8 @@
 }
 
 .lot-stats {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1rem;
+    display: flex;
+    gap: 1.8rem;
     margin-bottom: 1rem;
 }
 
@@ -524,384 +517,5 @@
     font-size: 0.75rem;
     color: var(--gray-500);
     font-weight: 500;
-}
-
-
-.background-effect {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background: rgba(0, 0, 0, 0.45);
-    backdrop-filter: blur(2px);
-    z-index: 999;
-    display: flex;
-    align-items: flex-start;
-    justify-content: center;
-}
-
-.modal-content {
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(20px);
-    border-radius: var(--radius-2xl);
-    padding: 2rem;
-    max-width: 600px;
-    width: 100%;
-    height: 90%;
-    overflow-y: auto;
-    box-shadow: var(--shadow-xl);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    position:absolute;
-    top: 3rem;
-    left: 33%;
-
-}
-.modal-content::-webkit-scrollbar {
-  width: 10px;
-  border-radius: 10px;
-  
-}
-
-.modal-content::-webkit-scrollbar-track {
-  background: transparent;
-  border-radius: 12px;
-}
-
-.modal-content::-webkit-scrollbar-thumb {
-  background-color: rgba(0, 0, 0, 0.3);
-  border-radius: 12px;
-  border: 2px solid transparent;
-  background-clip: content-box;
-}
-
-
-
-.modal-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 2rem;
-    padding-bottom: 1rem;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
-}
-
-.modal-header h2 {
-    font-size: 1.75rem;
-    font-weight: 700;
-    color: var(--gray-900);
-}
-
-.close-modal {
-    background: rgba(255, 255, 255, 0.8);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    border-radius: var(--radius-md);
-    padding: 0.5rem;
-    cursor: pointer;
-    transition: var(--transition);
-    color: var(--gray-600);
-    text-decoration: none;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 2.5rem;
-    height: 2.5rem;
-}
-
-.close-modal:hover {
-    background: white;
-    color: var(--gray-900);
-    box-shadow: var(--shadow-md);
-}
-
-/* Form Styles */
-.modal-form {
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-}
-
-.form-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1rem;
-}
-
-.form-group {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-}
-
-.form-group label {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-weight: 600;
-    color: var(--gray-700);
-    font-size: 0.95rem;
-}
-
-.form-group label i {
-    color: var(--gray-500);
-    font-size: 0.875rem;
-}
-
-.form-group input,
-.form-group textarea {
-    padding: 0.875rem 1rem;
-    border: 2px solid rgba(255, 255, 255, 0.3);
-    border-radius: var(--radius-lg);
-    background: rgba(255, 255, 255, 0.8);
-    font-size: 0.95rem;
-    transition: var(--transition);
-    color: var(--gray-800);
-}
-
-.form-group input:focus,
-.form-group textarea:focus {
-    outline: none;
-    border-color: var(--main-gradient);
-    box-shadow: 0 0 0 3px rgba(255, 126, 95, 0.1);
-    background: white;
-}
-
-.form-group input::placeholder,
-.form-group textarea::placeholder {
-    color: var(--gray-400);
-}
-
-.form-group input:disabled {
-    background: var(--gray-100);
-    color: var(--gray-500);
-    cursor: not-allowed;
-}
-
-.form-help {
-    font-size: 0.75rem;
-    color: var(--gray-500);
-    margin-top: 0.25rem;
-}
-
-.radio-group-label {
-    font-weight: 600;
-    color: var(--gray-700);
-    margin-bottom: 0.75rem;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-}
-
-.radio-group {
-    display: flex;
-    gap: 1rem;
-}
-
-.radio-option {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    cursor: pointer;
-    padding: 0.5rem 0.75rem;
-    border-radius: var(--radius-md);
-    transition: var(--transition);
-}
-
-.radio-option:hover {
-    background: rgba(255, 255, 255, 0.8);
-}
-
-.radio-option input[type="radio"] {
-    display: none;
-}
-
-.radio-custom {
-    width: 1.25rem;
-    height: 1.25rem;
-    border: 2px solid var(--gray-300);
-    border-radius: 50%;
-    position: relative;
-    transition: var(--transition);
-}
-
-.radio-option input[type="radio"]:checked + .radio-custom {
-    border-color: var(--main-gradient);
-    background: var(--main-gradient);
-}
-
-.radio-option input[type="radio"]:checked + .radio-custom::after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 0.5rem;
-    height: 0.5rem;
-    background: white;
-    border-radius: 50%;
-}
-
-.time-fields {
-    padding: 1rem;
-    background: rgba(255, 255, 255, 0.6);
-    border-radius: var(--radius-lg);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-}
-
-.form-actions {
-    display: flex;
-    gap: 1rem;
-    justify-content: flex-end;
-    padding-top: 1rem;
-    border-top: 1px solid rgba(255, 255, 255, 0.3);
-}
-
-.btn-primary {
-    background: var(--main-gradient);
-    color: white;
-    border: none;
-    padding: 0.875rem 1.5rem;
-    border-radius: var(--radius-lg);
-    font-weight: 600;
-    cursor: pointer;
-    transition: var(--transition);
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    box-shadow: var(--shadow-md);
-}
-
-.btn-primary:hover {
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-lg);
-}
-
-.btn-secondary {
-    background: rgba(255, 255, 255, 0.8);
-    color: var(--gray-700);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    padding: 0.875rem 1.5rem;
-    border-radius: var(--radius-lg);
-    font-weight: 600;
-    cursor: pointer;
-    transition: var(--transition);
-    text-decoration: none;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.btn-secondary:hover {
-    background: white;
-    box-shadow: var(--shadow-md);
-}
-
-/* Responsive Design */
-@media (max-width: 1200px) {
-    .stats-grid {
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    }
-    
-    .dashboard-grid {
-        grid-template-columns: 1fr;
-    }
-    
-    .parking-lots-grid {
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    }
-}
-
-@media (max-width: 1024px) {
-    .sidebar {
-        transform: translateX(-100%);
-        transition: transform 0.3s ease;
-    }
-    
-    .sidebar.open {
-        transform: translateX(0);
-    }
-    
-    .main-content {
-        margin-left: 0;
-        padding: 1rem;
-    }
-    
-    .content-header {
-        flex-direction: column;
-        gap: 1rem;
-        align-items: flex-start;
-    }
-    
-    .header-actions {
-        width: 100%;
-        justify-content: space-between;
-    }
-    
-    .search-section {
-        flex-direction: column;
-        gap: 1rem;
-    }
-    
-    .search-container {
-        flex-direction: column;
-        align-items: stretch;
-    }
-}
-
-@media (max-width: 768px) {
-    .stats-grid {
-        grid-template-columns: 1fr;
-    }
-    
-    .parking-lots-grid {
-        grid-template-columns: 1fr;
-    }
-    
-    .form-row {
-        grid-template-columns: 1fr;
-    }
-    
-    .modal-content {
-        padding: 1.5rem;
-        margin: 1rem;
-    }
-    
-    .content-header {
-        padding: 1.5rem;
-    }
-    
-    .header-left h1 {
-        font-size: 2rem;
-    }
-    
-    .radio-group {
-        flex-direction: column;
-    }
-}
-
-@media (max-width: 480px) {
-    .main-content {
-        padding: 0.5rem;
-    }
-    
-    .modal-overlay {
-        padding: 1rem;
-    }
-    
-    .modal-content {
-        padding: 1rem;
-    }
-    
-    .lot-stats {
-        grid-template-columns: 1fr;
-    }
-    
-    .form-actions {
-        flex-direction: column;
-    }
-    
-    .floating-shape {
-        display: none;
-    }
 }
 

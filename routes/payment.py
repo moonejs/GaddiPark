@@ -62,7 +62,7 @@ def payment():
         
     db.session.commit()
     
-    flash('Payment successful! Thank you for your payment.')
+    flash('Payment successful!', 'success')
     return redirect(url_for('payment.receipt'))
 
 

@@ -3,6 +3,7 @@
 {%block style%}
 <link rel="stylesheet" href="{{url_for('static',filename='css/admin_dashboard.css')}}">
 <link rel="stylesheet" href="{{url_for('static',filename='css/admin_base.css')}}">
+<link rel="stylesheet" href="{{url_for('static',filename='css/modal.css')}}">
 
 {%endblock%}
 
@@ -28,7 +29,7 @@
             <div class="grid-section">
                 <div class="grid-card primary">
                     <div class="grid-icon">
-                        <i class="fas fa-building"></i>
+                        <i class="fa-solid fa-square-parking"></i>
                     </div>
                     <div class="grid-content">
                         <h3>{{lots|length}}</h3>
@@ -134,7 +135,7 @@
                     <h2>Parking Lots Management</h2>
                 </div>
                 
-                <div class="parking-lots-grid">
+                <div class="parking-lots-card-container">
                     {% if not lots %}
                     <div class="empty-state">
                         <div class="empty-icon">
@@ -150,12 +151,19 @@
                     <div class="parking-lot-card">
                         <div class="card-header">
                             <div class="lot-status">
-                                <i class="fas fa-circle"></i>
-                                Active
+                                {% if lot.total_spots + lot.ev_spots == lot.occupied_regular_spots + lot.occupied_ev_spots %}
+                                    <div class="full lot-status">
+                                        Full
+                                    </div>
+                                {% else %}
+                                    <div class="active lot-status">
+                                        Active
+                                    </div>
+                                {% endif %}
                             </div>
                             <div class="card-actions">
                                 <a href="{{ url_for('admin.admin_dashboard', lot_id=lot.id) }}" 
-                                   class="action-btn edit">
+                                   class="action-btn edit-lot ">
                                     <i class="fas fa-edit edit-lot"></i>
                                 </a>
                                 <form action="{{url_for('parking.view_details')}}" method="post">
@@ -228,7 +236,7 @@
         </div>
     </div>
 
-    <div class="add-parking-lot-modal background-effect" style="display: block;">
+    <div class="add-parking-lot-modal background-effect" style="display: none;">
         <div class="modal-content">
             <div class="modal-header">
                 <h2>Add New Parking Lot</h2>
@@ -268,13 +276,6 @@
                 
                 <div class="form-row">
                     <div class="form-group">
-                        <label for="hourly_rate">
-                            <i class="fas fa-rupee-sign"></i>
-                            Hourly Rate (₹)
-                        </label>
-                        <input type="number" step="any" id="hourly_rate" name="hourly_rate" required placeholder="50">
-                    </div>
-                    <div class="form-group">
                         <label for="total_spots">
                             <i class="fas fa-car"></i>
                             Total Regular Spots
@@ -282,6 +283,14 @@
                         <input type="number" id="total_spots" name="total_spots" required 
                                 placeholder="50">
                     </div>
+                    <div class="form-group">
+                        <label for="hourly_rate">
+                            <i class="fas fa-rupee-sign"></i>
+                            Hourly Rate (₹)
+                        </label>
+                        <input type="number" step="any" id="hourly_rate" name="hourly_rate" required placeholder="50">
+                    </div>
+                    
                 </div>
                 
                 <div class="form-row">
@@ -309,19 +318,19 @@
                     </label>
                     <div class="radio-group">
                         <label class="radio-option">
-                            <input type="radio" name="is_24_hours" value="1" onchange="toggleTimeFields()" required>
+                            <input type="radio" name="is_24_hours" value="1"  required>
                             <span class="radio-custom"></span>
                             24 Hours
                         </label>
                         <label class="radio-option">
-                            <input type="radio" name="is_24_hours" value="0" onchange="toggleTimeFields()">
+                            <input type="radio" name="is_24_hours" value="0" >
                             <span class="radio-custom"></span>
                             Custom Hours
                         </label>
                     </div>
                 </div>
                 
-                <div class="time-fields" id="time-fields" style="display: none;">
+                <div class="time-fields" id="time-field" style="display: none;">
                     <div class="form-row">
                         <div class="form-group">
                             <label for="opening_time">
@@ -361,11 +370,11 @@
     </div>
 
     {% if lot %}
-    <div class="modal-overlay edit-parking-lot-modal" style="display: none;">
+    <div class="background-effect edit-parking-lot-modal" style="display: none;">
         <div class="modal-content">
             <div class="modal-header">
                 <h2>Edit Parking Lot</h2>
-                <a href="{{url_for('admin.admin_dashboard')}}" class="close-modal">
+                <a href="{{url_for('admin.admin_dashboard')}}" class="close-edit-lot-model">
                     <i class="fas fa-times"></i>
                 </a>
             </div>
@@ -420,7 +429,7 @@
                             Total Regular Spots
                         </label>
                         <input type="number" id="edit_total_spots" name="total_spots" value="{{lot.total_spots}}" disabled>
-                        <small class="form-help">Cannot be changed after creation</small>
+                       
                     </div>
                     <div class="form-group">
                         <label for="edit_ev_spots">
@@ -428,7 +437,7 @@
                             EV Charging Spots
                         </label>
                         <input type="number" id="edit_ev_spots" name="ev_spots" value="{{lot.ev_spots}}" disabled>
-                        <small class="form-help">Cannot be changed after creation</small>
+                       
                     </div>
                 </div>
                 
@@ -441,7 +450,7 @@
                 </div>
                 
                 <div class="form-actions">
-                    <a href="{{url_for('admin.admin_dashboard')}}" class="btn-secondary">Cancel</a>
+                    <a href="{{url_for('admin.admin_dashboard')}}" class="btn-secondary close-edit-lot-model">Cancel</a>
                     <button type="submit" class="btn-primary">
                         <i class="fas fa-save"></i>
                         Update Parking Lot
@@ -452,6 +461,19 @@
     </div>
     {% endif %}
 
+    {% if lot %}
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const editModal = document.querySelector('.edit-parking-lot-modal');
+            const page = document.querySelector('.main-content');
+
+            if (editModal) {
+                editModal.style.display = 'block';
+                
+            }
+        });
+    </script>
+    {% endif %}
 
 
 

@@ -25,7 +25,7 @@ def update_profile():
     confirm_new_password = request.form.get('confirm_new_password')
     
     if not new_full_name or not new_username or not current_password:
-        flash('Please fill in all required fields')
+        flash('Please fill in all required fields', 'error')
         return redirect(url_for('profile.profile'))
     
     
@@ -33,7 +33,7 @@ def update_profile():
     if check_password_hash(user.password_hash,current_password):
         if new_password == confirm_new_password:
             if User.query.filter_by(username=new_username).first() and new_username != user.username:
-                flash('Username already exists. Please choose a different username.')
+                flash('Username already exists.', 'error')
                 return redirect(url_for('profile.profile'))
             else:
                 user.full_name=new_full_name
@@ -41,10 +41,10 @@ def update_profile():
                 user.password_hash =generate_password_hash(new_password)
                 db.session.commit()
         else:
-            flash('New passwords do not match')
+            flash('New passwords do not match', 'error')
             return redirect(url_for('profile.profile'))
-        flash('Profile updated successfully')
+        flash('Profile updated successfully', 'success')
         return redirect(url_for('profile.profile'))
     else:
-        flash('Current password is incorrect')
+        flash('Current password is incorrect', 'error')
         return redirect(url_for('profile.profile'))

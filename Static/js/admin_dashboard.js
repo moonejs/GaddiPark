@@ -32,27 +32,24 @@ function toggleTimeFields() {
 
 
 function toggleEditLot() {
-    console.log("clicked");
-    dashboard_container= document.querySelector('.page-1');
-    close_edit_lot_model=document.querySelector('.close-edit-lot-model')
-    const edit_lots_cards = document.querySelectorAll('.div-4-card .edit-lot');
-    console.log(edit_lots_cards);
 
-    const edit_parking_lot = document.querySelector('.edit-parking-lot');
-    console.log(edit_parking_lot);
+    const close_edit_lot_model=document.querySelector('.close-edit-lot-model')
+    const edit_lots_cards = document.querySelectorAll('.edit-lot');
+   
+
+    const edit_parking_lot = document.querySelector('.edit-parking-lot-modal');
+   
 
     edit_lots_cards.forEach(card => {
         card.addEventListener('click', () => {
             
             edit_parking_lot.style.display = 'block';
-            dashboard_container.classList.add('blur')
             
         });
     });
     if (close_edit_lot_model) {
         close_edit_lot_model.addEventListener('click', () => {
             edit_parking_lot.style.display = 'none';
-            dashboard_container.classList.remove('blur');
     });}
 
 

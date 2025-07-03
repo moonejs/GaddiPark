@@ -61,18 +61,18 @@ def vehicle():
         is_ev=request.form.get('is_ev') =='1'
         
         if not type or not model or not registration_number or is_ev is None:
-            flash('All fields are required.')
+            flash('All fields are required.', 'error')
             return redirect(url_for('user.vehicle'))
         reg_num=Vehicle.query.filter_by(registration_number=registration_number).first()
         
         if reg_num:
-            flash('Vehicle with this registration number already exists.')
+            flash('Vehicle with this registration number already exists.', 'error')
             return redirect(url_for('user.vehicle'))
         
         new_vehicle=Vehicle(user_id=user.id,type=type,model=model,registration_number=registration_number,is_ev=is_ev)
         db.session.add(new_vehicle)
         db.session.commit()
-        flash('Vehicle added successfully.')
+        flash('Vehicle added successfully.', 'success')
         return redirect(url_for('user.vehicle'))
     
     else:

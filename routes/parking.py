@@ -29,16 +29,16 @@ def parking_dashboard():
         description = request.form.get('description')
         
         if not pl_name or not address or not pincode or not hourly_rate or not total_spots or not ev_spots or not ev_charging_rate:
-            flash('Please fill in all required fields')
+            flash('Please fill in all required fields',"error")
             return redirect(url_for('parking.parking_dashboard'))
         if not is_24_hours:
             if not opening_time or not closing_time:
-                flash('Please fill in all required fields')
+                flash('Please fill in all required fields',"error")
                 return redirect(url_for('parking.parking_dashboard'))
             
         parking=ParkingLot.query.filter_by(name=pl_name).first()
         if parking:
-            flash('Parking Lot name already Exist,please enter unique Lot name')
+            flash('Parking Lot name already Exist,please enter unique Lot name',"error")
             return redirect(url_for('parking.parking_dashboard'))
         
         
@@ -62,7 +62,7 @@ def parking_dashboard():
         
         
         
-        flash('Parking lot added successfully!')
+        flash('Parking lot added successfully!',"success")
         
     return redirect(url_for('admin.admin_dashboard'))
     

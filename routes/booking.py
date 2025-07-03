@@ -15,11 +15,6 @@ booking_bp=Blueprint('booking',__name__)
 @login_required
 @user_required
 def booking(lot_id):
-    def generate_transaction_id():
-        timestamp = datetime.now().strftime("%Y%m%d%H%M%S") 
-        random_part = uuid.uuid4().hex[:6].upper() 
-        return f"TXN{timestamp}{random_part}"  
-    
     lot=ParkingLot.query.get(lot_id)
     user=User.query.get(session.get('user_id'))
     ist = pytz.timezone("Asia/Kolkata")
@@ -36,7 +31,7 @@ def booking(lot_id):
         amount=float(request.form.get('estimate_cost'))
         
         if not vehicle_id or not duration or not amount :
-            flash("Please fill in all booking details before confirming.")
+            flash("Please fill in all booking details before confirming.","error")
             return redirect(url_for('user.find_parking', lot_id=lot_id, current_booking_time=current_booking_time, current_booking_date=current_booking_date))
         
         
@@ -55,7 +50,7 @@ def booking(lot_id):
         
         spot_id=findSpotId(lot.id,is_ev)
         if not spot_id:
-            flash("No available spot for your vehicle type")
+            flash("No available spot for your vehicle type","error")
             return redirect(url_for('user.find_parking', lot_id=lot_id, current_booking_time=current_booking_time,current_booking_date=current_booking_date))
         
         spot=ParkingSpot.query.get(spot_id)
@@ -78,7 +73,7 @@ def booking(lot_id):
         lot.occupied_ev_spots=ev_occupied_spots
         
         db.session.commit()
-        flash("Booking successful!")
+        flash("Booking successful!","success")
         return redirect(url_for('user_activity.confirm_booking',booking_id=booking_id))
         
     return redirect(url_for('user.find_parking', lot_id=lot_id, current_booking_time=current_booking_time,current_booking_date=current_booking_date))
