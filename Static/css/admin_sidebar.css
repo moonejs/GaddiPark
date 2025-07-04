@@ -67,6 +67,9 @@
     /* border-top: 1px solid rgba(255, 255, 255, 0.3); */
     background: rgba(255, 255, 255, 0.5);
 }
+.sidebar-footer a{
+    text-decoration: none;
+}
 
 .admin-profile {
     display: flex;
@@ -77,6 +80,7 @@
     border-radius: var(--radius-lg);
     margin-bottom: 1rem;
     cursor: pointer;
+   
 }
 
 .profile-pic {
@@ -94,17 +98,23 @@
 .profile-info {
     display: flex;
     flex-direction: column;
+    
+}
+.profile span{
+    text-decoration: none;
 }
 
 .profile-name {
     font-weight: 600;
     color: var(--gray-900);
     font-size: 0.875rem;
+    text-decoration: none;
 }
 
 .profile-role {
     font-size: 0.75rem;
     color: var(--gray-500);
+    text-decoration: none;
 }
 
 .logout-btn {

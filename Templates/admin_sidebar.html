@@ -29,15 +29,18 @@
     </nav>
 
     <div class="sidebar-footer">
-        <div class="admin-profile">
-            <div class="profile-pic">
+        <a href="{{url_for('profile.profile')}}">
+            <div class="admin-profile">
+                <div class="profile-pic">
                 <i class="fas fa-user-shield"></i>
+                </div>
+                <div class="profile-info">
+                    <span class="profile-name">{{user.full_name}}(Admin)</span>
+                    <span class="profile-role">Administrator</span>
+                </div>
             </div>
-            <div class="profile-info">
-                <span class="profile-name">{{user.full_name}}(Admin)</span>
-                <span class="profile-role">Administrator</span>
-            </div>
-        </div>
+        </a>
+        
         <a href="{{url_for('auth.logout')}}" class="logout-btn">
             <i class="fas fa-sign-out-alt"></i>
             <span>Logout</span>

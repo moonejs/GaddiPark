@@ -165,5 +165,5 @@ def delete_spot():
     db.session.delete(spot)
     db.session.commit()
     
-    flash('Parking spot deleted successfully!')
+    flash('Parking spot deleted successfully!', 'success')
     return redirect(url_for('parking.view_details', lot_id=lot.id))

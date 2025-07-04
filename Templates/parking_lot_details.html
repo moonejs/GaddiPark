@@ -1,78 +1,388 @@
 {%extends "base.html" %}
 {%block style%}
 <link rel="stylesheet" href="{{url_for('static',filename='css/parking_lot_details.css')}}">
+<link rel="stylesheet" href="{{url_for('static',filename='css/admin_base.css')}}">
+<link rel="stylesheet" href="{{url_for('static',filename='css/modal.css')}}">
 {%endblock%}
 {% block content %}
+    <div class="page-container" data-has-spot="{{ 'true' if spot else 'false'}}" data-is-booked="{{'true' if booking else 'false'}}">
+        
+        <div class="header-div bg">
+            <a href="{{url_for('admin.admin_dashboard')}}" class="back-btn">
+                <i class="fas fa-arrow-left"></i>
+                <span>Back to Dashboard</span>
+            </a>
+            <div class="status-item">
+                <div class="status-circle regular">
+                    <div class="circle-content">
+                        <span class="total-count">{{lot.total_spots}}</span>
+                    </div>
+                </div>
+                <div class="status-info">
+                    <h4>Regular Spots</h4>
+                    <p>{{lot.total_spots - lot.occupied_regular_spots}} available</p>
+                    <div class="occupancy-bar">
+                        <div class="occupancy-fill" style="width: {{(lot.occupied_regular_spots / lot.total_spots * 100) if lot.total_spots > 0 else 0}}%"></div>
+                    </div>
+                </div>
+            </div>
+            {% if lot.ev_spots > 0 %}
+                <div class="status-item">
+                    <div class="status-circle ev">
+                        <div class="circle-content">
+                            <span class="total-count">{{lot.ev_spots}}</span>
+                        </div>
+                    </div>
+                    <div class="status-info">
+                        <h4>EV Charging Spots</h4>
+                        <p>{{lot.ev_spots - lot.occupied_ev_spots}} available</p>
+                        <div class="occupancy-bar">
+                            <div class="occupancy-fill ev-fill" style="width: {{(lot.occupied_ev_spots / lot.ev_spots * 100) if lot.ev_spots > 0 else 0}}%"></div>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
 
-<div class="page-1" data-has-spot="{{ 'true' if spot else 'false'}}" data-is-booked="{{'true' if booking else 'false'}}">
-    <h3>Parking lot name : {{lot.name}}</h3>
-    <h5>Address:{{lot.address}}</h5>
-    <h3>Total spots : {{lot.total_spots + lot.ev_spots}}</h3>
-    <h3>Total Regular spots : {{lot.total_spots}}</h3>
-    <h3>Total EV spots : {{lot.ev_spots}}</h3>
-
-    <h3>Available Regular spots : {{lot.total_spots - lot.occupied_regular_spots}}</h3>
-    <h3>Available EV spots : {{lot.ev_spots - lot.occupied_ev_spots}}</h3>
-    <h3>Hourly Rate : {{lot.hourly_rate}}</h3>
-    
-    {% if lot.is_24_hours %}
-    <h3> Open 24/7 </h3>
-    {% else %}
-    <h3>Opening Time : {{lot.opening_time}}</h3>
-    <h3>Closing Time : {{lot.closing_time}}</h3>
-    {% endif %}
-    {% set ns = namespace(n=0) %}
-
-    <div class="content">
-    {% for spot in spots %}
-        <form action="{{url_for('parking.spot_details')}}" method="POST">
-            <input type="hidden" name="spot_id" value={{spot.id}}>
-            <input type="hidden" name="lot_id" value={{lot.id}}>
-            <button class="box">{{ spot.spot_number }}</button>
-        </form>
-    {% endfor %}
-    </div>
-
-</div>
-
-{% if spot %}
-    {% if booking %}
-    <div class="booked-spot-model" style="display: none;" >
-        <button class="booked-spot-model-close">close</button>
-
-        <h3>Parking spot {{ spot.spot_number }} Details</h3>
-        <h2>Occupied</h2>
-
-        <p>Booking ID : {{ booking.booking_id }}</p>
-        <p>Name : {{ user.full_name }}</p>
-        <p>Vehicle Number : {{ vehicle.registration_number }}</p>
-        <hr>
-        <p>Entry Time : {{ booking.start_time.strftime("%I:%M %p") }}</p>
-        <p>Expected Exit : {{ end_time.strftime("%I:%M %p") }}</p>
-        <p>Duration : {{ booking.duration }}</p>
-        <p>Amount : ₹{{ booking.amount }}</p>
-    </div>
-    {% else %}
-    <div class="vacant-spot-model" style="display: none;" >
-        <button class="vacant-spot-model-close">close</button>
-
-
-        <h3>Parking spot {{ spot.spot_number }} Details</h3>
-        <h2>Available</h2>
-
-        <div>
-            <h4>Spot Information</h4>
-            <p>Spot Id : {{ spot.id }}</p>
-            <p>Type : {% if spot.is_ev_spot %} EV {% else %} Regular {% endif %}</p>
+            <div class="page-title">
+                <h1>{{lot.name}}</h1>
+                <p class="page-p">
+                    <i class="fas fa-map-marker-alt"></i>
+                    {{lot.address}}, {{lot.pincode if lot.pincode else 'Not specified'}}
+                </p>
+            </div>
         </div>
+        <div class="lot-info">
+           
+            <div class="lot-info-left-container">
+                <div class="card-info bg ">
+                    <div class="card-header">
+                        <div class="header-icon icon">
+                            <i class="fas fa-building"></i>
+                        </div>
+                        <div class="header-text">
+                            <h2>Lot Overview</h2>
+                            <p>Complete parking lot information</p>
+                        </div>
+                    </div>
+                    
+                    <div class="card-content">
 
-        <form action="{{ url_for('parking.delete_spot') }}" method="POST">
-            <input type="hidden" name="spot_id" value="{{ spot.id }}">
-            <button class="delete-vacant-spot">Delete</button>
-        </form>
+                        <div class="info-section">
+                            <h3><i class="fas fa-car"></i> Capacity</h3>
+                            <div class="capacity-stats">
+                                <div class="capacity-item">
+                                    <div class="capacity-number">{{lot.total_spots + lot.ev_spots}}</div>
+                                    <div class="capacity-label">Total Spots</div>
+                                </div>
+                                <div class="capacity-item">
+                                    <div class="capacity-number">{{lot.total_spots}}</div>
+                                    <div class="capacity-label">Regular</div>
+                                </div>
+                                <div class="capacity-item">
+                                    <div class="capacity-number">{{lot.ev_spots}}</div>
+                                    <div class="capacity-label">EV Spots</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="info-section">
+                            <h3><i class="fa-solid fa-indian-rupee-sign"></i> Pricing</h3>
+                            <div class="pricing-stats">
+                                <div class="pricing-item">
+                                    <div class="price-amount">₹{{lot.hourly_rate}}</div>
+                                    <div class="price-label">per hour</div>
+                                </div>
+                                {% if lot.ev_spots > 0 %}
+                                <div class="pricing-item ev-pricing">
+                                    <div class="price-amount">₹{{lot.ev_charging_rate}}</div>
+                                    <div class="price-label">per kWh (EV)</div>
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        
+                        <div class="info-section">
+                            <h3><i class="fas fa-clock"></i> Operating Hours</h3>
+                            <div class="hours-display">
+                                {% if lot.is_24_hours %}
+                                <div class=" open-24">
+                                    <i class="fas fa-clock"></i>
+                                    <span>Open 24/7</span>
+                                </div>
+                                {% else %}
+                                <div class="hours-range">
+                                    <div class="time-block">
+                                        <span class="time-label">Opens</span>
+                                        <span class="time-value">{{lot.opening_time}}</span>
+                                    </div>
+                                    <div class="time-separator">—</div>
+                                    <div class="time-block">
+                                        <span class="time-label">Closes</span>
+                                        <span class="time-value">{{lot.closing_time}}</span>
+                                    </div>
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        {% if lot.description %}
+                        <div class="info-section">
+                            <h3><i class="fas fa-align-left"></i> Description</h3>
+                            <p class="description-text">{{lot.description}}</p>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+           
+            <div class="lot-info-right-container">
+                <div class="spots-card bg">
+                    <div class="card-header">
+                        <div class="header-icon icon">
+                            <i class="fas fa-th"></i>
+                        </div>
+                        <div class="header-text">
+                            <h2>Parking Spots Layout</h2>
+                            <p>Click any spot to view details</p>
+                        </div>
+                        <div class="legend">
+                            <div class="legend-item">
+                                <div class="legend-dot available"></div>
+                                <span>Available</span>
+                            </div>
+                            <div class="legend-item">
+                                <div class="legend-dot occupied"></div>
+                                <span>Occupied</span>
+                            </div>
+                            <div class="legend-item">
+                                <div class="legend-dot ev"></div>
+                                <span>EV Spot</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card-content">
+                        <div class="spot">
+                            {% for spot in spots %}
+                            <form action="{{url_for('parking.spot_details')}}" method="POST" class="spot-form">
+                                <input type="hidden" name="spot_id" value="{{spot.id}}">
+                                <input type="hidden" name="lot_id" value="{{lot.id}}">
+                                <button type="submit" class="spot-box 
+                                    {% if spot.status == 'occupied' %}occupied{% else %}available{% endif %}
+                                    {% if spot.is_ev_spot %}ev{% endif %}">
+                                    <div class="spot-number">{{spot.spot_number}}</div>
+                                    <div class="spot-type">
+                                        {% if spot.is_ev_spot %}
+                                            <i class="fas fa-bolt"></i>
+                                        {% else %}
+                                            <i class="fas fa-car"></i>
+                                        {% endif %}
+                                    </div>
+                                    <div class="spot-status">
+                                        {% if spot.status == 'occupied' %}
+                                           <i class="fa-solid fa-square-parking"></i>
+                                        {% else %}
+                                            <i class="fas fa-check-circle"></i>
+                                        {% endif %}
+                                    </div>
+                                </button>
+                            </form>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    {% endif %}
-{% endif %}
 
+    {% if spot %}
+        {% if booking %}
+
+        <div class="background-effect booked-spot-model " style="display: none;">
+            <div class="modal-content ">
+                <div class="modal-header">
+                    <div class="modal-title">
+                        <i class="fas fa-car"></i>
+                        <h2>Parking Spot {{spot.spot_number}} Details</h2>
+                    </div>
+                    <button class="close-modal booked-spot-model-close">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    <div class="status-badge occupied">
+                        <i class="fas fa-times-circle"></i>
+                        <span>Currently Occupied</span>
+                    </div>
+
+                    <div class="detail-section">
+                        <h3><i class="fas fa-receipt"></i> Booking Information</h3>
+                        <div class="detail-grid">
+                            <div class="detail-row">
+                                <span class="detail-label">Booking ID</span>
+                                <span class="detail-value booking-id">{{booking.booking_id}}</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">Customer Name</span>
+                                <span class="detail-value">{{user.full_name}}</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">Vehicle Number</span>
+                                <span class="detail-value vehicle-number">{{vehicle.registration_number}}</span>
+                            </div>
+                            {% if vehicle.model %}
+                            <div class="detail-row">
+                                <span class="detail-label">Vehicle Model</span>
+                                <span class="detail-value">{{vehicle.model}}</span>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="detail-section">
+                        <h3><i class="fas fa-clock"></i> Timing Details</h3>
+                        <div class="timing-grid">
+                            <div class="timing-item">
+                                <div class="timing-icon entry">
+                                    <i class="fas fa-sign-in-alt"></i>
+                                </div>
+                                <div class="timing-info">
+                                    <span class="timing-label">Entry Time</span>
+                                    <span class="timing-value">{{booking.start_time.strftime("%I:%M %p")}}</span>
+                                    <span class="timing-date">{{booking.start_time.strftime("%d %b %Y")}}</span>
+                                </div>
+                            </div>
+                            <div class="timing-item">
+                                <div class="timing-icon exit">
+                                    <i class="fas fa-sign-out-alt"></i>
+                                </div>
+                                <div class="timing-info">
+                                    <span class="timing-label">Expected Exit</span>
+                                    <span class="timing-value">{{end_time.strftime("%I:%M %p")}}</span>
+                                    <span class="timing-date">{{end_time.strftime("%d %b %Y")}}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="duration-display">
+                            <i class="fas fa-hourglass-half"></i>
+                            <span>Duration: {{booking.duration}} hours</span>
+                        </div>
+                    </div>
+                    
+                    <div class="detail-section">
+                        <h3><i class="fas fa-info-circle"></i> Spot Information</h3>
+                        <div class="spot-info-grid">
+                            <div class="spot-info-item">
+                                <span class="info-label">Spot Type</span>
+                                <span class="info-value">
+                                    {% if spot.is_ev_spot %}
+                                        <i class="fas fa-bolt"></i> EV Charging Spot
+                                    {% else %}
+                                        <i class="fas fa-car"></i> Regular Parking
+                                    {% endif %}
+                                </span>
+                            </div>
+                            <div class="spot-info-item">
+                                <span class="info-label">Spot ID</span>
+                                <span class="info-value">{{spot.id}}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="detail-section">
+                        <h3><i class="fas fa-credit-card"></i> Payment Details</h3>
+                        <div class="payment-summary">
+                            <div class="amount-breakdown">
+                                <div class="amount-item">
+                                    <span>Parking Fee</span>
+                                    <span>{{lot.hourly_rate}}</span>
+                                {% if spot.is_ev_spot %}
+                                    <span>EV Charging</span>
+                                    <span>₹{{lot.ev_charging_rate}}</span>
+                                </div>
+                                {% endif %}
+                            </div>
+                            <div class="total-amount">
+                                <span>Total Amount</span>
+                                <span class="amount">₹{{booking.amount}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% else %}
+        
+        <div class="background-effect vacant-spot-model" style="display: none;">
+            <div class="modal-content ">
+                <div class="modal-header">
+                    <div class="modal-title">
+                        <i class="fas fa-parking"></i>
+                        <h2>Spot {{spot.spot_number}} Details</h2>
+                    </div>
+                    <button class="close-modal vacant-spot-model-close">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                   
+                    <div class="status-badge available">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Available for Booking</span>
+                    </div>
+
+                    
+                    <div class="detail-section">
+                        <h3><i class="fas fa-info-circle"></i> Spot Information</h3>
+                        <div class="detail-grid">
+                            <div class="detail-row">
+                                <span class="detail-label">Spot Number</span>
+                                <span class="detail-value">{{spot.spot_number}}</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">Spot ID</span>
+                                <span class="detail-value">{{spot.id}}</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">Type</span>
+                                <span class="detail-value">
+                                    {% if spot.is_ev_spot %}
+                                        <i class="fas fa-bolt"></i> EV Charging Spot
+                                    {% else %}
+                                        <i class="fas fa-car"></i> Regular Parking
+                                    {% endif %}
+                                </span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">Status</span>
+                                <span class="detail-value status-available">
+                                    <i class="fas fa-check-circle"></i> Available
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                   
+                    <div class="detail-section danger-section">
+                        <h3><i class="fas fa-exclamation-triangle"></i> Danger Zone</h3>
+                        <p class="warning-text">
+                            Deleting this spot will permanently remove it from the system. 
+                            This action cannot be undone and will affect the total capacity of the parking lot.
+                        </p>
+                        <form action="{{url_for('parking.delete_spot')}}" method="POST" class="delete-form">
+                            <input type="hidden" name="spot_id" value="{{spot.id}}">
+                            <button type="submit" class="btn-danger delete-vacant-spot" 
+                                    onclick="return confirm('Are you sure you want to permanently delete spot {{spot.spot_number}}? This action cannot be undone.')">
+                                <i class="fas fa-trash-alt"></i>
+                                <span>Delete Spot Permanently</span>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    {% endif %}
 <script src="{{ url_for('static', filename='js/parking_lot_details.js') }}"></script>
 {%endblock %}

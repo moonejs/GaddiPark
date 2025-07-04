@@ -1,32 +1,747 @@
 
-.content{
+/* Main Container */
+.page-container {
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: 2rem;
+    min-height: 100vh;
+}
+
+/* Navigation Header */
+.header-div {
     display: flex;
-    gap: 12px;
-    flex-wrap: wrap;
-}
-.box{
-    height: 70px;
-    width: 70px;
-    background-color: greenyellow;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+    padding: 1.5rem 2rem;
+    
 }
 
-.blur {
-  filter: blur(5px);
-  pointer-events: none; 
+.back-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--gray-600);
+    text-decoration: none;
+    font-weight: 500;
+    padding: 0.75rem 1rem;
+    border-radius: var(--radius-lg);
+    background: rgba(255, 255, 255, 0.8);
+    transition: var(--transition);
+    border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
-.booked-spot-model, .vacant-spot-model{
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 40%;
-    height: 60%;
-    background-color: #fffad1;
+.back-btn:hover {
+    background: white;
+    color: var(--gray-900);
+    transform: translateX(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.page-title h1 {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--gray-900);
+    margin-bottom: 0.25rem;
+    background: var(--main-gradient);
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.page-p{
+    color: var(--gray-600);
+    font-size: 1.125rem;
+    font-weight: 500;
+    margin-left: 1rem;
+}
+
+/* lot-info */
+
+.lot-info {
+    display: flex;
+    gap: 2rem;
+    align-items: start;
+}
+
+
+.lot-info-left-container {
+    display: flex;
+    width: 35%;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.lot-info-right-container {
+    width: 65%;
+    height: 50%;
+
+    top: 2rem;
+}
+.card-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 2rem 2rem 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.header-icon {
+     background: var(--main-gradient);
+}
+
+.header-text h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--gray-900);
+    margin-bottom: 0.25rem;
+}
+
+.header-text p {
+    color: var(--gray-600);
+    font-size: 0.95rem;
+}
+
+.card-content {
+    padding: 1.5rem 2rem 2rem;
+}
+
+
+.info-section h3 {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--gray-900);
+    margin-bottom: 0.4rem;
+}
+
+.info-section h3 i {
+    color: var(--gray-600);
+    font-size: 1rem;
+}
+
+/* Capacity Stats */
+
+.capacity-stats {
+    display: flex;
+    gap: 1rem;
+    margin-left: 1.5rem;
+}
+
+.capacity-item {
+    text-align: center;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.6);
+    border-radius: var(--radius-lg);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.capacity-number {
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: var(--gray-900);
+    display: block;
+    margin-bottom: 0.25rem;
+}
+
+.capacity-label {
+    color: var(--gray-600);
+    font-weight: 500;
+    font-size: 0.8rem;
+}
+/* Pricing Stats */
+.pricing-stats {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.pricing-item {
+    text-align: center;
+    padding: 1.5rem 1rem;
+    background: rgba(255, 255, 255, 0.6);
+    border-radius: var(--radius-lg);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.pricing-item.ev-pricing {
+    background: rgba(233, 92, 246, 0.1);
+    border-color: rgba(241, 92, 246, 0.2);
+}
+
+.price-amount {
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: var(--gray-900);
+    margin-bottom: 0.25rem;
+}
+
+.price-label {
+    color: var(--gray-600);
+    font-weight: 500;
+    font-size: 0.8rem;
+}
+
+/* Hours Display */
+
+.hours-display {
+    display: flex;
+    justify-content: center;
+}
+
+.hours-range {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.6);
+    border-radius: var(--radius-lg);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.time-block {
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
-    z-index: 1000;
-    color: black;
+    gap: 0.25rem;
 }
+
+.time-label {
+    font-size: 0.875rem;
+    color: var(--gray-600);
+    font-weight: 500;
+}
+
+.time-value {
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: var(--gray-900);
+}
+
+.time-separator {
+    font-size: 1.5rem;
+    color: var(--gray-400);
+    font-weight: 300;
+}
+
+
+.description-text {
+    color: var(--gray-700);
+    line-height: 1.6;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.6);
+    border-radius: var(--radius-lg);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+
+.status-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+}
+
+.status-circle {
+    width: 4rem;
+    height: 4rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 700;
+    box-shadow: var(--shadow-md);
+    flex-shrink: 0;
+}
+
+.status-circle.regular {
+    background: var(--gradient-green);
+}
+
+.status-circle.ev {
+    background: var(--gradient-purple);
+}
+
+.total-count {
+    font-size: 1.25rem;
+
+}
+
+.status-info h4 {
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: var(--gray-900);
+    margin-bottom: 0.25rem;
+}
+
+.status-info p {
+    color: var(--gray-600);
+    margin-bottom: 0.5rem;
+}
+
+.occupancy-bar {
+    width: 100%;
+    height: 0.5rem;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+}
+
+.occupancy-fill {
+    height: 100%;
+    background: var(--gradient-green);
+    border-radius: var(--radius-sm);
+    transition: width 0.3s ease;
+}
+
+.occupancy-fill.ev-fill {
+    background: var(--gradient-purple);
+}
+
+/* Spots Card */
+
+.spots-card .card-header {
+    justify-content: space-between;
+}
+.spots-card .card-content{
+    padding: 1.5rem 2rem 2rem;
+    max-height: 500px; 
+    overflow-y: auto;  
+    overflow-x: hidden;
+}
+.spot::-webkit-scrollbar {
+    width: 8px;
+}
+
+.legend {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 500;
+    color: var(--gray-700);
+    font-size: 0.875rem;
+}
+
+.legend-dot {
+    width: 0.85rem;
+    height: 0.85rem;
+    border-radius: 50%;
+    border: 2px solid rgba(255, 255, 255, 0.8);
+}
+
+.legend-dot.available {
+    background: var(--available-color);
+}
+
+.legend-dot.occupied {
+    background: var(--occupied-color);
+}
+
+.legend-dot.ev {
+    background: var(--ev-color);
+}
+
+.spot {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+    gap: 1rem;
+    padding: 1rem 0;
+}
+
+.spot-form {
+    display: contents;
+}
+
+.spot-box {
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: var(--radius-lg);
+    padding: 1rem;
+    cursor: pointer;
+    transition: var(--transition);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    height: 90px;
+    position: relative;
+    overflow: hidden;
+}
+
+.spot-box::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    opacity: 0.1;
+    z-index: 0;
+}
+
+.spot-box.available::before {
+    background: var(--available-color);
+}
+
+.spot-box.occupied::before {
+    background: var(--occupied-color);
+}
+
+.spot-box.ev::before {
+    background: var(--ev-color);
+}
+
+.spot-box:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-xl);
+}
+
+.spot-box.available {
+    border-color: var(--available-color);
+}
+
+.spot-box.occupied {
+    border-color: var(--occupied-color);
+}
+
+.spot-box.ev {
+    border-color: var(--ev-color);
+}
+
+.spot-number {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--gray-900);
+    z-index: 1;
+}
+
+.spot-type {
+    font-size: 0.875rem;
+    z-index: 1;
+}
+
+.spot-type i {
+    color: var(--gray-600);
+}
+
+.spot-box.ev .spot-type i {
+    color: var(--ev-color);
+}
+
+.spot-status {
+    font-size: 0.75rem;
+    z-index: 1;
+}
+
+.spot-box.available .spot-status i {
+    color: var(--available-color);
+}
+
+.spot-box.occupied .spot-status i {
+    font-size: 1rem;
+    color: var(--occupied-color);
+}
+
+
+.modal-title {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.modal-title h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--gray-900);
+}
+
+.modal-title i {
+    color: var(--gray-600);
+    font-size: 1.25rem;
+}
+
+
+.modal-body {
+    padding: 1.5rem 2rem 2rem;
+}
+
+
+.status-badge {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1rem;
+    border-radius: var(--radius-lg);
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    color: white;
+}
+
+.status-badge.occupied {
+    background: var(--main-gradient);
+}
+
+.status-badge.available {
+    background: var(--gradient-green);
+}
+
+.detail-section {
+    margin-bottom: 2rem;
+    background: rgba(255, 255, 255, 0.6);
+    border-radius: var(--radius-lg);
+    padding: 1.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+
+
+.detail-section h3 {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: var(--gray-900);
+    margin-bottom: 1rem;
+}
+
+.detail-section h3 i {
+    color: var(--gray-600);
+}
+
+/* Detail Grid */
+.detail-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.detail-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+
+
+.detail-label {
+    color: var(--gray-600);
+    font-weight: 500;
+}
+
+.detail-value {
+    color: var(--gray-900);
+    font-weight: 600;
+}
+
+.booking-id {
+    font-family: 'Courier New', monospace;
+    background: rgba(255, 255, 255, 0.8);
+    padding: 0.25rem 0.5rem;
+    border-radius: var(--radius);
+    font-size: 0.875rem;
+}
+
+.vehicle-number {
+    font-family: 'Courier New', monospace;
+    background: rgba(255, 255, 255, 0.8);
+    padding: 0.25rem 0.5rem;
+    border-radius: var(--radius);
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+/* Timing Grid */
+.timing-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.timing-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: var(--radius-lg);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.timing-icon {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1rem;
+    flex-shrink: 0;
+}
+
+.timing-icon.entry {
+    background: var(--gradient-green);
+}
+
+.timing-icon.exit {
+    background: var(--gradient-orange);
+}
+
+.timing-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.125rem;
+}
+
+.timing-label {
+    font-size: 0.75rem;
+    color: var(--gray-600);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.timing-value {
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: var(--gray-900);
+}
+
+.timing-date {
+    font-size: 0.875rem;
+    color: var(--gray-500);
+}
+
+.duration-display {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1rem;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: var(--radius-lg);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    font-weight: 600;
+    color: var(--gray-700);
+}
+
+/* Payment Summary */
+.payment-summary{
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: var(--radius-lg);
+    padding: 1.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.amount-breakdown {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+.amount-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--gray-700);
+}
+
+.total-amount {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: var(--gray-900);
+}
+
+.total-amount .amount {
+    font-size: 1.5rem;
+    color: var(--gray-900);
+}
+
+/* Spot Info Grid */
+.spot-info-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.spot-info-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 1rem;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: var(--radius-lg);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.info-label {
+    color: var(--gray-600);
+    font-weight: 500;
+}
+
+.info-value {
+    color: var(--gray-900);
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.status-available {
+    color: var(--available-color);
+}
+
+/* Danger Section */
+.danger-section {
+    background: rgba(239, 68, 68, 0.05);
+    border: 1px solid rgba(239, 68, 68, 0.2);
+}
+
+.danger-section h3 {
+    color: #dc2626;
+}
+
+.warning-text {
+    color: var(--gray-600);
+    line-height: 1.6;
+    margin-bottom: 1rem;
+}
+
+.btn-danger {
+    background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: var(--radius-lg);
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    box-shadow: var(--shadow-md);
+    width: 100%;
+    justify-content: center;
+}
+
+.btn-danger:hover {
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-lg);
+}
+

@@ -38,6 +38,9 @@
     --radius-xl: 1.5rem;
     --radius-2xl: 2rem;
     
+     --available-color: #10b981;
+    --occupied-color: #ef4444;
+    --ev-color: #8b5cf6;
 
     --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
@@ -66,3 +69,21 @@ body {
 }
 
 
+.bg{
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(20px);
+    border-radius: var(--radius-2xl);
+    box-shadow: var(--shadow-lg);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+.icon{
+    width: 3rem;
+    height: 3rem;
+    border-radius: var(--radius-lg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.25rem;
+    box-shadow: var(--shadow-md);
+}

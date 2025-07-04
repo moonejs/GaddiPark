@@ -1,22 +1,21 @@
 function toggleSpotDetails(){
     const booked_model=document.querySelector('.booked-spot-model')
     const vacant_model = document.querySelector('.vacant-spot-model');
-    const page_1=document.querySelector('.page-1')
+    const page_container=document.querySelector('.page-container')
 
     let has_spot = false;
     let is_booked = false;
 
 
-    has_spot = page_1.dataset.hasSpot === "true";
-    is_booked = page_1.dataset.isBooked === "true";
+    has_spot = page_container.dataset.hasSpot === "true";
+    is_booked = page_container.dataset.isBooked === "true";
 
     if (has_spot){
         if (is_booked){
             booked_model.style.display='block'
-            page_1.classList.add('blur')
+
         }else{
             vacant_model.style.display='block'
-            page_1.classList.add('blur')
         }
     }
     
@@ -26,14 +25,12 @@ function toggleSpotDetails(){
     if (close_booked) {
         close_booked.addEventListener('click', () => {
             booked_model.style.display = 'none';
-            page_1.classList.remove('blur');
         });
     }
 
     if (close_vacant) {
     close_vacant.addEventListener('click', () => {
         vacant_model.style.display = 'none';
-        page_1.classList.remove('blur');
     });
     }
 
