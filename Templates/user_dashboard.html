@@ -1,40 +1,169 @@
-{%extends "base.html" %}
-{%block style%}
+{% extends "base.html" %}
+
+{% block style %}
 <link rel="stylesheet" href="{{url_for('static',filename='css/user_dashboard.css')}}">
-{%endblock%}
+<link rel="stylesheet" href="{{url_for('static',filename='css/user_navbar.css')}}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+{% endblock %}
+
 {% block content %}
-<div>
-    <h1>Hello,{{user.full_name}}</h1>
-    
-    {%if booking %}
-    <div>
-        <h2>Currently Parked</h2>
-        <div id="timer">
+{% include "user_navbar.html" %}
+<div class="dashboard-container">
+    <div class="main-content">
+        {% if booking %}
+        <div class="active-parking-section">
+            <div class="section-header">
+                <h3>Currently Parked</h3>
+                <div class="parking-timer">
+                    <i class="fas fa-clock"></i>
+                    <span id="timer">00:00:00</span>
+                </div>
+            </div>
             
+            <div class="active-parking-card">
+                <div class="parking-info">
+                    <div class="location-details">
+                        <h4>{{ lot.name  }}</h4>
+                        <p><i class="fas fa-map-marker-alt"></i> {{ lot.address}}</p>
+                        <p>PIN:{{lot.pincode}}</p>
+                        <span class="entry-time">Started: {{ booking.start_time.strftime("%B %d, %I:%M %p")}}</span>
+                    </div>
+                    
+                    <div class="parking-details">
+                        <div class="parking-detail-items">
+
+                            <div class="detail-item">
+                                <span>Spot :</span>
+                                <span class="detail-value">{{ spot.spot_number }}</span>
+                            </div>
+                            <div class="detail-item">
+                                <span>Vehicle :</span>
+                                <span class="detail-value">{{ vehicle.registration_number }}</span>
+                            </div>
+                            <div class="detail-item">
+                                <span>Model : </span>
+                                <span class="detail-value">{{ vehicle.model }}</span>
+                            </div>
+                            <div class="detail-item">
+                                <span>Spot Type : </span>
+                                {%if spot.is_ev_spot %}
+                                <span class="detail-value">EV</span>
+                                {% else %}
+                                <span class="detail-value">Regular</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="cost-info">
+                            <span class="current-cost">₹{{ booking.amount}}</span>
+                            <span class="cost-label">Current Charges</span>
+                        </div>
+                    </div>
+                    
+                    
+                </div>
+                
+                <div class="parking-actions">
+                    <form id="release-form" action="{{ url_for('user_activity.release_spot') }}" method="POST">
+                        <input type="hidden" name="booking_id" value="{{ booking.booking_id }}">
+                        <input type="hidden" id="elapsed_minutes" name="elapsed_minutes" value="0">
+                        <button type="submit" class="action-btn release-btn">
+                            <i class="fas fa-sign-out-alt"></i>
+                            Release Spot
+                        </button>
+                    </form>
+                </div>
+            </div>
         </div>
-        <h4>Location : {{lot.address}}</h4>
-        <h4>Spot : {{spot.spot_number}}</h4>
-        <h4>Vehicle : {{vehicle.registration_number}}({{vehicle.model}})</h4>
-        <h4>Entry Time : {{ booking.start_time.strftime("%d %B %Y, %I:%M %p") }}</h4>
-        <h4>Current Charges : {{booking.amount}}</h4>
-        
+        {% else %}
+        <div class="no-parking-section">
+            <div class="no-parking-card">
+                <div class="no-parking-icon ">
+                    <i class="fas fa-car"></i>
+                </div>
+                <h3>No Active Parking</h3>
+                <p>You don't have any active parking sessions at the moment.</p>
+                <a href="{{ url_for('user.find_parking') }}" class="find-parking-btn">
+                    <i class="fas fa-search"></i>
+                    Find Parking Spot
+                </a>
+            </div>
+        </div>
+        {% endif %}
+
+        <div class="grid-section">
+            <div class="grid-card success">
+                <div class="grid-icon success">
+                    <i class="fas fa-wallet"></i>
+                </div>
+                <div class="stat-content">
+                    <h4>Wallet Balance</h4>
+                    <span class="stat-value">₹{{ user.wallet_balance}}</span>
+                    <button class="add-money-btn">Add Money</button>
+                </div>
+            </div>
+            
+            <div class="grid-card electric">
+                <div class="grid-icon electric">
+                    <i class="fas fa-history"></i>
+                </div>
+                <div class="stat-content">
+                    <h4>Total Bookings</h4>
+                    <span class="stat-value">12</span>
+                    <span class="stat-detail">This month</span>
+                </div>
+            </div>
+            
+            <div class="grid-card primary">
+                <div class="grid-icon primary">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                <div class="stat-content">
+                    <h4>Total Spent</h4>
+                    <span class="stat-value">₹1,250</span>
+                    <span class="stat-detail">This month</span>
+                </div>
+            </div>
+        </div>
+        <div class="quick-actions-section">
+            <div class="section-header">
+                <h3>Quick Actions</h3>
+            </div>
+            <div class="actions-grid">
+                <a href="{{ url_for('user.find_parking') }}" class="action-card">
+                    <div class="action-icon find">
+                        <i class="fas fa-search-location"></i>
+                    </div>
+                    <h4>Find Parking</h4>
+                    <p>Search for available parking spots near you</p>
+                </a>
+                
+                <a href="{{url_for('user.vehicle')}}" class="action-card">
+                    <div class="action-icon vehicle">
+                        <i class="fas fa-car"></i>
+                    </div>
+                    <h4>Manage Vehicles</h4>
+                    <p>Add or edit your vehicle information</p>
+                </a>
+                
+                <a href="#" class="action-card">
+                    <div class="action-icon history">
+                        <i class="fas fa-history"></i>
+                    </div>
+                    <h4>View History</h4>
+                    <p>Check your parking history and receipts</p>
+                </a>
+                
+                <a href="#" class="action-card">
+                    <div class="action-icon payment">
+                        <i class="fas fa-credit-card"></i>
+                    </div>
+                    <h4>Payment Methods</h4>
+                    <p>Manage your payment options</p>
+                </a>
+            </div>
+        </div>
     </div>
-    <div>
-        <form id="release-form" action="{{ url_for('user_activity.release_spot') }}" method="POST">
-            <input type="hidden" name="booking_id" value="{{ booking.booking_id }}">
-            <input type="hidden" id="elapsed_minutes" name="elapsed_minutes" value="0">
-            <button type="submit" id="release-form">Release Spot</button>
-        </form>
-    </div>
-    {%else%}
-    <a href="{{url_for('user.find_parking')}}"><button>Find Parking</button></a>
-    {%endif%}
-    
 </div>
 
-
-
-
-
-<script src="{{url_for('static',filename='js/user_dashboard.js')}}"></script>
-{%endblock%}
+<script src="{{ url_for('static', filename='js/user_dashboard.js') }}"></script>
+{% endblock %}

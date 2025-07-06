@@ -1,0 +1,24 @@
+<nav class="top-navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <h2>Gadi Park</h2>
+            </div>
+            <ul class="nav-links">
+                <li class="active"><a href="{{ url_for('user.user_dashboard') }}">Dashboard</a></li>
+                <li><a href="{{ url_for('user.find_parking') }}">Find Parking</a></li>
+                <li><a href="#">History</a></li>
+                <li><a href="{{url_for('user.vehicle')}}">Vehicles</a></li>
+                <li><a href="#">Analytics</a></li>
+            </ul>
+            <div class="user-actions">
+                <div class="user-profile">
+                    <div class="profile-avatar"><i class="fa-solid fa-user"></i></div>
+                    <span class="user-name">{{ user.full_name }}</span>
+                </div>
+                <a href="{{url_for('auth.logout')}}" class="logout-btn">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
+                </a>
+            </div>
+        </div>
+    </nav>
