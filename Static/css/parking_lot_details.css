@@ -390,13 +390,13 @@
     background: var(--available-color);
 }
 
+.spot-box.ev::before {
+    background: var(--ev-color);
+}
 .spot-box.occupied::before {
     background: var(--occupied-color);
 }
 
-.spot-box.ev::before {
-    background: var(--ev-color);
-}
 
 .spot-box:hover {
     transform: translateY(-4px);

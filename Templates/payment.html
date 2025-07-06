@@ -8,8 +8,15 @@
 <div>{{heading}}</div>
 {%if method == 'wallet'%}
 <div>
-    <form action="">
+    <form action="{{url_for('payment.wallet_payment')}}" method="POST">
         <label for="updated_wallet_balance">Enter Amount to Add</label>
+        <input type="number" id="updated_wallet_balance" name="updated_wallet_balance" required>
+        <h1>Payment Method</h1>
+        <input type="radio" id="card" name="payment-method" required value="card">
+        <label for="card">Saved Cards</label>
+        <input type="radio" id="upi" name="payment-method" required value="UPI">
+        <label for="upi">UPI</label>
+        <button>Pay</button>
     </form>
 </div>
 {%else%}
@@ -30,11 +37,11 @@
             <input type="hidden" name="payment_time" value={{current_leaving_time}}>
             
             <input type="radio" id="card" name="payment-method" required value="card">
-            <label for="">Saved Cards</label>
+            <label for="card">Saved Cards</label>
             <input type="radio" id="upi" name="payment-method" required value="UPI">
             <label for="upi">UPI</label>
             <input type="radio" id="wallet" name="payment-method" required value="wallet">
-            <label for="wallet">Wallet:{{wallet_balance}}</label>
+            <label for="wallet">Wallet:({{ user.wallet_balance }})</label>
             <button>Pay and release</button>
         </form>
     </div>

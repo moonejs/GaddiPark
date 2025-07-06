@@ -52,6 +52,10 @@
                                 <span class="detail-value">Regular</span>
                                 {% endif %}
                             </div>
+                            <div class="detail-item">
+                                <span>Expected Duration : </span>
+                                <span class="detail-value">{{ booking.duration }}</span>
+                            </div>
                         </div>
                         <div class="cost-info">
                             <span class="current-cost">₹{{ booking.amount}}</span>
@@ -98,7 +102,7 @@
                 <div class="stat-content">
                     <h4>Wallet Balance</h4>
                     <span class="stat-value">₹{{ user.wallet_balance}}</span>
-                    <button class="add-money-btn">Add Money</button>
+                    <a href="/payment/wallet"><button class="add-money-btn">Add Money</button></a>
                 </div>
             </div>
             

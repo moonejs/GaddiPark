@@ -63,8 +63,4 @@ def release_spot():
     
     current_leaving_time = now.strftime("%I:%M %p")
     
-    return render_template('payment.html',heading="Pay for Parking",method="bank",lot=lot,spot=spot,
-    booking=booking,total_amount=round(total_amount, 2),
-    total_duration=total_duration,current_leaving_time=current_leaving_time,
-    wallet_balance=user.wallet_balance
-    )
+    return render_template('payment.html',heading="Pay for Parking",method="bank",lot=lot,spot=spot,booking=booking,total_amount=round(total_amount, 2),total_duration=total_duration,current_leaving_time=current_leaving_time,wallet_balance=user.wallet_balance,user=user)
