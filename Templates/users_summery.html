@@ -5,5 +5,94 @@
 {%endblock%}
 
 {%block content %}
+{%include "admin_sidebar.html" %}
+<div class="content">
+    <div>
+        <button class="users_summery" onclick="document.querySelector('.users').style.display='block';
+        document.querySelector('.booking').style.display='none';" >Users</button>
+        <button class="booking_history" onclick="document.querySelector('.users').style.display='none';
+        document.querySelector('.booking').style.display='block';">Booking</button>
+    </div>
+    <div class="users">
 
-{%endblock}
+        <h1>User Summary</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>User ID</th>
+                    <th>Name</th>
+                    <th>Registration Date</th>
+                    <th>Total Parkings</th>
+                    
+                    <th>Status</th>
+                    <th>Spot Number</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                {%if not user.is_admin %}
+                <tr>
+                    <td>{{ user.id }}</td>
+                    <td>{{ user.full_name }}</td>
+                    <td>{{user.registration_date}}</td>
+                    <td>{{ user.total_parkings}}</td>
+                    
+                    {%for booking in bookings %}
+                    {% if booking.user_id == user.id %}
+                    <td>Active</td>
+                    {%for spot in spots%}
+                    {% if spot.id == booking.spot_id %}
+                    <td>{{spot.spot_number}}</td>
+                    {%endif%}
+                    {%endfor%}
+                    {%endif%}
+                    {%endfor%}
+                    <td>Not Active</td>
+                    <td>NA</td>
+                    
+                </tr>
+                {%endif%}
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="booking" style="display: none;">
+
+        <h2>Booking History</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Booking ID</th>
+                    <th>User ID</th>
+                    <th>Parking Spot ID</th>
+                    <th>Parking Lot Name</th>
+                    <th>Amount Paid</th>
+                    <th>Start Time</th>
+                    <th>End Time</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for record in history %}
+                <tr>
+                    <td>{{ record.booking_id }}</td>
+                    <td>{{ record.user_id }}</td>
+                    {%for spot in spots%}
+                        {% if spot.id == record.spot_id %}
+                        <td>{{spot.spot_number}}</td>
+                        {%endif%}
+                    {%endfor%}
+                    {%for lot in lots%}
+                        {% if lot.id == record.lot_id %}
+                        <td>{{lot.name}}</td>
+                        {%endif%}
+                    {%endfor%}
+                    <td>{{record.total_amount_paid}}</td>
+                    <td>{{ record.entry_time }}</td>
+                    <td>{{ record.exit_time }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        
+    </div>
+        {%endblock%}

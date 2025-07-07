@@ -51,7 +51,7 @@ def parking_dashboard():
         def add_spot(spots,type,is_e):
             n=0
             for s in range(1,spots+1):
-                spot_number=f'{chr(65+n)}{type}{10 if s % 10 == 0 else s % 10}'
+                spot_number=f'{chr(65+n)}{lot.id}{type}{10 if s % 10 == 0 else s % 10}'
                 new_parking_spot=ParkingSpot(lot_id=lot.id,spot_number=spot_number,is_ev_spot=is_e)
                 db.session.add(new_parking_spot)
                 db.session.commit()

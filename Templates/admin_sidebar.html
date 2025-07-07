@@ -5,6 +5,8 @@
 {%endblock%}
 
 {%block content %}
+{% set current_path = request.path %}
+
 <div class="sidebar">
     <div class="sidebar-header">
         <div class="logo">
@@ -14,15 +16,15 @@
     </div>
 
     <nav class="sidebar-nav">
-        <a href="{{url_for('admin.admin_dashboard')}}" class="nav-item active">
+        <a href="{{url_for('admin.admin_dashboard')}}" class="nav-item {% if current_path == url_for('admin.admin_dashboard') %}active{% endif %}">
             <i class="fas fa-tachometer-alt"></i>
             <span>Dashboard</span>
         </a>
-        <a href="#" class="nav-item">
+        <a href="{{url_for('admin.users_summery')}}" class="nav-item {%if current_path == url_for('admin.users_summery') %}active{% endif %}">
             <i class="fas fa-users"></i>
             <span>Users</span>
         </a>
-        <a href="#" class="nav-item">
+        <a href="#" class="nav-item ">
             <i class="fas fa-chart-line"></i>
             <span>Analytics</span>
         </a>
@@ -48,4 +50,6 @@
     </div>
 
 </div>
+
 {%endblock%}
+

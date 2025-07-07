@@ -58,8 +58,10 @@ def payment():
     payment_method=payment_method,transaction_id=transaction_id,duration=duration_minutes,is_ev_spot=spot.is_ev_spot
     )
     
+    
     spot=ParkingSpot.query.get(booking.spot_id)
     spot.status='available'
+    user.total_parkings += 1
     db.session.add(new_payment)
     db.session.add(new_history)
     db.session.delete(booking)

@@ -1,6 +1,6 @@
 from flask import Blueprint,render_template,request,redirect,url_for,session
 from routes.decorators import login_required,admin_required
-from models import ParkingLot,User,ParkingSpot,Booking
+from models import ParkingLot,User,ParkingSpot,Booking,History
 
 admin_bp=Blueprint('admin',__name__)
 
@@ -32,3 +32,15 @@ def admin_dashboard():
     return render_template('admin_dashboard.html',lots=lots,lot=lot,user=user,spots=spots,total_regular_available_spots=total_regular_available_spots,total_users=total_users,total_ev_available_spots=total_ev_available_spots,total_regular_spots=total_regular_spots,total_ev_spots=total_ev_spots,active_bookings=active_bookings)
 
 
+
+@admin_bp.route('/users_summery')
+@login_required
+@admin_required
+def users_summery():
+    user=User.query.get(session.get('user_id'))
+    users= User.query.all()
+    history= History.query.all()
+    bookings=Booking.query.all()
+    spots=ParkingSpot.query.all()
+    lots=ParkingLot.query.all()
+    return render_template('users_summery.html',users=users,history=history,bookings=bookings,spots=spots,user=user,lots=lots)
