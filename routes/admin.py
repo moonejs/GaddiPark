@@ -28,8 +28,12 @@ def admin_dashboard():
     lot = None
     if lot_id:
         lot=ParkingLot.query.filter_by(id=lot_id).first()
+    history=History.query.all()
+    total_revenue=0
+    for h in history:
+        total_revenue+=h.total_amount_paid
     
-    return render_template('admin_dashboard.html',lots=lots,lot=lot,user=user,spots=spots,total_regular_available_spots=total_regular_available_spots,total_users=total_users,total_ev_available_spots=total_ev_available_spots,total_regular_spots=total_regular_spots,total_ev_spots=total_ev_spots,active_bookings=active_bookings)
+    return render_template('admin_dashboard.html',lots=lots,lot=lot,user=user,spots=spots,total_regular_available_spots=total_regular_available_spots,total_users=total_users,total_ev_available_spots=total_ev_available_spots,total_regular_spots=total_regular_spots,total_ev_spots=total_ev_spots,active_bookings=active_bookings,total_revenue=total_revenue)
 
 
 

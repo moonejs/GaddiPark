@@ -1,98 +1,184 @@
-{%extends "base.html" %}
+{% extends "base.html" %}
 
-{%block style%}
+{% block style %}
+<link rel="stylesheet" href="{{url_for('static',filename='css/base.css')}}">
 <link rel="stylesheet" href="{{url_for('static',filename='css/user_summery.css')}}">
-{%endblock%}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+{% endblock %}
 
-{%block content %}
-{%include "admin_sidebar.html" %}
+{% block content %}
+{% include "admin_sidebar.html" %}
+
 <div class="content">
-    <div>
-        <button class="users_summery" onclick="document.querySelector('.users').style.display='block';
-        document.querySelector('.booking').style.display='none';" >Users</button>
-        <button class="booking_history" onclick="document.querySelector('.users').style.display='none';
-        document.querySelector('.booking').style.display='block';">Booking</button>
+    <div class="page-header bg">
+        <div class="header-content">
+            <h1>User Management</h1>
+            <p>Monitor and manage user activities across your parking system</p>
+        </div>
+        <div class="tab-navigation">
+            <button class="tab-btn active" id="users-tab" onclick="document.querySelector('.booking').style.display='none';
+            document.querySelector('.users').style.display='block';
+            document.querySelector('#booking-tab').classList.remove('active');
+            document.querySelector('#users-tab').classList.add('active');">
+                <i class="fas fa-users"></i>
+                <span>Users Overview</span>
+            </button>
+            <button class="tab-btn" id="booking-tab" onclick="document.querySelector('.booking').style.display='block';
+            document.querySelector('.users').style.display='none';
+            document.querySelector('#booking-tab').classList.add('active');
+            document.querySelector('#users-tab').classList.remove('active');">
+                <i class="fas fa-history"></i>
+                <span>Booking Summary</span>
+            </button>
+        </div>
     </div>
-    <div class="users">
 
-        <h1>User Summary</h1>
-        <table>
-            <thead>
-                <tr>
-                    <th>User ID</th>
-                    <th>Name</th>
-                    <th>Registration Date</th>
-                    <th>Total Parkings</th>
-                    
-                    <th>Status</th>
-                    <th>Spot Number</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for user in users %}
-                {%if not user.is_admin %}
-                <tr>
-                    <td>{{ user.id }}</td>
-                    <td>{{ user.full_name }}</td>
-                    <td>{{user.registration_date}}</td>
-                    <td>{{ user.total_parkings}}</td>
-                    
-                    {%for booking in bookings %}
-                    {% if booking.user_id == user.id %}
-                    <td>Active</td>
-                    {%for spot in spots%}
-                    {% if spot.id == booking.spot_id %}
-                    <td>{{spot.spot_number}}</td>
-                    {%endif%}
-                    {%endfor%}
-                    {%endif%}
-                    {%endfor%}
-                    <td>Not Active</td>
-                    <td>NA</td>
-                    
-                </tr>
-                {%endif%}
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
-    <div class="booking" style="display: none;">
+    <div class="users  ">
+        <div class="search-section">
+            <div class="search-container">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="userSearch" placeholder="Search users by name, email, or ID...">
+                </div>
+                <div class="filter-controls">
+                    <select id="statusFilter" >
+                        <option value="">All Status</option>
+                        <option value="active">Active</option>
+                        <option value="inactive">Inactive</option>
+                    </select>
+                    <button class="export-btn">
+                        <i class="fas fa-download"></i>
+                        Export
+                    </button>
+                </div>
+            </div>
+        </div>
 
-        <h2>Booking History</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th>Booking ID</th>
-                    <th>User ID</th>
-                    <th>Parking Spot ID</th>
-                    <th>Parking Lot Name</th>
-                    <th>Amount Paid</th>
-                    <th>Start Time</th>
-                    <th>End Time</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for record in history %}
-                <tr>
-                    <td>{{ record.booking_id }}</td>
-                    <td>{{ record.user_id }}</td>
-                    {%for spot in spots%}
-                        {% if spot.id == record.spot_id %}
-                        <td>{{spot.spot_number}}</td>
-                        {%endif%}
-                    {%endfor%}
-                    {%for lot in lots%}
-                        {% if lot.id == record.lot_id %}
-                        <td>{{lot.name}}</td>
-                        {%endif%}
-                    {%endfor%}
-                    <td>{{record.total_amount_paid}}</td>
-                    <td>{{ record.entry_time }}</td>
-                    <td>{{ record.exit_time }}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-        
+        <div class="table-container">
+            <div class="table-header">
+                <h3>User Summary</h3>
+                <div class="table-actions">
+                    <span class="record-count">{{ users|length -1 }} records</span>
+                    <button class="refresh-btn" onclick="location.reload()">
+                        <i class="fas fa-sync-alt"></i>
+                        Refresh
+                    </button>
+                </div>
+            </div>
+            
+            <div class="table-wrapper">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>User Id</th>
+                            <th>Name</th>
+                            <th>Registration Date</th>
+                            <th>Total Parkings</th>
+                            <th>Current Status</th>
+                            <th>Spot Number</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for user in users %}
+                            {% if not user.is_admin %}
+                                <tr class="row">
+                                    <td>{{user.id}}</td>
+                                    <td>{{ user.full_name }}</td>
+                                    <td>{{ user.registration_date.strftime("%d %b %Y")}}</td>
+                                    <td>{{ user.total_parkings  }}</td>
+                                    {%for booking in bookings %}
+                                        {% if booking.user_id == user.id %}
+                                            <td>Active</td>
+                                            {%for spot in spots%}
+                                                {% if spot.id == booking.spot_id %}
+                                                <td>{{spot.spot_number}}</td>
+                                                {%endif%}
+                                            {%endfor%}
+                                        {% else %}
+                                            <td>Inactive</td>
+                                            <td>NA</td>
+                                        
+                                        {%endif%}
+                                    {%endfor%}
+                               
+                                </tr>
+                            {% endif %}
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
-        {%endblock%}
+
+ 
+    <div class="booking "style="display: none;">
+        <div class="search-section">
+            <div class="search-container">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="bookingSearch" placeholder="Search bookings by ID, user, or location..." >
+                </div>
+                <div class="filter-controls">
+                    <button class="export-btn">
+                        <i class="fas fa-download"></i>
+                        Export
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="table-container">
+            <div class="table-header">
+                <h3>Booking Summary</h3>
+                <div class="table-actions">
+                    <span class="record-count">{{ history|length }} records</span>
+                    <button class="refresh-btn" onclick="location.reload()">
+                        <i class="fas fa-sync-alt"></i>
+                        Refresh
+                    </button>
+                </div>
+            </div>
+            
+            <div class="table-wrapper">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Booking ID</th>
+                            <th>User ID</th>
+                            <th>Parking Lot Name</th>
+                            <th>Spot Number</th>
+                            <th>Parking Time</th>
+                            <th>Exit Time</th>
+                            <th>Amount Paid</th>
+                            
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for record in history %}
+                        <tr class="row">
+                            <td>{{ record.booking_id }}</td>
+                            <td>{{record.user_id}}</td>
+                            {% for lot in lots %}
+                                {% if lot.id == record.lot_id %}
+                                    <td>{{ lot.name }}</td>
+                                {% endif %}
+                            {% endfor %}
+                            {% for spot in spots %}
+                                {% if spot.id == record.spot_id %}
+                                    <td>{{ spot.spot_number }}</td>
+                                {% endif %}
+                            {% endfor %}
+                            <td>{{ record.entry_time.strftime("%I:%M %p") }}</td>
+                            <td>{{ record.exit_time.strftime("%I:%M %p")}}</td>    
+                            <td>₹{{ record.total_amount_paid  }}</td>
+                            
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
