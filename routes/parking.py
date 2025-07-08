@@ -48,10 +48,19 @@ def parking_dashboard():
         db.session.commit()
         
         lot=ParkingLot.query.filter_by(name=pl_name).first()
+        def letter(n):
+            aplha=''
+            while n>=0:
+                aplha=chr(n%26+65)+aplha
+                n=n//26 - 1
+            return aplha
         def add_spot(spots,type,is_e):
             n=0
+            
             for s in range(1,spots+1):
-                spot_number=f'{chr(65+n)}{lot.id}{type}{10 if s % 10 == 0 else s % 10}'
+                n=(s-1)//10
+                alpha=letter(n)
+                spot_number=f'{alpha}{lot.id}{type}{10 if s % 10 == 0 else s % 10}'
                 new_parking_spot=ParkingSpot(lot_id=lot.id,spot_number=spot_number,is_ev_spot=is_e)
                 db.session.add(new_parking_spot)
                 db.session.commit()
@@ -107,7 +116,10 @@ def update_lot(lot_id):
 @admin_required
 def delete_lot(lot_id):
     lot=ParkingLot.query.get(lot_id)
+    spots=ParkingSpot.query.filter_by(lot_id=lot_id).all()
     if not (lot.occupied_regular_spots) and not (lot.occupied_ev_spots):
+        for spot in spots:
+            db.session.delete(spot)
         db.session.delete(lot)
         db.session.commit()
         flash('Parking Lot deleted successfully!','success')
