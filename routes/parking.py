@@ -80,11 +80,11 @@ def update_lot(lot_id):
         new_ev_charging_rate = float(request.form.get('ev_charging_rate'))
         new_description = request.form.get('description')
         if not new_pl_name or not new_address or not new_pincode or not new_hourly_rate  or not new_ev_charging_rate or not new_description:
-            flash('Please fill in all required fields')
+            flash('Please fill in all required fields','error')
             return redirect(url_for('parking.parking_dashboard'))
         parking=ParkingLot.query.filter_by(name=new_pl_name).first()
         if parking:
-            flash('Parking Lot name already Exist,please enter unique Lot name')
+            flash('Parking Lot name already Exist,please enter unique Lot name','error')
             return redirect(url_for('parking.parking_dashboard'))
         
         lot.name=new_pl_name
@@ -95,7 +95,7 @@ def update_lot(lot_id):
         lot.description=new_description
         db.session.commit()
         
-        flash('Parking Lot Successfully updated')
+        flash('Parking Lot Successfully updated','success')
         return redirect(url_for('admin.admin_dashboard'))
     else:
         return redirect(url_for('admin.admin_dashboard'))
@@ -110,10 +110,10 @@ def delete_lot(lot_id):
     if not (lot.occupied_regular_spots) and not (lot.occupied_ev_spots):
         db.session.delete(lot)
         db.session.commit()
-        flash('Parking Lot deleted successfully!')
+        flash('Parking Lot deleted successfully!','success')
         return redirect(url_for('admin.admin_dashboard'))
     else:
-        flash('Cannot delete parking lot: there are still occupied spots.')
+        flash('Cannot delete parking lot: there are still occupied spots.','error')
         return redirect(url_for('admin.admin_dashboard'))
     
 

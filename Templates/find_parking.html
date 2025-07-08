@@ -1,120 +1,311 @@
-{%extends "base.html" %}
+{% extends "base.html" %}
 
-{%block style%}
+{% block style %}
+<link rel="stylesheet" href="{{url_for('static',filename='css/base.css')}}">
 <link rel="stylesheet" href="{{url_for('static',filename='css/find_parking.css')}}">
-{%endblock%}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+{% endblock %}
 
-{%block content %}
-<div class="page-1">
-    <div>
-        <form action="">
-            <input type="search" placeholder="Search for a location,landmark or address">
+{% block content %}
+{% include "user_navbar.html" %}
+
+<div class="user-main-content">
+    <div class="search-section bg">
+        <div class="search-header">
+            <h1>Find Your Perfect Parking Spot</h1>
+            <p>Discover available parking spaces near you</p>
+        </div>
+        
+        <form action="" class="search-form">
+            <div class="search-container" id="search-container">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="search" placeholder="Search for a location, landmark or address" class="search-input">
+                </div>
+                <button type="submit" class="search-btn">
+                    <i class="fas fa-search"></i>
+                    Search
+                </button>
+            </div>
             
-            <button>Search</button>
         </form>
     </div>
-    
-    <h2>Park Lots Near You </h2>
-    {%if not lots%}
-    <h4>No plots near you </h4>
-    {%endif%}
-    <div class="content">
-        {% for lot in lots %}
-        <div class="card">
-            {{lot.name}}
-            <a href="{{url_for('booking.booking',lot_id=lot.id)}}"><button class="book-spot-btn">Book spot</button></a>
+
+    <div class="parking-lots-section bg" style="padding: 2rem;">
+        <div class="parking-header" >
+            <h2>
+                <i class="fas fa-map-marker-alt"></i>
+                Parking Lots Near You
+            </h2>
         </div>
-    {%endfor%}
+        <div class="parking-lots-card-container">
+
+            {% if not lots %}
+            <div class="no-parking">
+                <div class="no-parking-icon">
+                    <i class="fas fa-search"></i>
+                </div>
+                <h3>No parking lots found</h3>
+                <p>Try adjusting your search criteria or location</p>
+                <button class="retry-btn">
+                    <i class="fas fa-redo"></i>
+                    Try Again
+                </button>
+            </div>
+            {% endif %}
+            {% for lot in lots %}
+            <div class="parking-lot-card bg" id="parking-lot-card" >
+                <div class="card-header">
+                    <div class="lot-status">
+                        {% if lot.total_spots + lot.ev_spots == lot.occupied_regular_spots + lot.occupied_ev_spots %}
+                            <div class="full lot-status">
+                                Full
+                            </div>
+                        {% else %}
+                            <div class="active lot-status">
+                                Active
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="lot-rating">
+                        <i class="fas fa-star"></i>
+                        <span>4.5</span>
+                    </div>
+                </div>
+                
+                <div class="card-content">
+                    <h3 class="lot-name">{{ lot.name }}</h3>
+                    <p class="lot-address">
+                        <i class="fas fa-map-marker-alt"></i>
+                        {{ lot.address }}
+                    </p>
+                    
+                    <div class="lot-features">
+                        <div class="feature">
+                            <i class="fas fa-car"></i>
+                            <span>{{ lot.total_spots - lot.occupied_regular_spots }}/{{ lot.total_spots }} spots</span>
+                        </div>
+                        {% if lot.ev_spots > 0 %}
+                        <div class="feature ev">
+                            <i class="fas fa-charging-station"></i>
+                            <span>{{ lot.ev_spots - lot.occupied_ev_spots }}/{{ lot.ev_spots }} EV spots</span>
+                        </div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="pricing-info">
+                        <div class="price-main">
+                            <span class="price">₹{{ lot.hourly_rate }}</span>
+                            <span class="price-unit">/hour</span>
+                        </div>
+                        {% if lot.ev_spots > 0 %}
+                        <div class="price-ev">
+                            <span class="ev-price">₹{{ lot.ev_charging_rate }}/kWh</span>
+                        </div>
+                        {% endif %}
+                    </div>
+                    <div class="feature">
+                        <i class="fas fa-clock"></i>
+                        <span>
+                            {% if lot.is_24_hours %}
+                                24/7
+                            {% else %}
+                                {{ lot.opening_time }} - {{ lot.closing_time }}
+                            {% endif %}
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-actions">
+                    <a href="{{ url_for('booking.booking', lot_id=lot.id) }}" class="book-spot-btn btn-style">
+                        <i class="fas fa-parking"></i>
+                        Book Spot
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+            </div>
+        </div>
     </div>
 </div>
 
+<!-- Booking Modal -->
 <div class="book-spot-model" style="display: none;">
-    <div>
-        <h2>Confirm Booking </h2>
-        <a href="{{url_for('user.find_parking')}}"><button class="close-book-spot-model">Close</button></a>
+    <div class="modal-overlay"></div>
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2>
+                <i class="fas fa-parking"></i>
+                Confirm Booking
+            </h2>
+            <a href="{{ url_for('user.find_parking') }}" class="close-book-spot-model">
+                <i class="fas fa-times"></i>
+            </a>
+        </div>
         
-    </div>
-    <div>
-        <h2>{{lot.name}}</h2>
-        <h2>{{lot.address}}</h2>
-    </div>
-    <form action="{% if lot %}{{ url_for('booking.booking', lot_id=lot.id) }}{% else %}#{% endif %}" method="POST">
-        <div>
-            <label for="vehicle">Vehicle</label>
-            <select name="vehicle" id="vehicle" onchange="handleVehicleChange()" required>
-                <option value="">Select a vehicle</option>
-                {%for vehicle in vehicles %}
-                <option value="{{vehicle.id}}"
-                data-is-ev="{{vehicle.is_ev}}" 
-                data-model="{{vehicle.model}}"
-                data-reg="{{vehicle.registration_number}}">
-                {%if vehicle.is_ev %}
-                Ev- 
-                {%endif%}
-                {{vehicle.model}} ({{vehicle.registration_number}})</option>
-                {%endfor%}
-            </select>
-        </div>
-        <div>
-            <h4>Date:{{current_booking_date}}</h4>
-            <h4>Time:{{current_booking_time}}</h4>
-        </div>
-        <div>
-            <label for="duration" >Duration</label>
-            <select name="duration" id="duration"onchange="updateRates()" required>
-                <option value="1">1 Hour</option>
-                <option value="2">2 Hour</option>
-                <option value="3">3 Hour</option>
-                <option value="4">4 Hour</option>
-            </select>
-        </div>
-        <div id="parking-options" style="display: none;">
-            <h4>Parking Types : </h4>
-            <div>
-                <input type="radio" id="regular" name="parking_type" value="regular" checked onchange="updateRates()">
-                <label for="regular">Regular Parking Only</label>
+        <div class="lot-info">
+            <div class="lot-details">
+                <h3>{{ lot.name if lot else 'Parking Lot' }}</h3>
+                <p>
+                    <i class="fas fa-map-marker-alt"></i>
+                    {{ lot.address if lot else 'Address' }}
+                </p>
             </div>
-            <div>
-                <input type="radio" id="ev-charging" name="parking_type" value="ev_charging" onchange="updateRates()">
-                <label for="ev-charging">Parking + EV Charging</label>
+            <div class="lot-image">
+                <i class="fas fa-building"></i>
             </div>
         </div>
-        <div id="rate-display">
-            <p data-rate="{{lot.hourly_rate}}" id="regular-rate">Parking Rate/Hour : ₹{{lot.hourly_rate}}</p>
-            <p id="ev-charging-rate" style="display: none;" data-ev-rate="{{lot.ev_charging_rate}}">
-                EV Charging:₹{{lot.ev_charging_rate}}/Kwh
-            </p>
-        </div>
-        <div>
-            <label for="estimate_cost">Estimate Cost</label>
-            <input type="text" id="estimate_cost" disabled name="estimate_cost" required>
-            <input type="hidden" id="hidden_estimate_cost" name="estimate_cost" required>
+        
+        <form action="{% if lot %}{{ url_for('booking.booking', lot_id=lot.id) }}{% else %}#{% endif %}" method="POST" class="booking-form">
+            <!-- Vehicle Selection -->
+            <div class="form-group">
+                <label for="vehicle">
+                    <i class="fas fa-car"></i>
+                    Select Vehicle
+                </label>
+                <select name="vehicle" id="vehicle" onchange="handleVehicleChange()" required>
+                    <option value="">Choose your vehicle</option>
+                    {% for vehicle in vehicles %}
+                    <option value="{{ vehicle.id }}"
+                            data-is-ev="{{ vehicle.is_ev }}" 
+                            data-model="{{ vehicle.model }}"
+                            data-reg="{{ vehicle.registration_number }}">
+                        {% if vehicle.is_ev %}
+                        <i class="fas fa-bolt"></i> EV - 
+                        {% endif %}
+                        {{ vehicle.model }} ({{ vehicle.registration_number }})
+                    </option>
+                    {% endfor %}
+                </select>
+            </div>
             
-        </div>
-        
-        <button type="submit" 
-        class="confirm-booking-btn">Confirm Booking</button>
-
-    </form>
+            <!-- Date and Time -->
+            <div class="datetime-info">
+                <div class="datetime-item">
+                    <i class="fas fa-calendar"></i>
+                    <div>
+                        <span class="label">Date</span>
+                        <span class="value">{{ current_booking_date if current_booking_date else 'Today' }}</span>
+                    </div>
+                </div>
+                <div class="datetime-item">
+                    <i class="fas fa-clock"></i>
+                    <div>
+                        <span class="label">Time</span>
+                        <span class="value">{{ current_booking_time if current_booking_time else 'Now' }}</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Duration Selection -->
+            <div class="form-group">
+                <label for="duration">
+                    <i class="fas fa-hourglass-half"></i>
+                    Duration
+                </label>
+                <select name="duration" id="duration" onchange="updateRates()" required>
+                    <option value="1">1 Hour</option>
+                    <option value="2">2 Hours</option>
+                    <option value="3">3 Hours</option>
+                    <option value="4">4 Hours</option>
+                    <option value="6">6 Hours</option>
+                    <option value="8">8 Hours</option>
+                    <option value="12">12 Hours</option>
+                </select>
+            </div>
+            
+            <!-- Parking Options (for EV) -->
+            <div id="parking-options" style="display: none;">
+                <div class="form-group">
+                    <label class="section-label">
+                        <i class="fas fa-charging-station"></i>
+                        Parking Options
+                    </label>
+                    <div class="radio-group">
+                        <label class="radio-option">
+                            <input type="radio" id="regular" name="parking_type" value="regular" checked onchange="updateRates()">
+                            <span class="radio-custom"></span>
+                            <div class="radio-content">
+                                <span class="radio-title">Regular Parking Only</span>
+                                <span class="radio-desc">Standard parking space</span>
+                            </div>
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" id="ev-charging" name="parking_type" value="ev_charging" onchange="updateRates()">
+                            <span class="radio-custom"></span>
+                            <div class="radio-content">
+                                <span class="radio-title">Parking + EV Charging</span>
+                                <span class="radio-desc">Includes charging facility</span>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Rate Display -->
+            <div id="rate-display" class="rate-info">
+                <div class="rate-item">
+                    <i class="fas fa-parking"></i>
+                    <span>Parking Rate: </span>
+                    <span class="rate-value" data-rate="{{ lot.hourly_rate if lot else 0 }}">₹{{ lot.hourly_rate if lot else 0 }}/hour</span>
+                </div>
+                <div class="rate-item ev-rate" id="ev-charging-rate" style="display: none;">
+                    <i class="fas fa-charging-station"></i>
+                    <span>EV Charging: </span>
+                    <span class="rate-value" data-ev-rate="{{ lot.ev_charging_rate if lot else 0 }}">₹{{ lot.ev_charging_rate if lot else 0 }}/kWh</span>
+                </div>
+            </div>
+            
+            <!-- Cost Estimate -->
+            <div class="form-group">
+                <label for="estimate_cost">
+                    <i class="fas fa-calculator"></i>
+                    Estimated Cost
+                </label>
+                <div class="cost-display">
+                    <input type="text" id="estimate_cost" disabled name="estimate_cost" required>
+                    <input type="hidden" id="hidden_estimate_cost" name="estimate_cost" required>
+                </div>
+            </div>
+            
+            <!-- Booking Summary -->
+            <div class="booking-summary">
+                <h4>Booking Summary</h4>
+                <div class="summary-item">
+                    <span>Duration:</span>
+                    <span id="summary-duration">1 hour</span>
+                </div>
+                <div class="summary-item">
+                    <span>Parking Type:</span>
+                    <span id="summary-type">Regular</span>
+                </div>
+                <div class="summary-item total">
+                    <span>Total Cost:</span>
+                    <span id="summary-total">₹0</span>
+                </div>
+            </div>
+            
+            <button type="submit" class="confirm-booking-btn">
+                <i class="fas fa-check"></i>
+                Confirm Booking
+            </button>
+        </form>
+    </div>
 </div>
-  
 
 {% if lot %}
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const book_modal = document.querySelector('.book-spot-model');
-            const page = document.querySelector('.page-1');
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const book_modal = document.querySelector('.book-spot-model');
+        const page = document.querySelector('.main-content');
 
-            if (book_modal && page) {
-                book_modal.style.display = 'block';
-                page.classList.add('blur');
-            }
-        });
-    </script>
+        if (book_modal && page) {
+            book_modal.style.display = 'block';
+            page.classList.add('blur');
+        }
+    });
+</script>
 {% endif %}
 
-
-<script src="{{url_for('static',filename='js/find_parking.js')}}"></script>
-    
-
-{%endblock%}
+<script src="{{ url_for('static', filename='js/find_parking.js') }}"></script>
+{% endblock %}

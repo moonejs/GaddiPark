@@ -59,94 +59,6 @@
 
 
 /* Parking Lots Section */
-.parking-lots-section {
-    border-radius: var(--radius-xl);
-    padding: 2rem;
-}
-
-
-/* Parking Lots Grid */
-.parking-lots-card-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1.5rem;
-    margin-top: 1.5rem;
-}
-
-.empty-state {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 4rem 2rem;
-    background: rgba(255, 255, 255, 0.6);
-    border-radius: var(--radius-xl);
-    border: 2px dashed rgba(255, 255, 255, 0.5);
-}
-
-.empty-icon {
-    width: 4rem;
-    height: 4rem;
-    background: var(--main-gradient);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 0 auto 1rem;
-    font-size: 1.5rem;
-    color: white;
-    opacity: 0.8;
-}
-
-.empty-state h3 {
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: var(--gray-700);
-    margin-bottom: 0.5rem;
-}
-
-.empty-state p {
-    color: var(--gray-500);
-    margin-bottom: 1.5rem;
-}
-
-/* Parking Lot Cards */
-.parking-lot-card {
-   
-    
-    padding: 1.5rem;
-    transition: var(--transition);
-}
-
-.parking-lot-card:hover {
-    transform: translateY(-4px);
-    box-shadow: var(--shadow-2xl);
-}
-
-.card-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 1rem;
-}
-
-.lot-status {
-    padding: 0.25rem 0.75rem;
-    border-radius: var(--radius-md);
-    font-size: 0.75rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-}
-
-.active {
-    background: rgba(17, 255, 176, 0.1);
-    color: #10b981;
-}
-.full {
-    background: rgba(239, 68, 68, 0.1);
-    color: #ef4444;
-}
 
 .card-actions {
     display: flex;
@@ -195,23 +107,6 @@
 .action-btn.delete:hover {
     background: #ef4444;
     color: white;
-}
-
-.card-content h3 {
-    font-size: 1.25rem;
-    font-weight: 700;
-    color: var(--gray-900);
-    margin-bottom: 0.5rem;
-}
-
-.lot-address {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    color: var(--gray-600);
-    margin-bottom: 0.25rem;
-    font-size: 0.875rem;
-    
 }
 
 .lot-pincode {

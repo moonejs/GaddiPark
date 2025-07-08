@@ -86,20 +86,30 @@
                                     <td>{{ user.full_name }}</td>
                                     <td>{{ user.registration_date.strftime("%d %b %Y")}}</td>
                                     <td>{{ user.total_parkings  }}</td>
+
+                                    {% set ns = namespace(has_booking=false, current_spot_number='NA') %}
+
                                     {%for booking in bookings %}
-                                        {% if booking.user_id == user.id %}
-                                            <td>Active</td>
+                                        {%if booking.user_id == user.id %}
+                                            {% set ns.has_booking = true %}
                                             {%for spot in spots%}
                                                 {% if spot.id == booking.spot_id %}
-                                                <td>{{spot.spot_number}}</td>
-                                                {%endif%}
+                                                    {% set ns.current_spot_number = spot.spot_number %}
+                                                {% endif %}
+                                                
                                             {%endfor%}
-                                        {% else %}
-                                            <td>Inactive</td>
-                                            <td>NA</td>
-                                        
-                                        {%endif%}
+                                        {% endif %}
                                     {%endfor%}
+
+                                    {%if ns.has_booking%}
+                                        <td>Active</td>
+                                        <td>{{ns.current_spot_number}}</td>
+                                            
+                                    {% else %}
+                                        <td>Inactive</td>
+                                        <td>NA</td>
+                                            
+                                    {%endif%}
                                
                                 </tr>
                             {% endif %}

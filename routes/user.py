@@ -44,7 +44,7 @@ def find_parking():
         lot = ParkingLot.query.filter_by(id=lot_id).first()
 
     
-    return render_template('find_parking.html',lots=lots,lot=lot,vehicles=vehicles,current_booking_time=current_booking_time,current_booking_date=current_booking_date,)
+    return render_template('find_parking.html',lots=lots,lot=lot,vehicles=vehicles,current_booking_time=current_booking_time,current_booking_date=current_booking_date,user=user)
 
 
 

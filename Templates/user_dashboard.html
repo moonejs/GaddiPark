@@ -2,14 +2,13 @@
 
 {% block style %}
 <link rel="stylesheet" href="{{url_for('static',filename='css/user_dashboard.css')}}">
-<link rel="stylesheet" href="{{url_for('static',filename='css/user_navbar.css')}}">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 {% endblock %}
 
 {% block content %}
 {% include "user_navbar.html" %}
 <div class="dashboard-container">
-    <div class="main-content">
+    <div class="user-main-content">
         {% if booking %}
         <div class="active-parking-section">
             <div class="section-header">

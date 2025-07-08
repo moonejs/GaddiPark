@@ -1,11 +1,19 @@
+{%extends "base.html" %}
+
+{%block style%}
+<link rel="stylesheet" href="{{url_for('static',filename='css/user_navbar.css')}}">
+{%endblock%}
+
+{%block content %}
+{% set current_path = request.path %}
 <nav class="top-navbar">
         <div class="nav-container">
             <div class="logo">
                 <h2>Gadi Park</h2>
             </div>
             <ul class="nav-links">
-                <li class="active"><a href="{{ url_for('user.user_dashboard') }}">Dashboard</a></li>
-                <li><a href="{{ url_for('user.find_parking') }}">Find Parking</a></li>
+                <li class="{% if current_path == url_for('user.user_dashboard')%}active{%endif%}"><a href="{{ url_for('user.user_dashboard') }}">Dashboard</a></li>
+                <li class="{% if current_path == url_for('user.find_parking')%}active{%endif%}"><a href="{{ url_for('user.find_parking') }}">Find Parking</a></li>
                 <li><a href="#">History</a></li>
                 <li><a href="{{url_for('user.vehicle')}}">Vehicles</a></li>
                 <li><a href="#">Analytics</a></li>
@@ -22,3 +30,5 @@
             </div>
         </div>
     </nav>
+
+{%endblock%}
