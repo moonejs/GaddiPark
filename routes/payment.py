@@ -115,4 +115,4 @@ def wallet_payment():
         return redirect(url_for('user.user_dashboard'))
         
     
-    return render_template('payment.html',method="wallet",heading="Add Money to Wallet")
+    return render_template('payment.html',method="wallet",heading="Add Money to Wallet",user=user)

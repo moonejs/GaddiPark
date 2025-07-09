@@ -1,52 +1,267 @@
-{%extends "base.html" %}
+{% extends "base.html" %}
 
-{%block style%}
+{% block style %}
+<link rel="stylesheet" href="{{url_for('static',filename='css/base.css')}}">
 <link rel="stylesheet" href="{{url_for('static',filename='css/payment.css')}}">
-{%endblock%}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+{% endblock %}
 
-{%block content %}
-<div>{{heading}}</div>
-{%if method == 'wallet'%}
-<div>
-    <form action="{{url_for('payment.wallet_payment')}}" method="POST">
-        <label for="updated_wallet_balance">Enter Amount to Add</label>
-        <input type="number" id="updated_wallet_balance" name="updated_wallet_balance" required>
-        <h1>Payment Method</h1>
-        <input type="radio" id="card" name="payment-method" required value="card">
-        <label for="card">Saved Cards</label>
-        <input type="radio" id="upi" name="payment-method" required value="UPI">
-        <label for="upi">UPI</label>
-        <button>Pay</button>
-    </form>
-</div>
-{%else%}
-<div >
-
-    <div>
-        <h4>Location : {{lot.address}}</h4>
-        <h4>Spot : {{spot.spot_number}}</h4>
-        <h4>Entry Time : {{ booking.start_time.strftime("%d %B %Y, %I:%M %p") }}</h4>
-        <h4>Exit Time : {{current_leaving_time}}</h4>
-        <h4>Total Duration : {{total_duration}}</h4>
-        <h4>Total Amount : {{total_amount}}</h4>
+{% block content %}
+<div class="payment-container">
+    <div class="payment-header bg">
+        <div class="header-content">
+            <div class="back-button ">
+                <a href="javascript:history.back()" class="back-btn">
+                    <i class="fas fa-arrow-left"></i>
+                </a>
+            </div>
+            <div class="header-info">
+                <h1>{{ heading  }}</h1>
+                <p>{{ 'Add money to your wallet' if method == 'wallet' else 'Complete your parking payment' }}</p>
+            </div>
+            <div class="security-badge">
+                <i class="fas fa-shield-alt"></i>
+                <span>Secure</span>
+            </div>
+        </div>
     </div>
 
-    <div>
-        <form action="{{url_for('payment.payment')}}" method="POST">
-            <input type="hidden" name="total_amount_paid" value={{total_amount}}>
-            <input type="hidden" name="payment_time" value={{current_leaving_time}}>
+    {% if method == 'wallet' %}
+
+    <div class="wallet-section">
+        <div class="amount-section">
+            <h3>
+                Add Money to Wallet
+            </h3>
             
-            <input type="radio" id="card" name="payment-method" required value="card">
-            <label for="card">Saved Cards</label>
-            <input type="radio" id="upi" name="payment-method" required value="UPI">
-            <label for="upi">UPI</label>
-            <input type="radio" id="wallet" name="payment-method" required value="wallet">
-            <label for="wallet">Wallet:({{ user.wallet_balance }})</label>
-            <button>Pay and release</button>
-        </form>
+            <form action="{{url_for('payment.wallet_payment')}}" method="POST" class="wallet-form">
+                <div class="amount-input-section">
+                    <label for="updated_wallet_balance">Enter Amount</label>
+                    <div class="amount-input-wrapper">
+                        <span class="currency-symbol">₹</span>
+                        <input type="number" 
+                               id="updated_wallet_balance" 
+                               name="updated_wallet_balance" 
+                               placeholder="0" 
+                               min="1" 
+                               max="50000"
+                               required>
+                    </div>
+                </div>
+
+                <div class="payment-methods-section">
+                    <h4>
+                        <i class="fas fa-credit-card"></i>
+                        Select Payment Method
+                    </h4>
+                    
+                    <div class="payment-options">
+                        <label class="payment-option">
+                            <input type="radio" name="payment-method" value="card" required>
+                            <div class="option-content">
+                                <div class="option-icon card">
+                                    <i class="fas fa-credit-card"></i>
+                                </div>
+                                <div class="option-details">
+                                    <span class="option-title">Debit/Credit Card</span>
+                                    <span class="option-desc">Visa, Mastercard, RuPay</span>
+                                </div>
+                                <div class="option-check">
+                                    <i class="fas fa-check"></i>
+                                </div>
+                            </div>
+                        </label>
+
+                        <label class="payment-option">
+                            <input type="radio" name="payment-method" value="UPI" required>
+                            <div class="option-content">
+                                <div class="option-icon upi">
+                                    <i class="fas fa-mobile-alt"></i>
+                                </div>
+                                <div class="option-details">
+                                    <span class="option-title">UPI</span>
+                                    <span class="option-desc">PhonePe, GPay, Paytm</span>
+                                </div>
+                                <div class="option-check">
+                                    <i class="fas fa-check"></i>
+                                </div>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+                
+
+                <button type="submit" class="pay-button btn-style">
+                    <i class="fas fa-plus"></i>
+                    Add Money to Wallet
+                </button>
+            </form>
+        </div>
     </div>
+
+    {% else %}
+ 
+    <div class="parking-payment-section  ">
+        <div class="booking-summary-card bg">
+            <div class="booking-header">
+                <div class="booking-icon">
+                    <i class="fas fa-parking"></i>
+                </div>
+                <div class="booking-title">
+                    <h3>Parking Session Summary</h3>
+                    <span class="session-id">Booking ID: <span style="font-weight: 700;">{{ booking.booking_id}}</span></span>
+                </div>
+            </div>
+
+            <div class="booking-details">
+                <div class="detail-row">
+                    <div class="detail-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <div>
+                            <span class="detail-label">Location</span>
+                            <span class="detail-value">{{ lot.address}}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="detail-row">
+                    <div class="detail-item">
+                        <i class="fas fa-parking"></i>
+                        <div>
+                            <span class="detail-label">Parking Spot</span>
+                            <span class="detail-value">{{ spot.spot_number}}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="detail-row">
+                    <div class="detail-item">
+                        <i class="fas fa-sign-in-alt"></i>
+                        <div>
+                            <span class="detail-label">Entry Time</span>
+                            <span class="detail-value">{{ booking.start_time.strftime("%d %B %Y, %I:%M %p")  }}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="detail-row">
+                    <div class="detail-item">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <div>
+                            <span class="detail-label">Exit Time</span>
+                            <span class="detail-value">{{ current_leaving_time  }}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="detail-row">
+                    <div class="detail-item">
+                        <i class="fas fa-clock"></i>
+                        <div>
+                            <span class="detail-label">Total Duration</span>
+                            <span class="detail-value duration">{{ total_duration }}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="detail-row total-amount-row">
+                    <div class="detail-item">
+                        <i class="fas fa-receipt"></i>
+                        <div>
+                            <span class="detail-label">Total Amount</span>
+                            <span class="detail-value total-amount">₹{{ total_amount or 0 }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="payment-form-section bg">
+            <h3>
+                <i class="fas fa-credit-card"></i>
+                Choose Payment Method
+            </h3>
+
+            <form action="{{url_for('payment.payment')}}" method="POST" class="parking-payment-form">
+                <input type="hidden" name="total_amount_paid" value="{{ total_amount }}">
+                <input type="hidden" name="payment_time" value="{{ current_leaving_time}}">
+                
+                <div class="payment-options">
+                    
+                    <label class="payment-option {{ 'disabled' if (user.wallet_balance ) < (total_amount ) else '' }}">
+                        <input type="radio" 
+                               name="payment-method" 
+                               value="wallet" 
+                               {{ disabled if (user.wallet_balance ) < (total_amount) else 2}}
+                               required>
+                        <div class="option-content">
+                            <div class="option-icon wallet">
+                                <i class="fas fa-wallet"></i>
+                            </div>
+                            <div class="option-details">
+                                <span class="option-title"> Wallet</span>
+                                <span class="option-desc">
+                                    Balance: ₹{{ user.wallet_balance  }}
+                                    {% if (user.wallet_balance) < (total_amount) %}
+                                    <span class="insufficient-balance">(Insufficient Balance)</span>
+                                    {% endif %}
+                                </span>
+                            </div>
+                            <div class="option-check">
+                                <i class="fas fa-check"></i>
+                            </div>
+                        </div>
+                    </label>
+                    <label class="payment-option">
+                        <input type="radio" name="payment-method" value="card" required>
+                        <div class="option-content">
+                            <div class="option-icon card">
+                                <i class="fas fa-credit-card"></i>
+                            </div>
+                            <div class="option-details">
+                                <span class="option-title">Debit/Credit Card</span>
+                                <span class="option-desc">Visa, Mastercard, RuPay</span>
+                            </div>
+                            <div class="option-check">
+                                <i class="fas fa-check"></i>
+                            </div>
+                        </div>
+                    </label>
+
+                    <label class="payment-option">
+                        <input type="radio" name="payment-method" value="UPI" required>
+                        <div class="option-content">
+                            <div class="option-icon upi">
+                                <i class="fas fa-mobile-alt"></i>
+                            </div>
+                            <div class="option-details">
+                                <span class="option-title">UPI</span>
+                                <span class="option-desc">PhonePe, GPay, Paytm</span>
+                            </div>
+                            <div class="option-check">
+                                <i class="fas fa-check"></i>
+                            </div>
+                        </div>
+                    </label>
+                </div>
+
+                <div class="payment-summary">
+                    <div class="summary-row total">
+                        <span>Total Amount:</span>
+                        <span>₹{{ total_amount or 0 }}</span>
+                    </div>
+                </div>
+
+                <button type="submit" class="pay-button parking-pay btn-style">
+                    <i class="fas fa-credit-card"></i>
+                    Pay ₹{{ total_amount}} & Release Spot
+                </button>
+            </form>
+        </div>
+    </div>
+    {% endif %}
+
 </div>
 
-{%endif%}
-
-{%endblock%}
+<script src="{{ url_for('static', filename='js/payment.js') }}"></script>
+{% endblock %}

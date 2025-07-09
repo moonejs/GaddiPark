@@ -36,8 +36,11 @@ def find_parking():
     current_booking_time= request.args.get('current_booking_time')
     current_booking_date= request.args.get('current_booking_date')
     
-   
-
+    is_booked_by_user=Booking.query.filter_by(user_id=user.id).first()
+    if is_booked_by_user:
+        flash('You have any active bookings.', 'error')
+        return redirect(url_for('user.user_dashboard'))
+    
     lot = None
 
     if request.method == 'GET' and lot_id:
