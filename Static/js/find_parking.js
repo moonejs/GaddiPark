@@ -42,6 +42,7 @@ function updateRates(){
     time = parseInt(selected_duration.getAttribute('value'), 10)
 
     ev_charging_rate=document.querySelector('#ev-charging-rate')
+    ev_charging_rate_display=document.querySelector('#ev-charging-rate-display')
     ev_rate=parseFloat(ev_charging_rate.getAttribute('data-ev-rate'))
     regular_rate_id=document.querySelector('#regular-rate')
     regular_rate=parseFloat(regular_rate_id.getAttribute('data-rate'))
@@ -51,12 +52,12 @@ function updateRates(){
     hidden_estimate_cost = document.querySelector('#hidden_estimate_cost');
 
     if (selected_parking_type && selected_parking_type.value ==='ev_charging'){
-        ev_charging_rate.style.display='block'
+        ev_charging_rate_display.style.display='block'
         estimate_cost.value=`Estimate Cost ₹ ${time*ev_rate + time*regular_rate}`
         hidden_estimate_cost.value = time * ev_rate + time * regular_rate;
         
     }else{
-        ev_charging_rate.style.display='none'
+        ev_charging_rate_display.style.display='none'
         console.log(time*regular_rate);
         estimate_cost.value=`Estimate Cost ₹ ${time*regular_rate}`
         hidden_estimate_cost.value = time * regular_rate;

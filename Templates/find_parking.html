@@ -3,6 +3,7 @@
 {% block style %}
 <link rel="stylesheet" href="{{url_for('static',filename='css/base.css')}}">
 <link rel="stylesheet" href="{{url_for('static',filename='css/find_parking.css')}}">
+<link rel="stylesheet" href="{{url_for('static',filename='css/modal.css')}}">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 {% endblock %}
 
@@ -129,35 +130,30 @@
     </div>
 </div>
 
-<!-- Booking Modal -->
-<div class="book-spot-model" style="display: none;">
-    <div class="modal-overlay"></div>
+<div class=" book-spot-model background-effect" style="display: none;">
     <div class="modal-content">
-        <div class="modal-header">
+        <div class="modal-header" id="modal-header">
             <h2>
                 <i class="fas fa-parking"></i>
                 Confirm Booking
             </h2>
-            <a href="{{ url_for('user.find_parking') }}" class="close-book-spot-model">
+            <a href="{{ url_for('user.find_parking') }}" class="close-modal">
                 <i class="fas fa-times"></i>
             </a>
         </div>
         
         <div class="lot-info">
             <div class="lot-details">
-                <h3>{{ lot.name if lot else 'Parking Lot' }}</h3>
+                <h3>{{ lot.name }}</h3>
                 <p>
                     <i class="fas fa-map-marker-alt"></i>
-                    {{ lot.address if lot else 'Address' }}
+                    {{ lot.address }}
                 </p>
-            </div>
-            <div class="lot-image">
-                <i class="fas fa-building"></i>
             </div>
         </div>
         
-        <form action="{% if lot %}{{ url_for('booking.booking', lot_id=lot.id) }}{% else %}#{% endif %}" method="POST" class="booking-form">
-            <!-- Vehicle Selection -->
+        <form action="{% if lot %}{{ url_for('booking.booking', lot_id=lot.id) }}{% else %}#{% endif %}" method="POST" class="modal-form">
+            
             <div class="form-group">
                 <label for="vehicle">
                     <i class="fas fa-car"></i>
@@ -179,25 +175,23 @@
                 </select>
             </div>
             
-            <!-- Date and Time -->
             <div class="datetime-info">
                 <div class="datetime-item">
                     <i class="fas fa-calendar"></i>
                     <div>
                         <span class="label">Date</span>
-                        <span class="value">{{ current_booking_date if current_booking_date else 'Today' }}</span>
+                        <span class="value">{{ current_booking_date }}</span>
                     </div>
                 </div>
                 <div class="datetime-item">
                     <i class="fas fa-clock"></i>
                     <div>
                         <span class="label">Time</span>
-                        <span class="value">{{ current_booking_time if current_booking_time else 'Now' }}</span>
+                        <span class="value">{{ current_booking_time  }}</span>
                     </div>
                 </div>
             </div>
-            
-            <!-- Duration Selection -->
+
             <div class="form-group">
                 <label for="duration">
                     <i class="fas fa-hourglass-half"></i>
@@ -213,50 +207,44 @@
                     <option value="12">12 Hours</option>
                 </select>
             </div>
-            
-            <!-- Parking Options (for EV) -->
             <div id="parking-options" style="display: none;">
                 <div class="form-group">
-                    <label class="section-label">
+                    <label>
                         <i class="fas fa-charging-station"></i>
                         Parking Options
                     </label>
-                    <div class="radio-group">
+                    <div class="radio-group" id="radio-group">
                         <label class="radio-option">
                             <input type="radio" id="regular" name="parking_type" value="regular" checked onchange="updateRates()">
                             <span class="radio-custom"></span>
-                            <div class="radio-content">
-                                <span class="radio-title">Regular Parking Only</span>
-                                <span class="radio-desc">Standard parking space</span>
-                            </div>
+                            Regular Parking Only
                         </label>
+                    
+                    
                         <label class="radio-option">
                             <input type="radio" id="ev-charging" name="parking_type" value="ev_charging" onchange="updateRates()">
                             <span class="radio-custom"></span>
-                            <div class="radio-content">
-                                <span class="radio-title">Parking + EV Charging</span>
-                                <span class="radio-desc">Includes charging facility</span>
-                            </div>
+                            Parking + EV Charging
                         </label>
+
+                        
                     </div>
                 </div>
             </div>
-            
-            <!-- Rate Display -->
+
             <div id="rate-display" class="rate-info">
                 <div class="rate-item">
                     <i class="fas fa-parking"></i>
                     <span>Parking Rate: </span>
-                    <span class="rate-value" data-rate="{{ lot.hourly_rate if lot else 0 }}">₹{{ lot.hourly_rate if lot else 0 }}/hour</span>
+                    <span class="rate-value" data-rate="{{ lot.hourly_rate }}" id="regular-rate">₹{{ lot.hourly_rate  }}/hour</span>
                 </div>
-                <div class="rate-item ev-rate" id="ev-charging-rate" style="display: none;">
+                <div class="rate-item ev-rate"  style="display: none;" id="ev-charging-rate-display">
                     <i class="fas fa-charging-station"></i>
                     <span>EV Charging: </span>
-                    <span class="rate-value" data-ev-rate="{{ lot.ev_charging_rate if lot else 0 }}">₹{{ lot.ev_charging_rate if lot else 0 }}/kWh</span>
+                    <span class="rate-value" id="ev-charging-rate" data-ev-rate="{{ lot.ev_charging_rate }}">₹{{ lot.ev_charging_rate }}/kWh</span>
                 </div>
             </div>
-            
-            <!-- Cost Estimate -->
+
             <div class="form-group">
                 <label for="estimate_cost">
                     <i class="fas fa-calculator"></i>
@@ -267,25 +255,8 @@
                     <input type="hidden" id="hidden_estimate_cost" name="estimate_cost" required>
                 </div>
             </div>
-            
-            <!-- Booking Summary -->
-            <div class="booking-summary">
-                <h4>Booking Summary</h4>
-                <div class="summary-item">
-                    <span>Duration:</span>
-                    <span id="summary-duration">1 hour</span>
-                </div>
-                <div class="summary-item">
-                    <span>Parking Type:</span>
-                    <span id="summary-type">Regular</span>
-                </div>
-                <div class="summary-item total">
-                    <span>Total Cost:</span>
-                    <span id="summary-total">₹0</span>
-                </div>
-            </div>
-            
-            <button type="submit" class="confirm-booking-btn">
+
+            <button type="submit" class="btn-style confirm-booking-btn">
                 <i class="fas fa-check"></i>
                 Confirm Booking
             </button>
@@ -297,11 +268,11 @@
 <script>
     document.addEventListener('DOMContentLoaded', () => {
         const book_modal = document.querySelector('.book-spot-model');
-        const page = document.querySelector('.main-content');
 
-        if (book_modal && page) {
+
+        if (book_modal) {
             book_modal.style.display = 'block';
-            page.classList.add('blur');
+            
         }
     });
 </script>

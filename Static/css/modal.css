@@ -6,7 +6,7 @@
     height: 100vh;
     background: rgba(0, 0, 0, 0.45);
     backdrop-filter: blur(2px);
-    z-index: 999;
+    z-index: 10000;
     display: flex;
     align-items: flex-start;
     justify-content: center;
@@ -120,7 +120,7 @@
     font-size: 0.875rem;
 }
 
-.form-group input,
+.form-group input,.form-group select,
 .form-group textarea {
     padding: 0.875rem 1rem;
     border: 2px solid rgba(255, 255, 255, 0.3);

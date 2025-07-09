@@ -6,7 +6,9 @@
     --gradient-green: linear-gradient(135deg, #00b894 0%, #55efc4 100%);
     --gradient-orange: linear-gradient(135deg, #e17055 0%, #fdcb6e 100%);
     --gradient-red: linear-gradient(135deg, #e17055 0%, #ff1100 100%);
-  
+    --gradient-gray: linear-gradient(135deg, #dfe6e992 0%, #b2bec399 100%);
+
+
     --bg-gradient-main: linear-gradient(135deg, #FFE5F1 0%, #E5F3FF 25%, #F0E5FF 50%, #FFE5E5 75%, #E5FFE5 100%);
     --bg-gradient-soft: linear-gradient(135deg, #ffeaa7 0%, #fab1a0 100%);
     --bg-gradient-cool: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
