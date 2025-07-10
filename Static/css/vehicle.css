@@ -1,4 +1,141 @@
-*{
-    background-color: rgb(49, 47, 47);
-    color: aliceblue;
+
+
+.vehicle-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.main {
+    margin-top: 1rem;
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 2rem;
+}
+
+
+.form-section {
+    position: sticky;
+    top: 2rem;
+    height: fit-content;
+}
+
+.form-card {
+    padding: 2rem;
+}
+
+.form-card h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--gray-900);
+    margin-bottom: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+
+.vehicle-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.submit-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+   
+}
+
+.vehicles-section {
+    padding: 2rem;
+    overflow-y: auto;
+}
+
+.vehicles-section h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--gray-900);
+    margin-bottom: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.vehicles-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+}
+.em{
+    justify-content: center;
+    align-items: center;
+}
+.empty{
+    padding: 1rem 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.cards {
+    padding: 1.5rem;
+    width: 42%;
+}
+
+.card-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
+}
+
+.ev-badge {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background:var(--ev-color);
+    color: var(--white);
+    padding: 0.5rem 1rem;
+    border-radius: var(--radius);
+    font-size: 0.875rem;
+    font-weight: 600;
+}
+
+.vehicle-details {
+    margin-bottom: 1.5rem;
+}
+
+.vehicle-details h3 {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--gray-900);
+    margin-bottom: 0.75rem;
+    padding: 0.75rem;
+    background: var(--gray-50);
+    border-radius: var(--radius);
+}
+
+.vehicle-details h3 i {
+    color: var(--primary-color);
+    width: 1rem;
+}
+
+
+.delete-form {
+    border-top: 1px solid var(--gray-200);
+    padding-top: 1rem;
+}
+
+.delete-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    width: 100%;
+    padding: 0.75rem 1rem;
 }

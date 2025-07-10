@@ -1,26 +1,92 @@
-{%extends "base.html" %}
-{%block style%}
+{% extends "base.html" %}
+
+{% block style %}
+<link rel="stylesheet" href="{{url_for('static',filename='css/base.css')}}">
 <link rel="stylesheet" href="{{url_for('static',filename='css/booking_confirmed.css')}}">
-{%endblock%}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+{% endblock %}
+
 {% block content %}
-<div>
-    <div>
-        <div>
-            <h2>Booking Confirmed</h2>
-        </div>
-        <h4>Your parking spot has been reserved</h4>
-        <p>Spot {{spot.spot_number}} has been assigned to you at {{lot.name}}</p>
-        <div>
-            <h5>Location : {{lot.address}}</h5>
-            <h5>Spot : {{spot.spot_number}}</h5>
-            <h5>Vehicle : {{vehicle.model}}</h5>
-            <h5>Date & Time : {{booking.start_time}}</h5>
-            <h5>Duration : {{booking.duration}}</h5>
-            <h5>Estimated Cost : {{booking.amount}}</h5>
-            <h5>Booking Id : {{booking.booking_id}}</h5>
-        </div>
-        <a href="{{url_for('user_activity.current_booking',booking_id=booking.booking_id)}}"><button>View Booking</button></a>
-        
-    </div>
-</div>
-{%endblock%}
+<div class="booking-confirmation-container">
+    <div class="confirmation-main">
+
+        <div class="content-grid">
+
+            <div class="left-column">
+
+                <div class="spot-assignment-card bg">
+                    <div class="card-header">
+                        <h3><i class="fas fa-parking"></i> Your Assigned Spot</h3>
+                    </div>
+                    <div class="spot-display">
+                        <div class="spot-visual">
+                            <div class="spot-number">{{ spot.spot_number }}</div>
+                            {%if spot.is_ev_spot%}
+                            <div class="spot-type">EV Parking</div>
+                            {%else%}
+                            <div class="spot-type">Regular Parking</div>
+                            {%endif%}
+                        </div>
+                        <div class="location-info">
+                            <h4>{{ lot.name }}</h4>
+                            <p><i class="fas fa-map-marker-alt"></i> {{ lot.address }}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="booking-details-card bg">
+                    <div class="card-header">
+                        <h3><i class="fas fa-info-circle"></i> Booking Summary</h3>
+                    </div>
+                    <div class="booking-info">
+                        <div class="detail-row">
+                            <span class="detail-label">Vehicle:</span>
+                            <span class="detail-value">{{ vehicle.model }} ({{ vehicle.registration_number  }})</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Date:</span>
+                            <span class="detail-value">{{ booking.start_time.strftime('%B %d, %Y')}}</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Entry Time:</span>
+                            <span class="detail-value">{{ booking.start_time.strftime('%I:%M %p')}}</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Duration:</span>
+                            <span class="detail-value">{{ booking.duration }}</span>
+                        </div>
+                        <div class="detail-row highlight">
+                            <span class="detail-label">Estimated Cost:</span>
+                            <span class="detail-value">₹{{ booking.amount }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        <div class="right-column">
+
+            <div class="qr-card bg">
+                <div class="card-header">
+                    <h3><i class="fas fa-qrcode"></i> Entry QR Code</h3>
+                </div>
+                <div class="qr-section">
+                    <div class="qr-code">
+                        <i class="fas fa-qrcode"></i>
+                    </div>
+                    <p>Scan this code at the parking entrance</p>
+                    <div class="booking-id">
+                        <div>Backup ID: {{ booking.booking_id }}</div>
+                    </div>
+                </div>
+            </div>
+
+           
+            <div class="actions-card">
+                <div class="action-buttons">
+                    <a href="{{ url_for('user_activity.current_booking', booking_id=booking.booking_id if booking else 'PS001234') }}" class="btn-style">
+                        View Booking Details
+                    </a>
+                </div>
+            </div>
+
+{% endblock %}

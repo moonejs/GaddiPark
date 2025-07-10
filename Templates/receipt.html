@@ -1,25 +1,171 @@
-{%extends "base.html" %}
+{% extends "base.html" %}
 
-{%block style%}
-<link rel="stylesheet" href="{{url_for('static',filename='css/payment.css')}}">
-{%endblock%}
+{% block style %}
+<link rel="stylesheet" href="{{url_for('static',filename='css/base.css')}}">
+<link rel="stylesheet" href="{{url_for('static',filename='css/receipt.css')}}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+{% endblock %}
 
-{%block content %}
-<div>
-    <h2>thankyou</h2>
-    <hr>
-    <h4>Receipt</h4>
-    <hr>
-    <p>Parking Name : {{lot.name}}</p>
-    <p>Location : {{lot.address}}</p>
-    <p>Vehcile : {{vehicle.registration_number}} ({{vehicle.model}})</p>
-    <p>Entry Time : {{ history.entry_time.strftime('%I:%M %p') }}</p>
-    <p>Exit Time : {{ history.exit_time.strftime('%I:%M %p') }}</p>
-    <p>Duration : {{ history.duration // 60 }} hour(s) {{ history.duration % 60 }} minute(s)</p>
-    <hr>
-    <a href="{{url_for('user.user_dashboard')}}">Home</a>
+{% block content %}
+<div class="confirmation-container">
 
+    <header class="confirmation-header">
+        <div class="header-content">
+            <div class="logo-section">
+                
+                <span>GadiPark</span>
+            </div>
+            <div class="header-actions">
+                <button class=" btn-style" onclick="window.print()">
+                    <i class="fas fa-print"></i>
+                    Print
+                </button>
+                <button class="btn-style" onclick="downloadReceipt()">
+                    <i class="fas fa-download"></i>
+                    Download
+                </button>
+            </div>
+        </div>
+    </header>
+
+
+    <main class="confirmation-main">
+        <section class="booking-details bg">
+            <div class="section-header">
+                <h2>Parking Session Summary</h2>
+            </div>
+
+            <div class="details-grid">
+                <div class="details-column">
+                    <div class="detail-card">
+                        <h3>Session Details</h3>
+                        <div class="detail-row">
+                            <span class="label">Booking ID:</span>
+                            <span class="value">#{{ history.booking_id}}</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="label">Date:</span>
+                            <span class="value">{{ history.entry_time.strftime('%B %d, %Y') }}</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="label">Entry Time:</span>
+                            <span class="value">{{ history.entry_time.strftime('%I:%M %p') }}</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="label">Exit Time:</span>
+                            <span class="value">{{ history.exit_time.strftime('%I:%M %p') }}</span>
+                        </div>
+                        <div class="detail-row highlight">
+                            <span class="label">Duration:</span>
+                            <span class="value">
+                                    {{ history.duration // 60 }} hours {{ history.duration % 60 }} minutes
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="detail-card">
+                        <h3>Vehicle Information</h3>
+                        <div class="detail-row">
+                            <span class="label">Registration:</span>
+                            <span class="value">{{ vehicle.registration_number }}</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="label">Model:</span>
+                            <span class="value">{{ vehicle.model  }}</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="label">Type:</span>
+                            {% if vehicle and vehicle.is_ev %}
+                            <span class="value ev-badge">
+                                <i class="fas fa-bolt"></i>
+                                Electric Vehicle
+                            </span>
+                            {%else%}
+                            <span class="value">
+                                Regular
+                            </span>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                <div class="details-column">
+                    <div class="detail-card location-card">
+                        <h3>Parking Location</h3>
+                        <div class="location-info">
+                            <h4>{{ lot.name }}</h4>
+                            <p>{{ lot.address }}</p>
+                            <div class="location-features">
+                                <span class="feature">
+                                    <i class="fas fa-shield-alt"></i>
+                                    Secure
+                                </span>
+                                <span class="feature">
+                                    <i class="fas fa-camera"></i>
+                                    CCTV
+                                </span>
+                                {% if lot and lot.is_24_hours %}
+                                <span class="feature">
+                                    <i class="fas fa-clock"></i>
+                                    24/7
+                                </span>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="detail-card payment-card">
+                        <h3>Payment Summary</h3>
+                        <div class="payment-breakdown">
+                            <div class="payment-row">
+                                <span>Parking Fee</span>
+                                {%if history.is_ev_spot%}
+                                <span>₹{{ lot.hourly_rate }} + {{lot.ev_charging_rate}}</span>
+                                {%else%}
+                                <span>₹{{ lot.hourly_rate }}</span>
+                                {%endif%}
+                                
+                            </div>
+                           
+                            <div class="payment-total">
+                                <span>Total Paid</span>
+                                <span>₹{{ history.total_amount_paid }}</span>
+                            </div>
+                        </div>
+                        <div class="payment-method">
+                            <i class="fas fa-credit-card"></i>
+                            <span>Paid via {{ history.payment_method }}</span>
+                        </div>
+                    </div>
+
+                    <div class="qr-container detail-card">
+                        <div class="qr-code ">
+                            <div class="qr-placeholder">
+                            <i class="fas fa-qrcode"></i>
+                            </div>
+                            <p>Scan QR Code for digital receipt</p>
+                        </div>
+                        <div class="qr-info ">
+                            <h4>Digital Receipt</h4>
+                            <p>Save this QR code to access your receipt anytime. You can also download a PDF copy using the button above.</p> 
+                         </div>
+                    </div>
+                </div>  
+            </div>
+        </div>
+
+        <div class="action-section">
+            <div class="action-buttons">
+                <a href="{{ url_for('user.user_dashboard') }}" class="btn-style">
+                    <i class="fas fa-home"></i>
+                    Back to Dashboard
+                </a>
+                <a href="{{ url_for('user.find_parking') }}" class="btn-style">
+                    <i class="fas fa-search"></i>
+                    Find Another Parking
+                </a>
+            </div>
+        </div>
+    </main>
 </div>
 
-{%endblock%}
-
+{% endblock %}

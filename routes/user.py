@@ -79,5 +79,17 @@ def vehicle():
         return redirect(url_for('user.vehicle'))
     
     else:
-        vehicles=Vehicle.query.filter_by(user_id=user.id)
-        return render_template('vehicle.html',vehicles=vehicles)
+        vehicles=Vehicle.query.filter_by(user_id=user.id).all()
+        return render_template('vehicle.html',vehicles=vehicles,user=user)
+    
+@user_bp.route('/vehicle/delete',methods=['POST'])
+@login_required
+@user_required
+def vehicle_delete():
+    user=User.query.get(session.get('user_id'))
+    vehicle_id=request.form.get('vehicle_id')
+    vehicle=Vehicle.query.get(vehicle_id)
+    db.session.delete(vehicle)
+    db.session.commit()
+    flash('Vehicle deleted successfully.', 'success')
+    return redirect(url_for('user.vehicle')) 

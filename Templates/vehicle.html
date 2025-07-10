@@ -1,55 +1,127 @@
-{%extends "base.html" %}
+{% extends "base.html" %}
 
-{%block style%}
+{% block style %}
+<link rel="stylesheet" href="{{url_for('static',filename='css/base.css')}}">
 <link rel="stylesheet" href="{{url_for('static',filename='css/vehicle.css')}}">
-{%endblock%}
+<link rel="stylesheet" href="{{url_for('static',filename='css/modal.css')}}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+{% endblock %}
 
-{%block content %}
-<h1>add vehicle details </h1>
-<div class="main">
+{% block content %}
+<div class="vehicle-container">
+   {% include "user_navbar.html"%}
 
-    <form action="{{url_for('user.vehicle')}}" method="POST">
-        <label for="type">Vehicle Type</label>
-        <select name="type" id="type" required>
-            <option value="">-- Select Type --</option>
-            <option value="car">Car</option>
-            <option value="truck">Truck</option>
-            <option value="motorcycle">Motorcycle</option>
-            <option value="suv">SUV</option>
-            <option value="van">Van</option>
-            
-        </select>
-        <div>
-            <label for="model">Model</label>
-            <input type="text" id="model" name="model" placeholder="Creata" required>
-        </div>
-        <div>
-            <label for="registration_number">Registation Number</label>
-            <input type="text" id="registration_number" name="registration_number" placeholder="MH 12 AB 1234" required>
-        </div>
-        
-        <div>
-            <label for="is_ev">Ev Vehicle</label>
-            <input type="radio" id="yes_ev" name="is_ev" value="1" required>
-            <label for="yes_ev">Yes</label>
-            <input type="radio" id="no_ev" name="is_ev" value="0">
-            <label for="no_ev">No</label>
-        </div>
-        
-        <button>Add Vehicle Details</button>
-        
-        
-    </form>
-    <h2>Added Vehicles</h2>
+    <div class="main">
+        <div class="form-section bg">
+            <div class="form-card">
+                <h2>Add New Vehicle</h2>
+                
+                <form action="{{url_for('user.vehicle')}}" method="POST" class="vehicle-form">
+                    <div class="form-group">
+                        <label for="type">
+                            <i class="fas fa-car"></i>
+                            Vehicle Type
+                        </label>
+                        <select name="type" id="type" required>
+                            <option value="">-- Select Type --</option>
+                            <option value="car"><i class="fas fa-car"></i> Car</option>
+                            <option value="truck"><i class="fas fa-truck"></i> Truck</option>
+                            <option value="motorcycle"><i class="fas fa-motorcycle"></i> Motorcycle</option>
+                            <option value="suv"><i class="fas fa-car-side"></i> SUV</option>
+                            <option value="van"><i class="fas fa-shuttle-van"></i> Van</option>
+                        </select>
+                    </div>
 
-    {%for vehicle in vehicles %}
-    <div class="cards">
-        <h3> Vehicle Type {{ vehicle.type}}</h3>
-        <h3> Vehicle Model {{ vehicle.model}}</h3>
-        <h3> Vehicle Number {{ vehicle.registration_number}}</h3>
+                    <div class="form-group">
+                        <label for="model">
+                            <i class="fas fa-tag"></i>
+                            Model
+                        </label>
+                        <input type="text" id="model" name="model" placeholder="Creata" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="registration_number">
+                            <i class="fas fa-id-card"></i>
+                            Registration Number
+                        </label>
+                        <input type="text" id="registration_number" name="registration_number" placeholder="MH 12 AB 1234" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="section-label">
+                            <i class="fas fa-bolt"></i>
+                            EV Vehicle
+                        </label>
+                        <div class="radio-group">
+                            <label class="radio-option">
+                                <input type="radio" id="yes_ev" name="is_ev" value="1" required>
+                                <span class="radio-custom"></span>
+                                <span class="radio-text">
+                                    <i class="fas fa-leaf"></i>
+                                    Yes
+                                </span>
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" id="no_ev" name="is_ev" value="0">
+                                <span class="radio-custom"></span>
+                                <span class="radio-text">
+                                    <i class="fas fa-gas-pump"></i>
+                                    No
+                                </span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="btn-style submit-btn">
+                        <i class="fas fa-plus"></i>
+                        Add Vehicle Details
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <div class="vehicles-section bg">
+            <h2><i class="fas fa-list"></i> Added Vehicles</h2>
+            <div class="vehicles-grid {% if not vehicles %}em"{%endif%}">
+                {% if not vehicles %}
+                <div class="empty">
+                    <h3>No Vehicles Added</h3>
+                    <p>Add your first vehicle to get started</p>
+                </div>
+                {%else%}
+                    {% for vehicle in vehicles %}
+                    <div class="cards bg">
+                        <div class="card-head">
+                            <i class="fa-solid fa-truck"></i>
+                            
+                            {% if vehicle.is_ev %}
+                            <div class="ev-badge">
+                                <i class="fas fa-bolt"></i>
+                                EV
+                            </div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="vehicle-details">
+                            <h3> Vehicle Type: {{ vehicle.type.title() }}</h3>
+                            <h3>Vehicle Model: {{ vehicle.model }}</h3>
+                            <h3><i class="fas fa-id-card"></i> Vehicle Number: {{ vehicle.registration_number }}</h3>
+                        </div>
+                        
+                        <form action="{{url_for('user.vehicle_delete')}}" method="POST" class="delete-form">
+                            <input type="hidden" value="{{vehicle.id}}" name="vehicle_id">
+                            <button type="submit" class="delete-btn btn-style" >
+                                <i class="fas fa-trash"></i>
+                                Delete
+                            </button>
+                        </form>
+                    </div>
+                    {% endfor %}
+                {% endif %}
+            </div>
+        </div>
     </div>
-    {%endfor%}
 </div>
 
-
-{%endblock%}
+{% endblock %}
