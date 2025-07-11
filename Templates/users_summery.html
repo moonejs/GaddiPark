@@ -59,7 +59,7 @@
                 <h3>User Summary</h3>
                 <div class="table-actions">
                     <span class="record-count">{{ users|length -1 }} records</span>
-                    <button class="refresh-btn" onclick="location.reload()">
+                    <button class=" btn-style" id="refresh-btn" onclick="location.reload()">
                         <i class="fas fa-sync-alt"></i>
                         Refresh
                     </button>
@@ -70,7 +70,7 @@
                 <table class="table">
                     <thead>
                         <tr>
-                            <th>User Id</th>
+                            <th>S.No</th>
                             <th>Name</th>
                             <th>Registration Date</th>
                             <th>Total Parkings</th>
@@ -82,7 +82,7 @@
                         {% for user in users %}
                             {% if not user.is_admin %}
                                 <tr class="row">
-                                    <td>{{user.id}}</td>
+                                    <td>{{user.id-1}}</td>
                                     <td>{{ user.full_name }}</td>
                                     <td>{{ user.registration_date.strftime("%d %b %Y")}}</td>
                                     <td>{{ user.total_parkings  }}</td>

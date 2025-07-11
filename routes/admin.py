@@ -17,7 +17,9 @@ def admin_dashboard():
         return ParkingSpot.query.filter_by(is_ev_spot=is_ev).count()
     
     total_regular_available_spots=ParkingSpot.query.filter_by(status='available',is_ev_spot=0).count()
+    
     total_ev_available_spots=ParkingSpot.query.filter_by(status='available',is_ev_spot=1).count()
+    
     total_regular_spots=spots_count(0)
     total_ev_spots=spots_count(1)
     

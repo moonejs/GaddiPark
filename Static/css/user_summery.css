@@ -126,24 +126,12 @@
     font-size: 0.875rem;
 }
 
-.refresh-btn {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
+#refresh-btn {
     padding: 0.5rem 1rem;
-    background: var(--gradient-blue);
-    color: var(--white);
-    border: none;
-    border-radius: var(--radius-md);
-    cursor: pointer;
-    font-size: 0.875rem;
-    transition: var(--transition);
+
 }
 
-.refresh-btn:hover {
-    transform: translateY(-1px);
-    box-shadow: var(--shadow-md);
-}
+
 
 /* Table Styles */
 

@@ -17,9 +17,20 @@ def parking_dashboard():
         pincode=request.form.get('pincode')
         hourly_rate = float(request.form.get('hourly_rate'))
         total_spots = int(request.form.get('total_spots'))
-        ev_spots = int(request.form.get('ev_spots'))
-        ev_charging_rate = float(request.form.get('ev_charging_rate'))
-
+        ev_spots = request.form.get('ev_spots')
+        ev_charging_rate = request.form.get('ev_charging_rate')
+        if ev_spots:
+            ev_spots=int(ev_spots)
+            if ev_charging_rate:
+                ev_charging_rate=float(ev_charging_rate)
+            else:
+                flash('Please enter Ev Charging amount','error')
+                return redirect(url_for('parking.parking_dashboard'))
+        else:
+            ev_spots=0
+            ev_charging_rate=0
+            
+        
         is_24_hours=request.form.get('is_24_hours') =='1'
         opening_time = None
         closing_time = None
@@ -28,7 +39,8 @@ def parking_dashboard():
             closing_time = request.form.get('closing_time')
         description = request.form.get('description')
         
-        if not pl_name or not address or not pincode or not hourly_rate or not total_spots or not ev_spots or not ev_charging_rate:
+        if not pl_name or not address or not pincode or not hourly_rate or not total_spots:
+            
             flash('Please fill in all required fields',"error")
             return redirect(url_for('parking.parking_dashboard'))
         if not is_24_hours:
@@ -166,16 +178,3 @@ def spot_details():
 
 
 
-
-@parking_bp.route('/view_details/spot_details/delete_spot',methods=['POST'])
-@login_required
-@admin_required
-def delete_spot():
-    spot_id=request.form.get('spot_id')
-    spot=ParkingSpot.query.get(spot_id)
-    lot=ParkingLot.query.get(spot.lot_id)
-    db.session.delete(spot)
-    db.session.commit()
-    
-    flash('Parking spot deleted successfully!', 'success')
-    return redirect(url_for('parking.view_details', lot_id=lot.id))

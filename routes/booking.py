@@ -46,7 +46,7 @@ def booking(lot_id):
         
         def findSpotId(lot_id,is_ev):
             spot=ParkingSpot.query.filter_by(lot_id=lot_id,is_ev_spot=is_ev,status='available').first()
-            return spot.id
+            return spot.id if spot else None
         
         spot_id=findSpotId(lot.id,is_ev)
         if not spot_id:

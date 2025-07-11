@@ -118,10 +118,13 @@
                 </div>
                 
                 <div class="card-actions">
+                    {% if lot.total_spots + lot.ev_spots == lot.occupied_regular_spots + lot.occupied_ev_spots %}
+                    {%else%}
                     <a href="{{ url_for('booking.booking', lot_id=lot.id) }}" class="book-spot-btn btn-style">
                         <i class="fas fa-parking"></i>
                         Book Spot
                     </a>
+                    {%endif%}
                 </div>
             </div>
             {% endfor %}
