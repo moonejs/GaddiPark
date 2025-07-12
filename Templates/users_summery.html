@@ -53,7 +53,16 @@
                 </div>
             </div>
         </div>
-
+        {% if not users %}
+    
+        <div class="empty-state ">
+            <div class="empty-icon">
+                <i class="fas fa-history"></i>
+            </div>
+            <h3>No User History</h3>
+            
+        </div>
+        {% else %}
         <div class="table-container">
             <div class="table-header">
                 <h3>User Summary</h3>
@@ -118,9 +127,8 @@
                 </table>
             </div>
         </div>
+        {%endif%}
     </div>
-
- 
     <div class="booking "style="display: none;">
         <div class="search-section">
             <div class="search-container">
@@ -136,7 +144,15 @@
                 </div>
             </div>
         </div>
-
+        {% if not history %}
+        <div class="empty-state ">
+            <div class="empty-icon">
+                <i class="fas fa-history"></i>
+            </div>
+            <h3>No Booking History</h3>
+            
+        </div>
+        {% else %}
         <div class="table-container">
             <div class="table-header">
                 <h3>Booking Summary</h3>
@@ -188,7 +204,9 @@
                 </table>
             </div>
         </div>
+        {%endif%}
     </div>
 </div>
+
 
 {% endblock %}

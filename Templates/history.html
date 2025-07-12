@@ -1,0 +1,142 @@
+{% extends "base.html" %}
+
+{% block style %}
+<link rel="stylesheet" href="{{url_for('static',filename='css/base.css')}}">
+<link rel="stylesheet" href="{{url_for('static',filename='css/history.css')}}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+{% endblock %}
+
+{% block content %}
+{% include "user_navbar.html" %}
+
+<div class="history-container">
+    <div class="search-section">
+        <div class="search-container">
+            <div class="search-box">
+                <input type="text" id="history-search" placeholder="Search by transaction ID, location, or vehicle number..." onkeyup="searchHistory()">
+
+                <button type="submit" class="search-btn ">
+                        <i class="fas fa-search"></i>
+                        Search
+                </button>
+            </div>
+            <div class="filter-controls">
+                <select id="date-filter" onchange="filterHistory()">
+                    <option value="">All Time</option>
+                    <option value="today">Today</option>
+                    <option value="week">This Week</option>
+                    <option value="month">This Month</option>
+                </select>
+                <button class="export-btn">
+                    <i class="fas fa-download"></i>
+                    Export
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="history-content ">
+        {% if not history %}
+    
+        <div class="empty-state ">
+            <div class="empty-icon">
+                <i class="fas fa-history"></i>
+            </div>
+            <h3>No Parking History</h3>
+            <p>You haven't completed any parking sessions yet</p>
+        </div>
+        {% else %}
+        <div class="table-container">
+            <div class="table-header">
+                <h3>Transaction History</h3>
+                <div class="table-actions">
+                    <span class="record-count">{{ history|length  }} records</span>
+                    <button class=" btn-style" id="refresh-btn" onclick="location.reload()">
+                        <i class="fas fa-sync-alt"></i>
+                        Refresh
+                    </button>
+                </div>
+            </div>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th> Transaction ID</th>
+                        <th> Booking ID</th>
+                        <th> Entry Time</th>
+                        <th> Exit Time</th>
+                        <th> Location</th>
+                        <th> Spot</th>
+                        <th> Vehicle</th>
+                        <th> Duration</th>
+                        <th> Amount</th>
+                        <th> Payment</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for h in history %}
+                    <tr class="row">
+                        <td class="transaction-id">{{ h.transaction_id }}</td>
+                        <td class="booking-id">{{ h.booking_id  }}</td>
+                        <td class="entry-time">
+                            <div class="time-info">
+                                <span class="date">{{ h.entry_time.strftime('%d %b %Y')  }}</span>
+                                <span class="time">{{ h.entry_time.strftime('%I:%M %p')}}</span>
+                            </div>
+                        </td>
+                        <td class="exit-time">
+                            <div class="time-info">
+                                <span class="date">{{ h.exit_time.strftime('%d %b %Y')  }}</span>
+                                <span class="time">{{ h.exit_time.strftime('%I:%M %p')  }}</span>
+                            </div>
+                        </td>
+                        <td>
+                            {% for lot in lots %}
+                                {% if lot.id == h.lot_id %}
+                                    {{ lot.name }}
+                                {% endif %}
+                            {% endfor %}
+                        </td>
+                        <td>
+                            {% for spot in spots %}
+                                {% if spot.id == h.spot_id %}
+                                    {{ spot.spot_number }}
+                                {% endif %}
+                            {% endfor %}
+                        </td>
+                        <td>
+                            {% for vehicle in vehicles %}
+                                {% if vehicle.id == h.vehicle_id %}
+                                    {{ vehicle.registration_number }}
+                                {% endif %}
+                            {% endfor %}
+                        </td>
+                        <td >
+                           {{ h.duration }}
+                        </td>
+                        <td class="amount">
+                            <span class="amount-value">- ₹{{ h.total_amount_paid}}</span>
+                        </td>
+                        <td class="payment-method">
+                            <span class="payment-badge">
+                                {% if h.payment_method == 'card' %}
+                                    <i class="fas fa-credit-card"></i>
+                                {% elif h.payment_method == 'UPI' %}
+                                    <i class="fas fa-mobile-alt"></i>
+                                {% elif h.payment_method == 'wallet' %}
+                                    <i class="fas fa-wallet"></i>
+                                {% else %}
+                                    <i class="fas fa-money-bill"></i>
+                                {% endif %}
+                                {{ h.payment_method.title()  }}
+                            </span>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+{% endblock %}

@@ -14,8 +14,11 @@
             <ul class="nav-links">
                 <li class="{% if current_path == url_for('user.user_dashboard')%}active{%endif%}"><a href="{{ url_for('user.user_dashboard') }}">Dashboard</a></li>
                 <li class="{% if current_path == url_for('user.find_parking')%}active{%endif%}"><a href="{{ url_for('user.find_parking') }}">Find Parking</a></li>
-                <li><a href="#">History</a></li>
-                <li><a href="{{url_for('user.vehicle')}}">Vehicles</a></li>
+
+                <li class="{% if current_path == url_for('user_activity.history')%}active{%endif%}"><a href="{{url_for('user_activity.history')}}">History</a></li>
+
+                <li class="{% if current_path == url_for('user.vehicle')%}active{%endif%}"><a href="{{url_for('user.vehicle')}}">Vehicles</a></li>
+                
                 <li><a href="#">Analytics</a></li>
             </ul>
             <div class="user-actions">

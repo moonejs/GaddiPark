@@ -1,5 +1,5 @@
 from flask import Blueprint,render_template,request,redirect,url_for,session,flash
-from models import User ,ParkingLot,Vehicle,Booking,ParkingSpot
+from models import User ,ParkingLot,Vehicle,Booking,ParkingSpot,History
 from routes.decorators import login_required,user_required
 from config import db
 import pytz
@@ -64,3 +64,15 @@ def release_spot():
     current_leaving_time = now.strftime("%I:%M %p")
     
     return render_template('payment.html',heading="Pay for Parking",method="bank",lot=lot,spot=spot,booking=booking,total_amount=round(total_amount, 2),total_duration=total_duration,current_leaving_time=current_leaving_time,wallet_balance=user.wallet_balance,user=user)
+
+
+@user_activity_bp.route('/history')
+@login_required
+@user_required
+def history():
+    user=User.query.get(session.get('user_id'))
+    history=History.query.filter_by(user_id=user.id).all()
+    vehicles=Vehicle.query.all()
+    spots=ParkingSpot.query.all()
+    lots=ParkingLot.query.all()
+    return render_template('history.html',history=history,vehicles=vehicles,spots=spots,lots=lots,user=user)

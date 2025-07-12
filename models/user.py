@@ -9,6 +9,7 @@ class User(db.Model):
     is_admin=db.Column(db.Boolean,default=False)
     wallet_balance=db.Column(db.Float,default=0.00)
     total_parkings=db.Column(db.Integer,default=0)
+    total_spendings=db.Column(db.Float,default=0)
     registration_date=db.Column(db.DateTime,default=db.func.current_timestamp())
     def __repr__(self):
         return f'<User {self.username}>'

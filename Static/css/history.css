@@ -1,0 +1,85 @@
+
+.history-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.search-section {
+    background: rgba(255, 255, 255, 0.4);
+    border-radius: var(--radius-xl);
+    padding: 0.8rem 1.5rem;
+    margin-bottom: 2rem;
+    box-shadow: var(--shadow);
+}
+
+
+
+.export-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.875rem 1.5rem;
+    background: var(--main-gradient);
+    color: var(--white);
+    border: none;
+    border-radius: var(--radius-lg);
+    cursor: pointer;
+    font-weight: 500;
+    transition: var(--transition);
+    font-size: 0.875rem;
+}
+
+.export-btn:hover {
+    background: var(--primary-dark);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
+}
+
+.record-count {
+    color: var(--gray-500);
+    font-size: 0.875rem;
+}
+
+
+.transaction-id,.booking-id {
+    font-family: 'Courier New', monospace;
+    font-weight: 600;
+    color: var(--gray-600);
+}
+
+
+.time-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.time-info .date {
+    font-weight: 600;
+    color: var(--gray-900);
+}
+
+.time-info .time {
+    font-size: 0.75rem;
+    color: var(--gray-500);
+}
+
+
+
+.amount-value {
+    font-weight: 700;
+    color: var(--occupied-color);
+    font-size: 1rem;
+}
+
+.payment-badge {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--gray-100);
+    padding: 0.5rem 0.75rem;
+    border-radius: var(--radius);
+    font-size: 0.75rem;
+    font-weight: 500;
+}

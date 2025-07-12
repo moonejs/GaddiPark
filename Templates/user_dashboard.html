@@ -111,7 +111,7 @@
                 </div>
                 <div class="stat-content">
                     <h4>Total Bookings</h4>
-                    <span class="stat-value">{{total_bookings}}</span>
+                    <span class="stat-value">{{user.total_parkings}}</span>
                     <span class="stat-detail">This month</span>
                 </div>
             </div>
@@ -122,7 +122,7 @@
                 </div>
                 <div class="stat-content">
                     <h4>Total Spent</h4>
-                    <span class="stat-value">₹{{total_spending}}</span>
+                    <span class="stat-value">₹{{user.total_spendings}}</span>
                     <span class="stat-detail">This month</span>
                 </div>
             </div>
@@ -148,7 +148,7 @@
                     <p>Add or edit your vehicle information</p>
                 </a>
                 
-                <a href="#" class="action-card">
+                <a href="{{url_for('user_activity.history')}}" class="action-card">
                     <div class="action-icon history">
                         <i class="fas fa-history"></i>
                     </div>

@@ -62,6 +62,7 @@ def payment():
     spot=ParkingSpot.query.get(booking.spot_id)
     spot.status='available'
     user.total_parkings += 1
+    user.total_spendings+=total_amount_paid
     db.session.add(new_payment)
     db.session.add(new_history)
     db.session.delete(booking)

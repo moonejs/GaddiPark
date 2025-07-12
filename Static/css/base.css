@@ -122,13 +122,15 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    gap: 1rem;
+    gap: 3rem;
 }
 
 .search-box {
     position: relative;
     flex: 1;
-    max-width: 400px;
+    max-width: 500px;
+    display: flex;
+    gap: 0.5rem;
 }
 
 .search-box i {
@@ -478,6 +480,104 @@ body {
 }
 
 
+.table-container {
+    background: rgba(255, 255, 255, 0.4);
+    backdrop-filter: blur(20px);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-lg);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    overflow: hidden;
+}
+
+.table-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem;
+    border-bottom: 1px solid var(--gray-200);
+}
+
+.table-header h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--gray-900);
+}
+
+.table-actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.record-count {
+    color: var(--gray-500);
+    font-size: 0.875rem;
+}
+
+#refresh-btn {
+    padding: 0.5rem 1rem;
+
+}
+
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--white);
+}
+
+.table th{
+    background: var(--gray-50);
+    padding: 1rem;
+    text-align: left;
+    font-weight: 600;
+    color: var(--gray-700);
+    border-bottom: 1px solid var(--gray-200);
+    font-size: 0.875rem;
+}
+
+.table td {
+    padding: 1rem;
+    border-bottom: 1px solid var(--gray-100);
+    vertical-align: top;
+}
+
+.row:hover {
+    background: var(--gray-50);
+}
+
+
+/* Booking Specific Styles */
+.booking-info,
+.user-info-small,
+.location-info,
+.duration-info,
+.amount-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.booking-id {
+    font-weight: 600;
+    color: var(--gray-900);
+}
+
+.booking-date,
+.user-name-small,
+.lot-name,
+.start-time,
+.amount {
+    font-weight: 500;
+    color: var(--gray-900);
+}
+
+.user-id,
+.spot-number,
+.end-time {
+    font-size: 0.75rem;
+    color: var(--gray-500);
+}
 
 
 
