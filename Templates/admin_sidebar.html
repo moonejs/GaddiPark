@@ -24,7 +24,7 @@
             <i class="fas fa-users"></i>
             <span>Users</span>
         </a>
-        <a href="#" class="nav-item ">
+        <a href="{{url_for('admin.admin_charts')}}" class="nav-item {%if current_path == url_for('admin.admin_charts') %}active{% endif %} ">
             <i class="fas fa-chart-line"></i>
             <span>Analytics</span>
         </a>

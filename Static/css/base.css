@@ -40,9 +40,10 @@
     --radius-xl: 1.5rem;
     --radius-2xl: 2rem;
     
-     --available-color: #10b981;
+     --available-color: #10b924aa;
     --occupied-color: #ef4444;
     --ev-color: #8b5cf6;
+    --regular-color:#ffc0cb;
 
     --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
@@ -514,9 +515,22 @@ body {
     font-size: 0.875rem;
 }
 
-#refresh-btn {
+.refresh-btn {
     padding: 0.5rem 1rem;
+    border-radius: var(--radius);
+    background: var(--main-gradient);
+     color: var(--white);
+    box-shadow: var(--shadow-md);
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+    border: none;
+    font-size: 0.875rem;
 
+}
+.refresh-btn:hover{
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-lg);
 }
 
 

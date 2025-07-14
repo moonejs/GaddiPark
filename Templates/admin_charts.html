@@ -1,0 +1,321 @@
+{% extends "base.html" %}
+
+{% block style %}
+<link rel="stylesheet" href="{{url_for('static',filename='css/base.css')}}">
+<link rel="stylesheet" href="{{url_for('static',filename='css/admin_charts.css')}}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+{% endblock %}
+
+{% block content %}
+{% include 'admin_sidebar.html' %}
+
+<div class="analytics-container">
+    <!-- <div class="analytics-header bg">
+        <div class="header-content">
+            <h1><i class="fas fa-chart-line"></i> Analytics Dashboard</h1>
+            <p>Monitor your parking system performance and insights</p>
+        </div>
+        <div class="header-actions">
+            <button class="refresh-btn " onclick="location.reload()">
+                <i class="fas fa-sync-alt"></i>
+                Refresh
+            </button>
+        </div>
+    </div> -->
+    <div class="grid-section">
+        <div class="grid-card success">
+            <div class="grid-icon">
+                <i class="fas fa-rupee-sign"></i>
+            </div>
+            <div class="metric-content">
+                <h3>Total Revenue</h3>
+                <span class="metric-value">₹45,280</span>
+                <span class="metric-trend positive">+12% this month</span>
+            </div>
+        </div>
+        
+        <div class="grid-card primary">
+            <div class="grid-icon ">
+                <i class="fas fa-car"></i>
+            </div>
+            <div class="metric-content">
+                <h3>Total Bookings</h3>
+                <span class="metric-value">1,247</span>
+                <span class="metric-trend positive">+8% this month</span>
+            </div>
+        </div>
+        
+        <div class="grid-card electric">
+            <div class="grid-icon">
+                <i class="fas fa-percentage"></i>
+            </div>
+            <div class="metric-content">
+                <h3>Avg Occupancy</h3>
+                <span class="metric-value">78%</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="charts-grid">
+
+        <div class="chart-card bg ">
+            <div class="chart-header ">
+                <h2><i  class="fas fa-chart-pie "></i> EV vs Regular Vehicles</h2>
+                <p>Distribution of vehicle types using parking facilities</p>
+            </div>
+            <div class="chart-container">
+                <canvas id="chart1"></canvas>
+            </div>
+            <div class="chart-footer">
+                <div class="chart-legend">
+                    <div class="legend-item">
+                        <span class="legend-color ev"></span>
+                        <span>Electric Vehicles</span>
+                    </div>
+                    <div class="legend-item">
+                        <span class="legend-color regular"></span>
+                        <span>Regular Vehicles</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="chart-card bg">
+            <div class="chart-header">
+                <h2><i class="fas fa-chart-bar"></i> Parking Lots Performance</h2>
+                <p>Usage statistics across different parking locations</p>
+            </div>
+            <div class="chart-container">
+                <canvas id="chart2"></canvas>
+            </div>
+            <div class="chart-footer">
+                <div class="chart-stats">
+                    <div class="stat-item">
+                        <span class="stat-label">Best Performer</span>
+                        <span class="stat-value">{{best_lot}}</span>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+
+
+        <div class="chart-card full-width bg">
+            <div class="chart-header">
+                <h2><i class="fas fa-chart-line"></i> Revenue Trends 2025</h2>
+                <p>Monthly revenue performance and growth patterns</p>
+            </div>
+            <div class="chart-container">
+                <canvas id="chart3"></canvas>
+            </div>
+            <div class="chart-footer">
+                <div class="chart-stats">
+                    <div class="stat-item">
+                        <span class="stat-label">Peak Month</span>
+                        <span class="stat-value">{{peak_month}}</span>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="{{ url_for('static', filename='js/admin_charts.js') }}"></script>
+
+<script>
+
+var chart1_labels = {{ chart1_labels|tojson }};
+var chart1_data = {{ chart1_data|tojson }};
+
+var lot_names_chart2_labels = {{ lot_names_chart2_labels|tojson }};
+var chart2_data = {{ chart2_data|tojson }};
+
+var month_names_chart3_labels = {{ month_names_chart3_labels|tojson }};
+var chart3_data = {{ chart3_data|tojson }};
+
+
+new Chart(document.getElementById('chart1'), {
+    type: 'doughnut',
+    data: {
+        labels: chart1_labels,
+        datasets: [{
+            label: 'Vehicle Types',
+            data: chart1_data,
+            backgroundColor: [
+                '#8b5cf6', 
+                '#ffc0cb'
+            ],
+            borderColor: [
+                '#8b5cf6',
+                '#ffc0cb'
+            ],
+            borderWidth: 2,
+            hoverOffset: 10
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            legend: {
+                display: false
+            },
+
+        },
+        cutout: '60%',
+        animation: {
+            animateRotate: true,
+            duration: 1500
+        }
+    }
+});
+
+new Chart(document.getElementById('chart2'), {
+    type: 'bar',
+    data: {
+        labels: lot_names_chart2_labels,
+                datasets: [{
+            label: 'Bookings',
+            data: chart2_data,
+            backgroundColor: 'rgba(32, 87, 164, 0.388)',
+            borderColor: 'rgba(32, 87, 164, 0.685)',
+            borderWidth: 2,
+            borderRadius: 8,
+            borderSkipped: false,
+            hoverBackgroundColor: 'rgba(32, 87, 164, 0.685)',
+            hoverBorderColor: '#3730a3'
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            legend: {
+                display: false
+            },
+            tooltip: {
+                backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                titleColor: '#fff',
+                bodyColor: '#fff',
+                borderColor: '#374151',
+                borderWidth: 1,
+                cornerRadius: 8
+            }
+        },
+        scales: {
+            y: {
+                beginAtZero: true,
+                grid: {
+                    color: 'rgba(156, 163, 175, 0.2)',
+                    borderDash: [5, 5]
+                },
+                ticks: {
+                    color: '#6b7280',
+                    font: {
+                        size: 12
+                    }
+                }
+            },
+            x: {
+                grid: {
+                    display: false
+                },
+                ticks: {
+                    color: '#6b7280',
+                    font: {
+                        size: 12
+                    },
+                    maxRotation: 45
+                }
+            }
+        },
+        animation: {
+            duration: 1500,
+            easing: 'easeInOutQuart'
+        }
+    }
+});
+
+new Chart(document.getElementById('chart3'), {
+    type: 'line',
+    data: {
+        labels: month_names_chart3_labels,
+        datasets: [{
+            label: 'Revenue (₹)',
+            data: chart3_data,
+            borderColor: '#10b981af',
+            backgroundColor: 'rgba(16, 185, 129, 0.1)',
+            borderWidth: 3,
+            fill: true,
+            tension: 0.4,
+            pointBackgroundColor: '#10b981',
+            pointBorderColor: '#fff',
+            pointBorderWidth: 2,
+            pointRadius: 6,
+            pointHoverRadius: 8,
+            pointHoverBackgroundColor: '#059669',
+            pointHoverBorderColor: '#fff',
+            pointHoverBorderWidth: 3
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            legend: {
+                display: false
+            },
+            tooltip: {
+                backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                titleColor: '#fff',
+                bodyColor: '#fff',
+                borderColor: '#374151',
+                borderWidth: 1,
+                cornerRadius: 8,
+                
+            }
+        },
+        scales: {
+            y: {
+                beginAtZero: true,
+                grid: {
+                    color: 'rgba(156, 163, 175, 0.2)',
+                    borderDash: [5, 5]
+                },
+                ticks: {
+                    color: '#6b7280',
+                    font: {
+                        size: 12
+                    },
+                    callback: function(value) {
+                        return '₹' + value.toLocaleString();
+                    }
+                }
+            },
+            x: {
+                grid: {
+                    display: false
+                },
+                ticks: {
+                    color: '#6b7280',
+                    font: {
+                        size: 12
+                    }
+                }
+            }
+        },
+        animation: {
+            duration: 2000,
+            easing: 'easeInOutQuart'
+        },
+        interaction: {
+            intersect: false,
+            mode: 'index'
+        }
+    }
+});
+</script>
+{% endblock %}
