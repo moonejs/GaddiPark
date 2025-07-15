@@ -1,12 +1,163 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+
+.profile-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+.back-btn-div{
+    width: fit-content;
+    margin-bottom: 10px;
 }
 
-html, body {
-    width: 100%;
-    height: 100%;
-    background-color: #11077c;
-    color: aliceblue;
+.profile-header {
+
+    padding: 2rem;
+    margin-bottom: 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.profile-avatar-section {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.profile-avatar {
+    width: 5rem;
+    height: 5rem;
+    border-radius:50%;
+    padding: 2px;
+    border: 3px solid var(--border-color);
+    transition: var(--transition);
+}
+
+
+.profile-info h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--gray-900);
+    margin-bottom: 0.5rem;
+}
+
+.username {
+    color: var(--gray-500);
+    font-size: 1rem;
+    margin-bottom: 1rem;
+}
+
+.profile-badges {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.badge {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    border-radius: var(--radius);
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--white);
+}
+
+.badge.admin {
+    background: var(--border-color);
+}
+
+.badge.user {
+    background: var(--available-color);
+}
+
+.wallet-section {
+    display: flex;
+    align-items: center;
+}
+
+.wallet-card {
+    background: var(--gradient-green);
+    color: var(--white);
+    padding: 1.5rem;
+    border-radius: var(--radius-xl);
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    box-shadow: var(--shadow-md);
+}
+
+.wallet-icon {
+    width: 3rem;
+    height: 3rem;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: var(--radius-lg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+}
+
+.wallet-info h3 {
+    font-size: 0.875rem;
+    opacity: 0.9;
+    margin-bottom: 0.25rem;
+}
+
+.wallet-amount {
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.form-card {
+    overflow: hidden;
+}
+
+.card-header {
+    background: var(--gray-50);
+    padding: 1.5rem;
+    border-bottom: 1px solid var(--gray-200);
+}
+
+.card-header h2 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--gray-900);
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.card-header h2 i {
+    color: var(--gray-600);
+}
+
+.card-header p {
+    color: var(--gray-600);
+    font-size: 0.875rem;
+}
+
+.profile-form {
+    padding: 2rem;
+}
+
+.form-section {
+    margin-bottom: 2rem;
+}
+
+#form-group {
+    margin-bottom: 1.5rem;
+}
+
+
+.form-actions {
+    display: flex;
+    gap: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--gray-200);
+}
+
+#update_btn{
+    background: var(--refresh-btn-color);
 }

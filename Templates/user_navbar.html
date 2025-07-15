@@ -22,10 +22,14 @@
                 <li><a href="#">Analytics</a></li>
             </ul>
             <div class="user-actions">
-                <div class="user-profile">
-                    <div class="profile-avatar"><i class="fa-solid fa-user"></i></div>
-                    <span class="user-name">{{ user.full_name }}</span>
-                </div>
+                <a href="{{url_for('profile.profile')}}">
+                    <div class="user-profile">
+                        <div class="profile-avatar">
+                            <img src="https://api.dicebear.com/9.x/open-peeps/svg?seed={{ username }}&backgroundColor=transparent&radius=50"alt="Profile Avatar"class="profile-avatar"/>
+                        </div>
+                        <span class="user-name">{{ user.full_name }}</span>
+                    </div>
+                </a>
                 <a href="{{url_for('auth.logout')}}" class="logout-btn">
                     <i class="fas fa-sign-out-alt"></i>
                     <span>Logout</span>

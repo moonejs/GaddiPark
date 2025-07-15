@@ -61,6 +61,8 @@ def admin_charts():
     regular_spots=History.query.filter_by(is_ev_spot=0).count()
     ev_spots=History.query.filter_by(is_ev_spot=1).count()
     history=History.query.all()
+    total_revenue=0
+    
     lots_dict={}
     month_dict={}
     for h in history:
@@ -68,6 +70,7 @@ def admin_charts():
         lots_dict[lot.name]=lots_dict.get(lot.name,0)+1
         month = h.exit_time.strftime('%m')
         month_dict[month]=month_dict.get(month,0)+h.total_amount_paid
+        total_revenue+=h.total_amount_paid
     
     month_names_chart3_labels= ['Jan', 'Feb', 'Mar', 'Apr', 'May','Jun','Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
     
@@ -92,4 +95,21 @@ def admin_charts():
     
     chart1_labels=['Regular Vehicles','Ev Vehicles']
     chart1_data=[regular_spots,ev_spots]
-    return render_template('admin_charts.html',chart1_labels=chart1_labels,chart1_data=chart1_data,lot_names_chart2_labels=lot_names_chart2_labels,chart2_data=chart2_data,month_names_chart3_labels=month_names_chart3_labels,chart3_data=chart3_data,user=user,best_lot=best_lot,peak_month=peak_month)
+    
+   
+    def avg_occup():
+        total_spots=0
+        total_occupied_spots=0
+        lots=ParkingLot.query.all()
+        for l in lots:
+            total_spots+=l.total_spots+l.ev_spots
+            total_occupied_spots+=l.occupied_regular_spots+l.occupied_ev_spots
+        print(total_spots)
+        print(total_occupied_spots)
+        if total_spots == 0:
+            return 0 
+        return round((total_occupied_spots/total_spots)*100,2)
+    
+    avg_occupancy=avg_occup()
+    
+    return render_template('admin_charts.html',chart1_labels=chart1_labels,chart1_data=chart1_data,lot_names_chart2_labels=lot_names_chart2_labels,chart2_data=chart2_data,month_names_chart3_labels=month_names_chart3_labels,chart3_data=chart3_data,user=user,best_lot=best_lot,peak_month=peak_month,total_revenue=total_revenue,history=history,avg_occupancy=avg_occupancy)

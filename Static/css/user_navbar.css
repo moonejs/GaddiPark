@@ -55,7 +55,9 @@
     align-items: center;
     gap: 1rem;
 }
-
+.user-actions a{
+    text-decoration: none;
+}
 .user-profile {
     display: flex;
     align-items: center;
@@ -68,21 +70,24 @@
 
 
 .profile-avatar {
-    width: 2rem;
-    height: 2rem;
-    background: var(--gradient-purple);
-    color: var(--white);
+    width: 2.5rem;
+    height: 2.5rem;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-weight: 600;
-    font-size: 0.875rem;
+    border: 1px solid rgba(0, 0, 0, 0.637);
+    transition: var(--transition);
 }
 
+.user-profile:hover{
+    box-shadow: var(--shadow-md);
+    background-color: #3b83f620;
+    transform: scale(1.05);
+}
 .user-name {
     font-weight: 600;
-    font-size: 0.875rem;
+    font-size: 0.975rem;
     color: var(--gray-900);
 }
 

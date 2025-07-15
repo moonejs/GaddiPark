@@ -1,55 +1,137 @@
-{%extends "base.html" %}
-{%block style%}
+{% extends "base.html" %}
+
+{% block style %}
+<link rel="stylesheet" href="{{url_for('static',filename='css/base.css')}}">
+<link rel="stylesheet" href="{{url_for('static',filename='css/modal.css')}}">
 <link rel="stylesheet" href="{{url_for('static',filename='css/profile.css')}}">
-{%endblock%}
+
+{% endblock %}
+
 {% block content %}
-<body>
-    <!-- <div>
-        <img
-  src="https://api.dicebear.com/9.x/open-peeps/svg?seed={{ username }}&backgroundColor=transparent&radius=50"
-  alt="avatar"/>
-    </div> -->
-    <form action="{{ url_for('profile.update_profile')}}" method="post">
-        <div>
-            <label for="name">Name</label>
-            <input type="text" id="name" name="name" value="{{ name }}" disabled>
-
-        </div>
-        <div>
-            <label for="username">Username</label>
-            <input type="email" id="username" name="username" value="{{ username }}" disabled>
-
-        </div>
-        <div class="password" style="display: none;">
-            <label for="current_password">Current Password</label>
-            <input type="password" id="current_password" name="current_password" disabled>
-
-        </div>
-        <div class="password" style="display: none;">
-            <label for="new_password">New Password</label>
-            <input type="password" id="new_password" name="new_password"  disabled>
-
-        </div>
-        <div class="password" style="display: none;">
-            <label for="confirm_new_password">Confirm New Password</label>
-            <input type="password" id="confirm_new_password" name="confirm_new_password" disabled>
-
+<div class="profile-container">
+    <div class="back-btn-div">
+        <a href="javascript:history.back()"class="back-btn">
+                <i class="fas fa-arrow-left"></i>
+                <span>Back to Dashboard</span>
+        </a>
+    </div>
+    <div class="profile-header bg">
+        
+        <div class="profile-avatar-section">
+            <div class="avatar-container">
+                <img 
+                    src="https://api.dicebear.com/9.x/open-peeps/svg?seed={{ username }}&backgroundColor=transparent&radius=50"
+                    alt="Profile Avatar"
+                    class="profile-avatar"/>
+            </div>
+            <div class="profile-info">
+                <h1>{{ name }}</h1>
+                <p class="username">@{{ username }}</p>
+                <div class="profile-badges">
+                    {% if is_admin %}
+                        <span class="badge admin">
+                            <i class="fas fa-shield-alt"></i>
+                            Admin
+                        </span>
+                    {% else %}
+                        <span class="badge user">
+                            <i class="fas fa-user"></i>
+                            User
+                        </span>
+                    {% endif %}
+                </div>
+            </div>
         </div>
         
-        <button type="button" id="edit_btn">Edit</button>
-        <button type="submit" id="update_btn" style="display: none;">Update</button>
+        {% if not is_admin %}
+        <div class="wallet-section">
+            <div class="wallet-card">
+                <div class="wallet-icon">
+                    <i class="fas fa-wallet"></i>
+                </div>
+                <div class="wallet-info">
+                    <h3>Wallet Balance</h3>
+                    <span class="wallet-amount">₹{{ wallet_balance }}</span>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        
+    </div>
 
+    <div class="profile-content ">
+        <div class="form-card bg ">
+            <div class="card-header ">
+                <h2><i class="fas fa-user-edit"></i> Profile Information</h2>
+                <p>Manage your account details and preferences</p>
+            </div>
 
-    </form>
-    <h1>{{name}}</h1>
-    <h1>{{username}}</h1>
-    {% if not is_admin %}
-    <h1>{{wallet_balance}}</h1>
-    {% endif %}
+            <form action="{{ url_for('profile.update_profile') }}" method="post" class="profile-form">
 
-    <a href="{{url_for('auth.logout')}}"><Button>Logout</Button></a>
-    
-    <script src="{{ url_for('static', filename='js/profile.js') }}"></script>
-</body>
+                <div class="form-section">
+                    <div class="form-group" id="form-group">
+                        <label for="name">
+                            <i class="fas fa-user"></i>
+                            Full Name
+                        </label>
+                        <input type="text" id="name" name="name" value="{{ name }}" disabled>
+                    </div>
 
-{%endblock %}
+                    <div class="form-group" id="form-group">
+                        <label for="username">
+                            <i class="fas fa-envelope"></i>
+                            Email Address
+                        </label>
+                        <input type="email" id="username" name="username" value="{{ username }}" disabled>
+                    </div>
+
+                    <div class="form-group password" id="form-group" style="display: none;">
+                        <label for="current_password ">
+                            <i class="fas fa-key"></i>
+                            Current Password
+                        </label>
+                        <input type="password" id="current_password" name="current_password" disabled>
+                        
+                    </div>
+                    
+                    <div class="form-group password"  id="form-group" style="display: none;">
+                        <label for="new_password">
+                            <i class="fas fa-lock"></i>
+                            New Password
+                        </label>
+                        
+                        <input type="password" id="new_password" name="new_password" disabled>
+                        
+                    </div>
+                
+                    
+                    <div class="form-group password"  style="display: none;">
+                        <label for="confirm_new_password">
+                            <i class="fas fa-check-circle"></i>
+                            Confirm New Password
+                        </label>
+                        <input type="password" id="confirm_new_password" name="confirm_new_password" disabled>
+                        
+                    </div>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" id="edit_btn" class="btn-style">
+                        <i class="fas fa-edit"></i>
+                        Edit Profile
+                    </button>
+                    <button type="submit" id="update_btn" class="btn-style" style="display: none;">
+                        <i class="fas fa-save"></i>
+                        Update Profile
+                    </button>
+                    
+                </div>
+            </form>
+        </div>
+        </div>
+
+    </div>
+</div>
+
+<script src="{{ url_for('static', filename='js/profile.js') }}"></script>
+{% endblock %}

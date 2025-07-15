@@ -86,13 +86,7 @@
 .profile-pic {
     width: 2.5rem;
     height: 2.5rem;
-    background: var(--gradient-blue);
     border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    font-size: 1.125rem;
 }
 
 .profile-info {
