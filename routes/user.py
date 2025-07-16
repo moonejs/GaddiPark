@@ -97,3 +97,66 @@ def vehicle_delete():
     db.session.commit()
     flash('Vehicle deleted successfully.', 'success')
     return redirect(url_for('user.vehicle')) 
+
+
+    
+@user_bp.route('/user/charts')
+@login_required
+@user_required
+def user_charts():
+    user=User.query.get(session.get('user_id'))
+    history=History.query.filter_by(user_id=user.id).all()
+    regular_spot=0
+    ev_spot=0
+    total_time=0
+    booking_per_month_dict={}
+    lot_parking_dict={}
+    revenue_dict={}
+    for h in history:
+        month = h.exit_time.strftime('%m')
+        booking_per_month_dict[month]=booking_per_month_dict.get(month,0)+1
+        lot=ParkingLot.query.get(h.lot_id)
+        lot_parking_dict[lot.name]=lot_parking_dict.get(lot.name,0)+1
+        revenue_dict[month]=revenue_dict.get(month,0)+h.total_amount_paid
+        total_time+=h.duration
+        if h.is_ev_spot:
+            ev_spot+=1
+        else:
+            regular_spot+=1
+    
+    month_names= ['Jan', 'Feb', 'Mar', 'Apr', 'May','Jun','Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+    revenue_lst=[0]*12
+    spendings_lst=list(revenue_dict.values())
+    month_num=list(booking_per_month_dict.keys())
+    bookings_num=list(booking_per_month_dict.values())
+    booking_month_lst=[0]*12
+    for i in range(len(month_num)):
+        booking_month_lst[int(month_num[i])]=bookings_num[i]
+        revenue_lst[int(month_num[i])]=spendings_lst[i]
+        
+    # chart-1
+     
+    chart1_labels=month_names
+    chart1_data=booking_month_lst
+    top_month=chart1_labels[chart1_data.index(max(chart1_data))]
+    
+    
+    # chart-2
+    
+    chart2_labels=list(lot_parking_dict.keys())
+    chart2_data=list(lot_parking_dict.values())
+    
+    top_lot=chart2_labels[chart2_data.index(max(chart2_data))]
+    
+    # chart-3
+    chart3_labels=['Regular Spot','Ev Spot']
+    chart3_data=[regular_spot,ev_spot]
+    
+    # chart-4
+    chart4_labels=month_names
+    chart4_data=revenue_lst
+    avg_spendings=round(sum(revenue_lst)/12,2)
+    
+    
+    
+    return render_template('user_charts.html',user=user,chart1_labels=chart1_labels,chart1_data=chart1_data,chart2_labels=chart2_labels,chart2_data=chart2_data,chart3_labels=chart3_labels,chart3_data=chart3_data,chart4_labels=chart4_labels,chart4_data=chart4_data,avg_spendings=avg_spendings,top_lot=top_lot,top_month=top_month,total_time=int(total_time))

@@ -1,0 +1,375 @@
+{% extends "base.html" %}
+
+{% block style %}
+<link rel="stylesheet" href="{{url_for('static',filename='css/base.css')}}">
+<link rel="stylesheet" href="{{url_for('static',filename='css/admin_charts.css')}}">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+{% endblock %}
+
+{% block content %}
+{% include 'user_navbar.html' %}
+
+<div class="user-analytics-container">
+    <div class="grid-section">
+        <div class="grid-card success">
+            <div class="grid-icon">
+                <i class="fas fa-piggy-bank"></i>
+            </div>
+            <div class="metric-content">
+                <h3>Monthly Avg</h3>
+                <span class="metric-value">₹{{avg_spendings}}</span>
+                
+            </div>
+        </div>
+
+        <div class="grid-card electric">
+            <div class="grid-icon">
+                <i class="fas fa-rupee-sign"></i>
+            </div>
+            <div class="metric-content">
+                <h3>Total Spent</h3>
+                <span class="metric-value">₹{{user.total_spendings}}</span>
+                
+            </div>
+        </div>
+
+        <div class="grid-card primary">
+            <div class="grid-icon">
+                <i class="fas fa-clock"></i>
+            </div>
+            <div class="metric-content">
+                <h3>Total Time</h3>
+                <span class="metric-value">{{total_time // 60}} h {{total_time % 60}} min</span>
+               
+            </div>
+        </div>
+    </div>
+
+    <div class="charts-grid">
+        <div class="chart-card bg">
+            <div class="chart-header">
+                <h2><i class="fas fa-chart-line"></i> Monthly Spending Trend</h2>
+                <p>Track your parking expenses over time</p>
+            </div>
+            <div class="chart-container">
+                <canvas id="chart4"></canvas>
+            </div>
+            <div class="chart-footer">
+                <div class="chart-stats">
+                    <div class="stats-item">
+                        <span >Avg: ₹{{avg_spendings}}/month</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="chart-card bg">
+            <div class="chart-header">
+                <h2><i class="fas fa-map-marker-alt"></i> Favorite Locations</h2>
+                <p>Most frequently visited parking spots</p>
+            </div>
+            <div class="chart-container">
+                <canvas id="chart2"></canvas>
+            </div>
+            <div class="chart-footer">
+                <div class="chart-stats">
+                    <div class="stat-item">
+                        <span class="stat-label">Top Choice </span>
+                        <span class="metric-value">{{top_lot}}</span>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+
+        <div class="chart-card bg">
+            <div class="chart-header">
+                <h2><i class="fas fa-chart-pie"></i> Regular vs EV Usage</h2>
+                <p>Where you spend most of your parking budget</p>
+            </div>
+            <div class="chart-container">
+                <canvas id="chart3"></canvas>
+            </div>
+            <div class="chart-footer">
+                <div class="chart-legend">
+                    <div class="legend-item">
+                        <span class="legend-color ev"></span>
+                        <span>Electric Vehicles</span>
+                    </div>
+                    <div class="legend-item">
+                        <span class="legend-color regular"></span>
+                        <span>Regular Vehicles</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="chart-card bg">
+            <div class="chart-header">
+                <h2><i class="fas fa-calendar-alt"></i> Monthly Bookings</h2>
+                <p>Your parking sessions over the last 12 months</p>
+            </div>
+            <div class="chart-container">
+                <canvas id="chart1"></canvas>
+            </div>
+            <div class="chart-footer">
+                <div class="chart-stats">
+                    <div class="stat-item">
+                        <span class="stat-label">Most Active Month </span>
+                        <span class="metric-value">{{top_month}}</span>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+
+var chart1_labels = {{ chart1_labels|tojson }};
+var chart1_data = {{ chart1_data|tojson }};
+
+var chart2_labels = {{ chart2_labels|tojson }};
+var chart2_data = {{ chart2_data|tojson }};
+
+var chart3_labels = {{ chart3_labels|tojson }};
+var chart3_data = {{ chart3_data|tojson }};
+
+var chart4_labels = {{ chart4_labels|tojson }};
+var chart4_data = {{ chart4_data|tojson }};
+
+
+new Chart(document.getElementById('chart1'), {
+    type: 'bar',
+    data: {
+        labels: chart1_labels,
+        datasets: [{
+            label: 'Parking Sessions',
+            data: chart1_data,
+            backgroundColor: 'rgba(32, 87, 164, 0.388)',
+            borderColor: 'rgba(32, 87, 164, 0.685)',
+            borderWidth: 2,
+            borderRadius: 8,
+            borderSkipped: false,
+            hoverBackgroundColor: 'rgba(32, 87, 164, 0.685)',
+            hoverBorderColor: '#3730a3'
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            legend: {
+                display: false
+            },
+            tooltip: {
+                backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                titleColor: '#fff',
+                bodyColor: '#fff',
+                borderColor: '#374151',
+                borderWidth: 1,
+                cornerRadius: 8
+            }
+        },
+        scales: {
+            y: {
+                beginAtZero: true,
+                grid: {
+                    color: 'rgba(156, 163, 175, 0.2)',
+                    borderDash: [5, 5]
+                },
+                ticks: {
+                    color: '#6b7280',
+                    font: { size: 12 }
+                }
+            },
+            x: {
+                grid: { display: false },
+                ticks: {
+                    color: '#6b7280',
+                    font: { size: 12 }
+                }
+            }
+        },
+        animation: {
+            duration: 1500,
+            easing: 'easeInOutQuart'
+        }
+    }
+});
+
+new Chart(document.getElementById('chart2'), {
+    type: 'bar',
+    data: {
+        labels: chart2_labels,
+        datasets: [{
+            label: 'Bookings',
+            data: chart2_data,
+            backgroundColor: 'rgba(16, 185, 129, 0.427)',
+            borderColor: '#10b981',
+            borderWidth: 2,
+            borderRadius: 8,
+            borderSkipped: false,
+            hoverBackgroundColor: 'rgba(16, 185, 129, 0.877)',
+            hoverBorderColor: 'rgba(16, 185, 129, 0.877)'
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        indexAxis: 'y',
+        plugins: {
+            legend: { display: false },
+            tooltip: {
+                backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                titleColor: '#fff',
+                bodyColor: '#fff',
+                borderColor: '#374151',
+                borderWidth: 1,
+                cornerRadius: 8
+            }
+        },
+        scales: {
+            x: {
+                beginAtZero: true,
+                grid: {
+                    color: 'rgba(156, 163, 175, 0.2)',
+                    borderDash: [5, 5]
+                },
+                ticks: {
+                    color: '#6b7280',
+                    font: { size: 12 }
+                }
+            },
+            y: {
+                grid: { display: false },
+                ticks: {
+                    color: '#6b7280',
+                    font: { size: 12 }
+                }
+            }
+        },
+        animation: {
+            duration: 1500,
+            easing: 'easeInOutQuart'
+        }
+    }
+});
+
+
+new Chart(document.getElementById('chart3'), {
+    type: 'doughnut',
+    data: {
+        labels: chart3_labels,
+        datasets: [{
+            label: 'Vehicle Types',
+            data: chart3_data,
+            backgroundColor: [
+                '#8b5cf6', 
+                '#ffc0cb'
+            ],
+            borderColor: [
+                '#8b5cf6',
+                '#ffc0cb'
+            ],
+            borderWidth: 2,
+            hoverOffset: 10
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            legend: {
+                display: false
+            },
+
+        },
+        cutout: '60%',
+        animation: {
+            animateRotate: true,
+            duration: 1500
+        }
+    }
+});
+
+// Enhanced Chart 4 - Spending Trend (Line Chart)
+new Chart(document.getElementById('chart4'), {
+    type: 'line',
+    data: {
+        labels: chart4_labels,
+        datasets: [{
+            label: 'Monthly Spending (₹)',
+            data: chart4_data,
+            borderColor: '#f59e0b',
+            backgroundColor: 'rgba(245, 158, 11, 0.1)',
+            borderWidth: 3,
+            fill: true,
+            tension: 0.4,
+            pointBackgroundColor: '#f59e0b',
+            pointBorderColor: '#fff',
+            pointBorderWidth: 2,
+            pointRadius: 6,
+            pointHoverRadius: 8,
+            pointHoverBackgroundColor: '#d97706',
+            pointHoverBorderColor: '#fff',
+            pointHoverBorderWidth: 3
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            legend: { display: false },
+            tooltip: {
+                backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                titleColor: '#fff',
+                bodyColor: '#fff',
+                borderColor: '#374151',
+                borderWidth: 1,
+                cornerRadius: 8,
+                callbacks: {
+                    label: function(context) {
+                        return `Spending: ₹${context.parsed.y.toLocaleString()}`;
+                    }
+                }
+            }
+        },
+        scales: {
+            y: {
+                beginAtZero: true,
+                grid: {
+                    color: 'rgba(156, 163, 175, 0.2)',
+                    borderDash: [5, 5]
+                },
+                ticks: {
+                    color: '#6b7280',
+                    font: { size: 12 },
+                    callback: function(value) {
+                        return '₹' + value.toLocaleString();
+                    }
+                }
+            },
+            x: {
+                grid: { display: false },
+                ticks: {
+                    color: '#6b7280',
+                    font: { size: 12 }
+                }
+            }
+        },
+        animation: {
+            duration: 2000,
+            easing: 'easeInOutQuart'
+        },
+        interaction: {
+            intersect: false,
+            mode: 'index'
+        }
+    }
+});
+</script>
+{% endblock %}

@@ -19,7 +19,7 @@
 
                 <li class="{% if current_path == url_for('user.vehicle')%}active{%endif%}"><a href="{{url_for('user.vehicle')}}">Vehicles</a></li>
                 
-                <li><a href="#">Analytics</a></li>
+                <li class="{% if current_path == url_for('user.user_charts')%}active{%endif%}"><a href="{{url_for('user.user_charts')}}">Analytics</a></li>
             </ul>
             <div class="user-actions">
                 <a href="{{url_for('profile.profile')}}">
