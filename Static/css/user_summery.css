@@ -70,7 +70,10 @@
     border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
-
+.search-div{
+    display: flex;
+    gap: 12px;
+}
 
 .export-btn {
     display: flex;
@@ -84,6 +87,9 @@
     cursor: pointer;
     font-weight: 500;
     transition: var(--transition);
+}
+.table-actions a {
+    text-decoration: none;
 }
 
 .export-btn:hover {

@@ -2,6 +2,7 @@ from flask import Blueprint,render_template,request,redirect,url_for,session
 from routes.decorators import login_required,admin_required
 from models import ParkingLot,User,ParkingSpot,Booking,History
 
+from config import db
 admin_bp=Blueprint('admin',__name__)
 
 @admin_bp.route('/admin_dashboard')
@@ -9,10 +10,30 @@ admin_bp=Blueprint('admin',__name__)
 @admin_required
 def admin_dashboard():
     lots=ParkingLot.query.all()
-    lot_id=request.args.get('lot_id')
     user = User.query.get(session.get('user_id'))
     spots=ParkingSpot.query.all()
     
+    t_lots=lots
+    search=request.args.get('search','').strip()
+    search_filter=request.args.get('search_filter')
+    
+    if search_filter == 'name':
+        lots=ParkingLot.query.filter(ParkingLot.name.ilike(f'%{search}%'))
+    if search_filter == 'location':
+        lots=ParkingLot.query.filter(ParkingLot.address.ilike(f'%{search}%'))
+    if search_filter == 'pincode':
+        lots=ParkingLot.query.filter(ParkingLot.pincode.ilike(f'%{search}%'))
+    if search_filter == 'spot_number':
+        spot=ParkingSpot.query.filter(ParkingSpot.spot_number.ilike(f'%{search}%')).all()
+        if spot:
+            lots=set()
+            for s in spot:
+                lots.add(ParkingLot.query.filter_by(id=s.lot_id).first())
+            lots=list(lots)
+                
+ 
+    lot_id=request.args.get('lot_id')
+ 
     def spots_count(is_ev):
         return ParkingSpot.query.filter_by(is_ev_spot=is_ev).count()
     
@@ -35,7 +56,7 @@ def admin_dashboard():
     for h in history:
         total_revenue+=h.total_amount_paid
     
-    return render_template('admin_dashboard.html',lots=lots,lot=lot,user=user,spots=spots,total_regular_available_spots=total_regular_available_spots,total_users=total_users,total_ev_available_spots=total_ev_available_spots,total_regular_spots=total_regular_spots,total_ev_spots=total_ev_spots,active_bookings=active_bookings,total_revenue=total_revenue)
+    return render_template('admin_dashboard.html',lots=lots,lot=lot,user=user,spots=spots,total_regular_available_spots=total_regular_available_spots,total_users=total_users,total_ev_available_spots=total_ev_available_spots,total_regular_spots=total_regular_spots,total_ev_spots=total_ev_spots,active_bookings=active_bookings,total_revenue=total_revenue,t_lots=t_lots)
 
 
 
@@ -43,13 +64,45 @@ def admin_dashboard():
 @login_required
 @admin_required
 def users_summery():
+    tab = request.args.get('tab', 'users') 
     user=User.query.get(session.get('user_id'))
     users= User.query.all()
+    user_length=users
     history= History.query.all()
     bookings=Booking.query.all()
     spots=ParkingSpot.query.all()
     lots=ParkingLot.query.all()
-    return render_template('users_summery.html',users=users,history=history,bookings=bookings,spots=spots,user=user,lots=lots)
+    
+    search=request.args.get('search','').strip()
+    search_booking=request.args.get('search_booking','').strip()
+    search_filter=request.args.get('search_filter')
+    
+    if search:
+        users = User.query.filter(
+            (User.id.cast(db.String).ilike(f'%{search}%')) | (User.full_name.ilike(f'%{search}%'))
+        ).all()
+        
+    if search_filter=='booking_id':
+        history = History.query.filter(History.booking_id.ilike(f'%{search_booking}%')).all()
+        
+    if search_filter=='user_id':
+        history = History.query.filter(History.user_id.cast(db.String).ilike(f'%{search_booking}%')).all()
+    
+    if search_filter=='lot_name':
+        lot=ParkingLot.query.filter(ParkingLot.name.ilike(f'%{search_booking}%')).all()
+        if lot:
+            history=[]
+            for l in lot:
+                history.extend(History.query.filter_by(lot_id=l.id).all())
+    if search_filter=='spot_number':
+        spot=ParkingSpot.query.filter(ParkingSpot.spot_number.ilike(f'%{search_booking}%')).all()
+        if spot:
+            history=[]
+            for s in spot:
+                history.extend(History.query.filter_by(spot_id=s.id).all())
+                  
+    
+    return render_template('users_summery.html',users=users,history=history,bookings=bookings,spots=spots,user=user,lots=lots,user_length=user_length,active_tab=tab)
 
 
 

@@ -36,6 +36,11 @@ def find_parking():
     user=User.query.get(session.get('user_id'))
     vehicles=Vehicle.query.filter_by(user_id=user.id)
     lots=ParkingLot.query.all()
+    search=request.args.get('search','').strip()
+    if search:
+        lots=ParkingLot.query.filter(ParkingLot.name.ilike(f'%{search}%') | ParkingLot.address.ilike(f'%{search}%')).all()
+    
+    
     lot_id=request.args.get('lot_id')
     current_booking_time= request.args.get('current_booking_time')
     current_booking_date= request.args.get('current_booking_date')
@@ -63,7 +68,7 @@ def vehicle():
     user=User.query.get(session.get('user_id')) 
     if request.method =='POST':
         type=request.form.get('type')
-        model=request.form.get('model')
+        model=request.form.get('model').title()
         registration_number=request.form.get('registration_number')
         is_ev=request.form.get('is_ev') =='1'
         

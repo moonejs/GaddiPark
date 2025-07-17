@@ -18,10 +18,13 @@
                     <p>Welcome back! Here's what's happening with your parking system today.</p>
                 </div>
                 <div class="header-right">
+                    <a href="{{url_for('admin.admin_dashboard')}}">
+
                         <button class="btn-style" onclick="location.reload()">
                             <i class="fas fa-sync-alt"></i>
                             Refresh
                         </button>
+                    </a>
 
                 </div>
             </div>
@@ -32,7 +35,7 @@
                         <i class="fa-solid fa-square-parking"></i>
                     </div>
                     <div class="grid-content">
-                        <h3>{{lots|length}}</h3>
+                        <h3>{{t_lots|length}}</h3>
                         <p>Total Parking Lots</p>
                         <span class="grid-change positive">
                             <i class="fas fa-arrow-up"></i>
@@ -112,24 +115,32 @@
                 </div>
             </div>
 
-            <div class="search-section bg">
-                <button class="add-lot-btn btn-style" id="add_parking_lot">
+            <div class="search-section bg " id="search-section">
+                <button class="btn-style" id="add_parking_lot">
                     <i class="fas fa-plus"></i>
                         Add First Parking Lot
                 </button>
-                <div class="search-container">
-                    <div class="search-box">
-                        <i class="fas fa-search"></i>
-                        <input type="search" placeholder="Search parking lots, users, bookings...">
+                <form action="{{url_for('admin.admin_dashboard')}}" method="get">
+                    <div class="search-container" id="search-container">
+                        
+                        <div class="search-box">
+                            <i class="fas fa-search"></i>
+                            <input type="search" required name="search" placeholder="Search parking lots,...">
+                        </div>
+                        <div class="filter-controls">
+                            <select name="search_filter" >
+                                <option value="name">Name</option>
+                                <option value="location">Location</option>
+                                <option value="pincode">Pin - code</option>
+                                <option value="spot_number">Spot No</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="search-btn" id="search-btn">
+                            <i class="fas fa-search"></i>
+                            Search
+                        </button>
                     </div>
-                    <div class="filter-controls">
-                        <select >
-                            <option>By User ID</option>
-                            <option>By Location</option>
-                            <option>By Status</option>
-                        </select>
-                    </div>
-                </div>
+                </form>
             </div>
 
             <div class="parking-lots-section bg">

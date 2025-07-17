@@ -41,7 +41,7 @@ def signup():
         username= request.form.get('username')
         password =request.form.get('password')
         confirm_password = request.form.get('confirm_password')
-        fullname=request.form.get('fullname')
+        fullname=request.form.get('fullname').title()
         
         
         if not username or not password or not confirm_password or not fullname:

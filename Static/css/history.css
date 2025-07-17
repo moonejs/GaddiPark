@@ -11,9 +11,8 @@
     padding: 0.8rem 1.5rem;
     margin-bottom: 2rem;
     box-shadow: var(--shadow);
+    
 }
-
-
 
 .export-btn {
     display: flex;
@@ -30,12 +29,10 @@
     font-size: 0.875rem;
 }
 
-.export-btn:hover {
-    background: var(--primary-dark);
-    transform: translateY(-1px);
-    box-shadow: var(--shadow-md);
-}
 
+.table-actions a{
+    text-decoration: none;
+}
 .record-count {
     color: var(--gray-500);
     font-size: 0.875rem;

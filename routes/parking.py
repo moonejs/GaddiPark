@@ -12,7 +12,7 @@ parking_bp = Blueprint('parking', __name__)
 @admin_required
 def parking_dashboard():
     if request.method == 'POST':
-        pl_name=request.form.get('pl_name')
+        pl_name=request.form.get('pl_name').title()
         address=request.form.get('address')
         pincode=request.form.get('pincode')
         hourly_rate = float(request.form.get('hourly_rate'))
@@ -94,7 +94,7 @@ def parking_dashboard():
 def update_lot(lot_id):
     if request.method=='POST':
         lot=ParkingLot.query.get(lot_id)
-        new_pl_name=request.form.get('pl_name')
+        new_pl_name=request.form.get('pl_name').title()
         new_address=request.form.get('address')
         new_pincode=request.form.get('pincode')
         new_hourly_rate = float(request.form.get('hourly_rate'))

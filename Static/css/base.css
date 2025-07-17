@@ -124,7 +124,7 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    gap: 3rem;
+    gap: 0rem;
 }
 
 .search-box {
@@ -156,6 +156,7 @@ body {
     cursor: pointer;
     transition: var(--transition);
     box-shadow: var(--shadow-md);
+    margin-right: 21rem;
 }
 .search-btn:hover {
     transform: translateY(-2px);

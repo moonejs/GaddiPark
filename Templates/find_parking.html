@@ -17,11 +17,11 @@
             <p>Discover available parking spaces near you</p>
         </div>
         
-        <form action="" class="search-form">
+        <form action="{{url_for('user.find_parking')}}" class="search-form" method="get">
             <div class="search-container" id="search-container">
                 <div class="search-box">
                     <i class="fas fa-search"></i>
-                    <input type="search" placeholder="Search for a location, landmark or address" class="search-input">
+                    <input type="search" placeholder="Search for a Lot name ,  Address" class="search-input" name="search" required>
                 </div>
                 <button type="submit" class="search-btn">
                     <i class="fas fa-search"></i>

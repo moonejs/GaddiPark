@@ -1,8 +1,8 @@
 {% extends "base.html" %}
 
 {% block style %}
-<link rel="stylesheet" href="{{url_for('static',filename='css/base.css')}}">
 <link rel="stylesheet" href="{{url_for('static',filename='css/history.css')}}">
+<link rel="stylesheet" href="{{url_for('static',filename='css/base.css')}}">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 {% endblock %}
 
@@ -11,28 +11,31 @@
 
 <div class="history-container">
     <div class="search-section">
-        <div class="search-container">
-            <div class="search-box">
-                <input type="text" id="history-search" placeholder="Search by transaction ID, location, or vehicle number..." onkeyup="searchHistory()">
-
-                <button type="submit" class="search-btn ">
-                        <i class="fas fa-search"></i>
-                        Search
-                </button>
+        <form action="{{url_for('user_activity.history')}}" method="get">
+            <div class="search-container">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="history-search" placeholder="Search by transaction ID, location, or vehicle number..." name="search" required>
+                </div>
+                    <button type="submit" class="search-btn">
+                            <i class="fas fa-search"></i>
+                                Search
+                    </button>
+                <div class="filter-controls">
+                    <select id="date-filter" name="search_filters">
+                        <option value="location">Location</option>
+                        <option value="transaction_id">Transaction Id</option>
+                        <option value="booking_id">Booking Id</option>
+                        <option value="vehicle_no">Vehicle No</option>
+                        <option value="spot_number">Spot No</option>
+                    </select>
+                    <button class="export-btn">
+                        <i class="fas fa-download"></i>
+                        Export
+                    </button>
+                </div>
             </div>
-            <div class="filter-controls">
-                <select id="date-filter" onchange="filterHistory()">
-                    <option value="">All Time</option>
-                    <option value="today">Today</option>
-                    <option value="week">This Week</option>
-                    <option value="month">This Month</option>
-                </select>
-                <button class="export-btn">
-                    <i class="fas fa-download"></i>
-                    Export
-                </button>
-            </div>
-        </div>
+        </form>
     </div>
 
     <div class="history-content ">
@@ -51,10 +54,13 @@
                 <h3>Transaction History</h3>
                 <div class="table-actions">
                     <span class="record-count">{{ history|length  }} records</span>
-                    <button class=" btn-style" id="refresh-btn" onclick="location.reload()">
-                        <i class="fas fa-sync-alt"></i>
-                        Refresh
-                    </button>
+                    <a href="{{url_for('user_activity.history')}}">
+
+                        <button class=" btn-style" id="refresh-btn">
+                            <i class="fas fa-sync-alt"></i>
+                            Refresh
+                        </button>
+                    </a>
                 </div>
             </div>
             <table class="table">
