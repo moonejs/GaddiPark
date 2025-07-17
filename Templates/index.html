@@ -1,95 +1,309 @@
 {%extends "base.html" %}
 {%block style%}
+<link rel="stylesheet" href="{{url_for('static',filename='css/base.css')}}">
 <link rel="stylesheet" href="{{url_for('static',filename='css/index.css')}}">
 {%endblock%}
 {% block content %}
-{%include "landing_page_navbar.html" %}
-
-<div class="page-1">
-        <div class="page-1-main">
-            <div class="page-1-left">
-                <div class="page-1-left-part-1">
-                    <h2>EASY PARKING SOLUTION</h2>
-                </div>
-                <div class="page-1-left-part-2">
-                    <div class="page-1-left-part-2-line-1">
-                        <h1>Best For You</h1>
-                    </div>
-                    <div class="page-1-left-part-2-line-2">
-                        <h1>Park Smart & Save Time.</h1>
-                    </div>
-                </div>
-                <div class="page-1-left-part-3">
-                    <h3>Find and reserve parking spots with ease. Our application helps you locate available parking spots in your preferred location, saving your time and reducing hassle.</h3>
-                </div>
-                <div class="page-1-left-part-4">
-                    <h2>Register Now</h2>
-                </div>
-
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <h2>GaadiPark</h2>
             </div>
-            <div class="page-1-right">
- 
-                <div class="page-1-right-side-small-div">
-
-                </div>
-            </div>
-            <div class="page-1-bottom">
-                <div class="yellow-road-line">
-                </div>
-                <div class="yellow-road-line">
-                </div>
-                <div class="yellow-road-line">
-                </div>
-                <div class="yellow-road-line">
-                </div>
-                <div class="yellow-road-line">
-                </div>
-                <div class="yellow-road-line">
-                </div>
-                <div class="yellow-road-line">
-                </div>
-                <div class="yellow-road-line">
-                </div>
-                <div class="yellow-road-line">
-                </div>
-                <div class="yellow-road-line">
-                </div>
-                <div class="yellow-road-line">
-                </div>
-                <div class="yellow-road-line">
-                </div>
-                <div class="yellow-road-line">
-                </div>
-                <div class="yellow-road-line">
-                </div>
-                <div class="yellow-road-line">
-                </div>
-                <div class="yellow-road-line">
-                </div>
-                <div class="yellow-road-line">
-                </div>
-                <div class="yellow-road-line">
-                </div>
-                <div class="yellow-road-line">
-                </div>
-                <div class="yellow-road-line">
-                </div>
-                <div class="yellow-road-line">
-                </div>
-            </div>
-            <div class="car-vector">
-                <img src="car-image-2-removebg-preview.png" alt="">
+            <ul class="nav-menu">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#features">Features</a></li>
+                <li><a href="#how-it-works">How It Works</a></li>
+                <li><a href="#pricing">Pricing</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <div class="nav-actions">
+                <a href="/login" class="login-btn">Login</a>
+                <a href="/signup" class="signup-btn">Get Started</a>
             </div>
         </div>
-</div>
-<div class="page_2">
+    </nav>
 
-</div>
-<div class="page_3">
+    <div  class="page1">
+        <div class="page1-container">
+            <div class="page1-content">
+                <div class="page1-text">
+                    <h1>Spot chahiye? <span class="gradient-text">GaadiPark </span>Hai na..</h1>
+                    <p>Find, book, and manage parking spots with ease. Join thousands of users who have simplified their parking experience with GaadiPark.</p>
+                    <div class="page1-buttons">
+                        <a href="/signup" class="btn-style start-parking-btn">Start Parking Smart</a>
+                        <a href="#features" class="btn-2">
+                            <i class="fas fa-play"></i>
+                            Learn More
+                        </a>
+                    </div>
+                    <div class="page1-stats">
+                        <div class="stat">
+                            <span class="stat-number">10K+</span>
+                            <span class="stat-label">Happy Users</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-number">500+</span>
+                            <span class="stat-label">Parking Lots</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-number">50K+</span>
+                            <span class="stat-label">Bookings</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="page1-visual">
+                    <div class="phone">
+                        <div class="phone-screen">
+                            <div class="app-interface">
+                                <div class="app-header">
+                                    <div class="app-title">Find Parking</div>
+                                    <div class="app-location">
+                                        <i class="fas fa-map-marker-alt"></i>
+                                        IIT Madras, Chennai 
+                                    </div>
+                                </div>
+                                <div class="parking-cards">
+                                    <div class="parking-card">
+                                        <div class="parking-info">
+                                            <h4>City Mall</h4>
+                                            <p>₹50/hour</p>
+                                        </div>
+                                        <div class="parking-status available">Available</div>
+                                    </div>
+                                    <div class="parking-card">
+                                        <div class="parking-info">
+                                            <h4>Tech Park</h4>
+                                            <p>₹40/hour</p>
+                                        </div>
+                                        <div class="parking-status available">Available</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="floating-elements">
+                        <div class="floating-card bg card-1">
+                            <i class="fas fa-car"></i>
+                            <span>Quick Booking</span>
+                        </div>
+                        <div class="floating-card bg card-2">
+                            <i class="fas fa-bolt"></i>
+                            <span>EV Charging</span>
+                        </div>
+                        <div class="floating-card bg card-3">
+                            <i class="fas fa-shield-alt"></i>
+                            <span>Secure Payment</span>
+                        </div>
+                        <div class="floating-card bg card-4">
+                            <i class="fa-solid fa-percent"></i>
+                            <span>Less price*</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-</div>
-<footer>
+    <div id="features" class="features">
+        <div class="container">
+            <div class="div-header">
+                <h2>Why Choose GaadiPark?</h2>
+                <p>Experience the future of parking with our innovative features</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card bg ">
+                    <div class="feature-icon">
+                        <i class="fas fa-search-location"></i>
+                    </div>
+                    <h3>Real-time Availability</h3>
+                    <p>Find available parking spots in real-time with live updates and accurate information.</p>
+                </div>
+                <div class="feature-card bg">
+                    <div class="feature-icon">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <h3>Easy Booking</h3>
+                    <p>Book your parking spot in seconds with our intuitive mobile-first interface.</p>
+                </div>
+                <div class="feature-card bg">
+                    <div class="feature-icon">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <h3>EV Charging</h3>
+                    <p>Find and book EV charging stations along with your parking spot seamlessly.</p>
+                </div>
+                <div class="feature-card bg">
+                    <div class="feature-icon">
+                        <i class="fas fa-credit-card"></i>
+                    </div>
+                    <h3>Secure Payments</h3>
+                    <p>Multiple payment options with bank-level security for all your transactions.</p>
+                </div>
+                <div class="feature-card bg">
+                    <div class="feature-icon">
+                        <i class="fas fa-history"></i>
+                    </div>
+                    <h3>Booking History</h3>
+                    <p>Track all your parking sessions and manage your favorite locations easily.</p>
+                </div>
+                <div class="feature-card bg">
+                    <div class="feature-icon">
+                        <i class="fas fa-headset"></i>
+                    </div>
+                    <h3>24/7 Support</h3>
+                    <p>Get help whenever you need it with our round-the-clock customer support.</p>
+                </div>
+            </div>
+        </div>
+    </div>
 
-</footer>
+    <div id="how-it-works" class="how-it-works">
+        <div class="container">
+            <div class="div-header">
+                <h2>How It Works</h2>
+                <p>Get started in just 3 simple steps</p>
+            </div>
+            <div class="steps-container">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h3>Search & Find</h3>
+                        <p>Enter your destination and find available parking spots near you with real-time updates.</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h3>Book & Pay</h3>
+                        <p>Select your preferred spot, choose duration, and make secure payment through multiple options.</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h3>Park & Go</h3>
+                        <p>Navigate to your spot, scan QR code for entry, and enjoy hassle-free parking experience.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+    <div id="pricing" class="pricing">
+        <div class="container">
+            <div class="div-header">
+                <h2>Simple Pricing</h2>
+                <p>Choose the plan that works best for you</p>
+            </div>
+            <div class="pricing-grid">
+                <div class="pricing-card bg">
+                    <div class="pricing-header">
+                        <h3>Basic</h3>
+                        <div class="price">
+                            <span class="currency">₹</span>
+                            <span class="amount">0</span>
+                            <span class="period">/month</span>
+                        </div>
+                    </div>
+                    <ul class="pricing-features">
+                        <li><i class="fas fa-check"></i> Find parking spots</li>
+                        <li><i class="fas fa-check"></i> Basic booking</li>
+                        <li><i class="fas fa-check"></i> Payment integration</li>
+                        <li><i class="fas fa-times"></i> Priority support</li>
+                        <li><i class="fas fa-times"></i> Advanced analytics</li>
+                    </ul>
+                    <a href="/signup" class="pricing-btn">Get Started</a>
+                </div>
+                <div class="pricing-card bg featured">
+                    <div class="pricing-badge">Most Popular</div>
+                    <div class="pricing-header">
+                        <h3>Premium</h3>
+                        <div class="price">
+                            <span class="currency">₹</span>
+                            <span class="amount">99</span>
+                            <span class="period">/month</span>
+                        </div>
+                    </div>
+                    <ul class="pricing-features">
+                        <li><i class="fas fa-check"></i> Everything in Basic</li>
+                        <li><i class="fas fa-check"></i> Priority booking</li>
+                        <li><i class="fas fa-check"></i> EV charging spots</li>
+                        <li><i class="fas fa-check"></i> 24/7 support</li>
+                        <li><i class="fas fa-check"></i> Usage analytics</li>
+                    </ul>
+                    <a href="/signup" class="pricing-btn">Start Free Trial</a>
+                </div>
+                <div class="pricing-card bg">
+                    <div class="pricing-header">
+                        <h3>Business</h3>
+                        <div class="price">
+                            <span class="currency">₹</span>
+                            <span class="amount">299</span>
+                            <span class="period">/month</span>
+                        </div>
+                    </div>
+                    <ul class="pricing-features">
+                        <li><i class="fas fa-check"></i> Everything in Premium</li>
+                        <li><i class="fas fa-check"></i> Multi-user accounts</li>
+                        <li><i class="fas fa-check"></i> Custom integrations</li>
+                        <li><i class="fas fa-check"></i> Dedicated support</li>
+                        <li><i class="fas fa-check"></i> Advanced reporting</li>
+                    </ul>
+                    <a href="/contact" class="pricing-btn">Contact Sales</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-div">
+                    <div class="footer-logo">
+                        <h3>GaadiPark</h3>
+                        <p>Making parking simple, smart, and sustainable for everyone.</p>
+                    </div>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+                <div class="footer-div">
+                    <h4>Product</h4>
+                    <ul>
+                        <li><a href="#features">Features</a></li>
+                        <li><a href="#pricing">Pricing</a></li>
+                        <li><a href="#">Mobile App</a></li>
+                        <li><a href="#">API</a></li>
+                    </ul>
+                </div>
+                <div class="footer-div">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">Press</a></li>
+                        <li><a href="#">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-div">
+                    <h4>Support</h4>
+                    <ul>
+                        <li><a href="#">Help Center</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Status</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 GaadiPark. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
 
 {%endblock %}

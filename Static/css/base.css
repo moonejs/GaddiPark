@@ -47,6 +47,8 @@
     --regular-color:#ffc0cb;
     --border-color: #ffc0cb;
     --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --electric-color:rgb(255, 37, 248)
+    (0.4, 0, 0.2, 1);
 }
 
 * {

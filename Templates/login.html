@@ -1,31 +1,62 @@
-{%extends "base.html" %}
-{%block style%}
+{% extends "base.html" %}
+{% block style %}
+<link rel="stylesheet" href="{{url_for('static',filename='css/base.css')}}">
 <link rel="stylesheet" href="{{url_for('static',filename='css/login.css')}}">
-{%endblock%}
-{% block content %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+{% endblock %}
 
-<div class="login-form">
-                    <div class="login-form-header">
+{% block content %}
+<div class="page-1">
+        <div class="left">
+            <div class="image">
+                <img src="signup1.svg" alt="">
+            </div>
+        </div>
+        <div class="right">
+            <div class="form-container">
+                <div class="form bg ">
+                    <div class="form-header">
                         <h2>Login</h2>
+                        <p>Enter your credentials to access your account</p>
                     </div>
-                    <div class="login-form-content">
-                            <form action="{{url_for('auth.login')}}" method="post">
-                            <div class="login-form-group">
-                                <label for="username"><h3>Username</h3></label>
-                                <input type="email" id="username" name="username" autocomplete="off" autofocus placeholder="123@gmail.com" required>
+                    
+                    <div class="form-content">
+                        <form action="{{url_for('auth.login')}}" method="post">
+                            <div class="form-group">
+                                <label for="username">
+                                    <i class="fa-solid fa-envelope"></i>
+                                    Email Address
+                                </label>
+                                <input type="email" id="username" name="username" 
+                                       autocomplete="off" autofocus 
+                                       placeholder="Enter your email" required>
                             </div>
-                            <div class="login-form-group">
-                                <label for="login-password"><h3>Password</h3></label>
-                                <input type="password" id="login-password" name="password" required>
+                            
+                            <div class="form-group">
+                                <label for="password">
+                                    <i class="fa-solid fa-lock"></i>
+                                    Password
+                                </label>
+                                <input type="password" id="password" name="password" placeholder="Enter your password" required>
+                                
                             </div>
-                            <div class="login-form-group">
-                                <button type="submit">Login</button>
+                            
+                            <div class="form-group">
+                                <button type="submit" class="form-btn">
+                                    <span>Login</span>
+                                    <i class="fa-solid fa-arrow-right"></i>
+                                </button>
                             </div>
-                            <div class="login-form-links">
-                                <a href="{{ url_for('auth.signup')}}">Create Account</a>
+                            
+                            <div class="form-links">
+                                <p>Don't have an account? 
+                                    <a href="{{ url_for('auth.signup')}}">Create Account</a>
+                                </p>
                             </div>
                         </form>
                     </div>
-
-
-{%endblock%}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
