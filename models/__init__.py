@@ -3,9 +3,5 @@ from .parking_lot import ParkingLot
 from .parking_spot import ParkingSpot
 from .vehicle import Vehicle
 from .booking import Booking
-from .fav_location import FavLocation
-from .ratings import Rating
-from .activity_log import ActivityLog
-from .ev_charging_sessions import EvChargingSession
 from .payment import Payment
 from .history import History

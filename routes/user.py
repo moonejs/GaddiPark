@@ -151,7 +151,7 @@ def user_charts():
     chart2_labels=list(lot_parking_dict.keys())
     chart2_data=list(lot_parking_dict.values())
     
-    top_lot=chart2_labels[chart2_data.index(max(chart2_data))]
+    top_lot=chart2_labels[chart2_data.index(max(chart2_data))] if chart2_data else 'NA'
     
     # chart-3
     chart3_labels=['Regular Spot','Ev Spot']

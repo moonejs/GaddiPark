@@ -1,5 +1,5 @@
 :root {
-    --main-gradient: linear-gradient(135deg, #ff7e5f 0%, #feb47b 100%);
+    --main-gradient: linear-gradient(135deg, #FF6363 0%, #FF8282 100%);
     --gradient-blue: linear-gradient(135deg, #74b9ff 0%, #0984e3 100%);
     --gradient-purple: linear-gradient(135deg, #a29bfe 0%, #5044ad 100%);
     --gradient-pink: linear-gradient(135deg, #fd79a8 0%, #ff47fc 100%);
@@ -9,7 +9,7 @@
     --gradient-gray: linear-gradient(135deg, #dfe6e992 0%, #b2bec399 100%);
 
 
-    --bg-gradient-main: linear-gradient(135deg, #FFE5F1 0%, #E5F3FF 25%, #F0E5FF 50%, #FFE5E5 75%, #E5FFE5 100%);
+    --bg-gradient-main: linear-gradient(135deg,  #F1EAFF 0%, #ecfae5f0 25%, #cbf1f5f5 50%, #FFE5E5 75%, #E5FFE5 100%);
     --bg-gradient-soft: linear-gradient(135deg, #ffeaa7 0%, #fab1a0 100%);
     --bg-gradient-cool: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
     
@@ -40,12 +40,12 @@
     --radius-xl: 1.5rem;
     --radius-2xl: 2rem;
     
-    --refresh-btn-color:rgb(171, 238, 255);
+    --refresh-btn-color:rgb(5, 84, 104);
      --available-color: #10b924aa;
     --occupied-color: #ef4444;
     --ev-color: #8b5cf6;
     --regular-color:#ffc0cb;
-    --border-color: #ffc0cb;
+    --border-color: #ef4444;
     --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     --electric-color:rgb(255, 37, 248)
     (0.4, 0, 0.2, 1);

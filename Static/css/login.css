@@ -1,7 +1,8 @@
 
 /* page-1 */
 .page-1{
-    height: 105%;
+    /* background-color: red; */
+    height: 100vh;
     width: 100%;
     display: flex;
     

@@ -44,7 +44,10 @@ def admin_dashboard():
     total_regular_spots=spots_count(0)
     total_ev_spots=spots_count(1)
     
-    
+    bookings=Booking.query.all()
+    bookings_lot_id=[]
+    for b in bookings:
+        bookings_lot_id.append(b.lot_id)
     active_bookings=Booking.query.count()
     
     total_users=User.query.count() - 1
@@ -56,7 +59,7 @@ def admin_dashboard():
     for h in history:
         total_revenue+=h.total_amount_paid
     
-    return render_template('admin_dashboard.html',lots=lots,lot=lot,user=user,spots=spots,total_regular_available_spots=total_regular_available_spots,total_users=total_users,total_ev_available_spots=total_ev_available_spots,total_regular_spots=total_regular_spots,total_ev_spots=total_ev_spots,active_bookings=active_bookings,total_revenue=total_revenue,t_lots=t_lots)
+    return render_template('admin_dashboard.html',lots=lots,lot=lot,user=user,spots=spots,total_regular_available_spots=total_regular_available_spots,total_users=total_users,total_ev_available_spots=total_ev_available_spots,total_regular_spots=total_regular_spots,total_ev_spots=total_ev_spots,active_bookings=active_bookings,total_revenue=total_revenue,t_lots=t_lots,bookings_lot_id=bookings_lot_id)
 
 
 
@@ -141,9 +144,9 @@ def admin_charts():
     lot_names_chart2_labels=list(lots_dict.keys())
     chart2_data=list(lots_dict.values())
     
-    best_lot = lot_names_chart2_labels[chart2_data.index(max(chart2_data))]
+    best_lot = lot_names_chart2_labels[chart2_data.index(max(chart2_data))] if chart2_data else 'NA'
     
-    peak_month=month_names_chart3_labels[int(month_num[total_revenue_lst.index(max(total_revenue_lst))])-1]
+    peak_month=month_names_chart3_labels[int(month_num[total_revenue_lst.index(max(total_revenue_lst))])-1] if total_revenue_lst else 'NA'
     
     
     chart1_labels=['Regular Vehicles','Ev Vehicles']

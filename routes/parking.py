@@ -94,6 +94,9 @@ def parking_dashboard():
 def update_lot(lot_id):
     if request.method=='POST':
         lot=ParkingLot.query.get(lot_id)
+        spots=ParkingSpot.query.filter_by(lot_id=lot.id).all()
+        bookings=Booking.query.filter_by(lot_id=lot.id).all()
+        
         new_pl_name=request.form.get('pl_name').title()
         new_address=request.form.get('address')
         new_pincode=request.form.get('pincode')
@@ -103,10 +106,44 @@ def update_lot(lot_id):
         if not new_pl_name or not new_address or not new_pincode or not new_hourly_rate  or not new_ev_charging_rate or not new_description:
             flash('Please fill in all required fields','error')
             return redirect(url_for('parking.parking_dashboard'))
-        parking=ParkingLot.query.filter_by(name=new_pl_name).first()
-        if parking:
-            flash('Parking Lot name already Exist,please enter unique Lot name','error')
-            return redirect(url_for('parking.parking_dashboard'))
+        if lot.name!=new_pl_name:
+            parking=ParkingLot.query.filter_by(name=new_pl_name).first()
+            if parking:
+                flash('Parking Lot name already Exist,please enter unique Lot name','error')
+                return redirect(url_for('parking.parking_dashboard'))
+            
+        
+        if not bookings:
+            new_total_spots=int(request.form.get('total_spots'))
+            new_ev_spots=int(request.form.get('ev_spots'))
+            lot.total_spots=new_total_spots
+            lot.ev_spots=new_ev_spots
+            
+            for spot in spots:
+                db.session.delete(spot)
+            db.session.commit()
+            
+            def letter(n):
+                aplha=''
+                while n>=0:
+                    aplha=chr(n%26+65)+aplha
+                    n=n//26 - 1
+                return aplha
+            def add_spot(spots,type,is_e):
+                n=0
+                
+                for s in range(1,spots+1):
+                    n=(s-1)//10
+                    alpha=letter(n)
+                    spot_number=f'{alpha}{lot.id}{type}{10 if s % 10 == 0 else s % 10}'
+                    new_parking_spot=ParkingSpot(lot_id=lot.id,spot_number=spot_number,is_ev_spot=is_e)
+                    db.session.add(new_parking_spot)
+                    db.session.commit()
+                    if s % 10 ==0:
+                        n+=1
+            add_spot(new_ev_spots,'E',1)
+            add_spot(new_total_spots,'R',0)
+        
         
         lot.name=new_pl_name
         lot.address=new_address
@@ -115,6 +152,7 @@ def update_lot(lot_id):
         lot.ev_charging_rate=new_ev_charging_rate
         lot.description=new_description
         db.session.commit()
+        
         
         flash('Parking Lot Successfully updated','success')
         return redirect(url_for('admin.admin_dashboard'))

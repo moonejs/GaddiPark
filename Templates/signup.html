@@ -9,7 +9,7 @@
 <div class="page-1">
         <div class="left">
             <div class="image">
-                <img src="signup2.svg" alt="">
+                <img src="{{url_for('static',filename='images/signup_final.svg')}}" alt="">
             </div>
         </div>
         <div class="right">
@@ -21,7 +21,7 @@
                     </div>
                     
                     <div class="form-content">
-                        <form action="{{url_for('auth.login')}}" method="post">
+                        <form action="{{url_for('auth.signup')}}" method="post">
                             <div class="form-group">
                                 <label for="fullname">
                                     <i class="fa-solid fa-user"></i>
