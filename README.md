@@ -59,6 +59,98 @@ A visual representation of the database schema will be added here.
 
 ## Folder Structure
 
+## 📁 Project Structure
+
+```
+📁 GadiPark/
+│
+├── app.py
+├── config.py
+├── README.md
+├── requirements.txt
+│
+├── 📁 instance/
+│   └── database.sqlite3
+│
+├── 📁 models/
+│   ├── booking.py
+│   ├── history.py
+│   ├── parking_lot.py
+│   ├── parking_spot.py
+│   ├── payment.py
+│   ├── user.py
+│   ├── vehicle.py
+│   └── __init__.py
+│
+├── 📁 routes/
+│   ├── admin.py
+│   ├── auth.py
+│   ├── booking.py
+│   ├── decorators.py
+│   ├── parking.py
+│   ├── payment.py
+│   ├── profile.py
+│   ├── search.py
+│   ├── user.py
+│   ├── user_activity.py
+│   └── __init__.py
+│
+├── 📁 static/
+│   ├── 📁 css/
+│   │   ├── admin_charts.css
+│   │   ├── admin_dashboard.css
+│   │   ├── admin_sidebar.css
+│   │   ├── base.css
+│   │   ├── booking_confirmed.css
+│   │   ├── find_parking.css
+│   │   ├── history.css
+│   │   ├── index.css
+│   │   ├── login.css
+│   │   ├── modal.css
+│   │   ├── parking_lot_details.css
+│   │   ├── payment.css
+│   │   ├── profile.css
+│   │   ├── receipt.css
+│   │   ├── signup.css
+│   │   ├── user_dashboard.css
+│   │   ├── user_navbar.css
+│   │   ├── user_summery.css
+│   │   └── vehicle.css
+│   │
+│   ├── 📁 images/
+│   │   ├── login_final.svg
+│   │   └── signup_final.svg
+│   │
+│   └── 📁 js/
+│       ├── admin_dashboard.js
+│       ├── find_parking.js
+│       ├── parking_lot_details.js
+│       ├── profile.js
+│       └── user_dashboard.js
+│
+└── 📁 templates/
+    ├── admin_charts.html
+    ├── admin_dashboard.html
+    ├── admin_sidebar.html
+    ├── base.html
+    ├── booking_confirmed.html
+    ├── find_parking.html
+    ├── history.html
+    ├── index.html
+    ├── login.html
+    ├── parking_lot_details.html
+    ├── payment.html
+    ├── profile.html
+    ├── receipt.html
+    ├── signup.html
+    ├── users_summery.html
+    ├── user_charts.html
+    ├── user_dashboard.html
+    ├── user_navbar.html
+    └── vehicle.html
+```
+        
+
 
 
 ## License
