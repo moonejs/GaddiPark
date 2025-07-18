@@ -80,7 +80,7 @@
     align-items: center;
     gap: 0.5rem;
     padding: 0.75rem 1rem;
-    background: var(--gradient-purple);
+    background: var(--main-gradient);
     color: var(--white);
     border: none;
     border-radius: var(--radius-md);
