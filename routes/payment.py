@@ -62,7 +62,7 @@ def payment():
     spot=ParkingSpot.query.get(booking.spot_id)
     spot.status='available'
     user.total_parkings += 1
-    user.total_spendings+=total_amount_paid
+    user.total_spendings+=round(total_amount_paid,2)
     db.session.add(new_payment)
     db.session.add(new_history)
     db.session.delete(booking)
@@ -77,7 +77,7 @@ def payment():
     db.session.commit()
     
     flash('Payment successful!', 'success')
-    return redirect(url_for('payment.receipt'))
+    return redirect(url_for('payment.receipt',transaction_id=transaction_id))
 
 
 
@@ -88,7 +88,8 @@ def payment():
 @user_required
 def receipt():
     user=User.query.get(session.get('user_id'))
-    history=History.query.filter_by(user_id=user.id).first()
+    transaction_id=request.args.get('transaction_id')
+    history=History.query.filter_by(transaction_id=transaction_id).first()
     lot=ParkingLot.query.get(history.lot_id)
     spot=ParkingSpot.query.get(history.spot_id)
     vehicle=Vehicle.query.get(history.vehicle_id)

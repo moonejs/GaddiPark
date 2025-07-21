@@ -27,7 +27,6 @@ app.jinja_env.filters['chr'] = chr_filter
 
 if __name__=='__main__':
     with app.app_context():
-        
         db.create_all()
         admin=User.query.filter_by(is_admin=True).first()
         if not admin:

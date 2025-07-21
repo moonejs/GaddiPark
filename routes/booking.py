@@ -57,7 +57,7 @@ def booking(lot_id):
         
         
         
-        booking_id=f'{spot.spot_number}{spot_id}{lot.id}{vehicle_id}{user.id}'
+        booking_id=f'{spot.spot_number}{datetime.now().strftime("%M%S") }{user.id}'
         
         new_booking=Booking(user_id=user.id,vehicle_id=vehicle_id,lot_id=lot.id,spot_id=spot_id,duration=duration,date=booking_date,start_time=start_time,amount=amount,booking_id=booking_id)
         

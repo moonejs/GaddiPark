@@ -13,10 +13,6 @@ user_bp=Blueprint('user',__name__)
 def user_dashboard():
     user=User.query.get(session.get('user_id'))
     booking=Booking.query.filter_by(user_id=user.id).first()
-    user_history=History.query.filter_by(user_id=user.id).all()
-    total_spending=0
-    for i in user_history:
-        total_spending+=i.total_amount_paid
     spot=None
     vehicle=None
     lot=None
@@ -25,7 +21,7 @@ def user_dashboard():
         vehicle=Vehicle.query.get(booking.vehicle_id)
         lot=ParkingLot.query.get(booking.lot_id)
     
-    return render_template('user_dashboard.html',user=user,booking=booking,spot=spot,vehicle=vehicle,lot=lot,total_spending=total_spending)
+    return render_template('user_dashboard.html',user=user,booking=booking,spot=spot,vehicle=vehicle,lot=lot)
 
 
         
