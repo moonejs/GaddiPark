@@ -1,4 +1,4 @@
-# GadiPark
+<h1 align="center" style="font-size:40px; font-weight: bold;">GaadiPark</h1>
 
 ## Table of Contents
 
@@ -8,6 +8,7 @@
 - [Folder Structure](#folder-structure)
 - [Technology Used](#technology-used)
 - [Database Schema](#database-schema)
+- [How to Run](#how-to-run-the-application)
 - [License](#license)
 
 ## About GaddiPark
@@ -53,9 +54,8 @@ GaddiPark is a comprehensive vehicle parking management system designed for mult
 
 ## Database Schema
 
-A visual representation of the database schema will be added here.
+<img width="1045" height="956" alt="image" src="https://github.com/user-attachments/assets/77a9ba03-652a-490c-8b34-11bde73af87e" />
 
-![Database Schema](db_schema.png)
 
 ## Folder Structure
 
@@ -151,7 +151,38 @@ A visual representation of the database schema will be added here.
 ```
         
 
+---
 
+## How to Run the Application
+
+Follow these steps to set up and run the GadiPark project locally:
+
+### 1. Clone the Repository
+
+```bash
+_git clone https://github.com/24f2003468/vehicle-parking-app.git
+cd GadiPark
+```
+
+### 2. Create a Virtual Environment (optional but recommended)
+
+```
+python -m venv venv
+source venv/bin/activate  # On Windows use `venv\Scripts\activate`
+```
+### 3. Install Dependencies
+
+```
+pip install -r requirements.txt
+```
+
+### 4.Run the App
+
+```
+python app.py
+```
+
+## Made with ❤️ by Litesh
 
 ## License
 

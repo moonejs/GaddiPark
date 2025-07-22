@@ -18,7 +18,7 @@
             </div>
             <div class="metric-content">
                 <h3>Monthly Avg</h3>
-                <span class="metric-value">₹{{avg_spendings}}</span>
+                <span class="metric-value">₹{{avg_spendings | round(2)}}</span>
                 
             </div>
         </div>
@@ -29,7 +29,7 @@
             </div>
             <div class="metric-content">
                 <h3>Total Spent</h3>
-                <span class="metric-value">₹{{user.total_spendings}}</span>
+                <span class="metric-value">₹{{user.total_spendings | round(2)}}</span>
                 
             </div>
         </div>
