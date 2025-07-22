@@ -8,6 +8,7 @@
 - [Folder Structure](#folder-structure)
 - [Technology Used](#technology-used)
 - [Database Schema](#database-schema)
+- [How to Run](#how-to-run-the-application)
 - [License](#license)
 
 ## About GaddiPark
@@ -53,9 +54,6 @@ GaddiPark is a comprehensive vehicle parking management system designed for mult
 
 ## Database Schema
 
-A visual representation of the database schema will be added here.
-
-![Database Schema]
 <img width="1045" height="956" alt="image" src="https://github.com/user-attachments/assets/77a9ba03-652a-490c-8b34-11bde73af87e" />
 
 
