@@ -161,7 +161,7 @@ Follow these steps to set up and run the GadiPark project locally:
 
 ```bash
 _git clone https://github.com/24f2003468/vehicle-parking-app.git
-cd GadiPark
+
 ```
 
 ### 2. Create a Virtual Environment (optional but recommended)
