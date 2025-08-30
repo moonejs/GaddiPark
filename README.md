@@ -1,15 +1,7 @@
 <h1 align="center" style="font-size:40px; font-weight: bold;">GaadiPark</h1>
 
-## Table of Contents
+[![image.png](https://i.postimg.cc/BbH8d6c7/image.png)](https://postimg.cc/7JPYzqRS)
 
-- [About GaddiPark](#about-gaddipark)
-- [Features](#features)
-- [User Roles](#user-roles)
-- [Folder Structure](#folder-structure)
-- [Technology Used](#technology-used)
-- [Database Schema](#database-schema)
-- [How to Run](#how-to-run-the-application)
-- [License](#license)
 
 ## About GaddiPark
 
