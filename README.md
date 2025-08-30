@@ -1,11 +1,15 @@
 <h1 align="center" style="font-size:40px; font-weight: bold;">GaadiPark</h1>
 
-[![image.png](https://i.postimg.cc/BbH8d6c7/image.png)](https://postimg.cc/7JPYzqRS)
+![image.png](https://i.postimg.cc/BbH8d6c7/image.png)
 
 
 ## About GaddiPark
 
 GaddiPark is a comprehensive vehicle parking management system designed for multiple users and administrators. It supports efficient parking lot management, vehicle tracking, and electric vehicle (EV) regulation. Both users and admins can view summary charts for parking analytics.
+
+
+## Demo Video 
+[Click ME](https://drive.google.com/file/d/1WgnR7HVwi3zRaK9wxqfzpPgFC0SK3xMH/view?usp=sharing)
 
 ## Features
 
